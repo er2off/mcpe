@@ -194,7 +194,7 @@ void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 	// Draws a simplistic On/Off switch.
 
 	uint32_t
-		edgeColor = 0xFF444444,
+		edgeColor = 0xFF6D6668,
 		backdropEnabled = 0xFFAAAAAA,
 		backdropDisabled = 0xFF333333,
 		leverOn = 0xFFFFFFFF,
@@ -202,7 +202,7 @@ void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 
 	if (disabled)
 	{
-		edgeColor = 0xFF222222;
+		edgeColor = 0xFF2A292A;
 		backdropEnabled = 0xFF555555;
 		backdropDisabled = 0xFF191919,
 		leverOn = 0xFF7F7F7F,
@@ -216,11 +216,20 @@ void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 	fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, state ? backdropEnabled : backdropDisabled);
 
 	if (state)
+	{
 		// Draw ON position
+		fill(x + 5, y + 3, x + 9, y + C_ON_OFF_SWITCH_HEIGHT - 3, edgeColor);
+		fill(x + 6, y + 4, x + 8, y + C_ON_OFF_SWITCH_HEIGHT - 4, leverOn);
 		fill(x + C_ON_OFF_SWITCH_WIDTH / 2 + 2, y + 1, x + C_ON_OFF_SWITCH_WIDTH - 1, y + C_ON_OFF_SWITCH_HEIGHT - 1, leverOn);
+	}
 	else
+	{
 		// Draw OFF position
+		fill(x + C_ON_OFF_SWITCH_WIDTH - 11, y + 3, x + C_ON_OFF_SWITCH_WIDTH - 3, y + C_ON_OFF_SWITCH_HEIGHT - 3, edgeColor);
+		fill(x + C_ON_OFF_SWITCH_WIDTH - 10, y + 4, x + C_ON_OFF_SWITCH_WIDTH - 4, y + C_ON_OFF_SWITCH_HEIGHT - 4, backdropDisabled);
+		fill(x + C_ON_OFF_SWITCH_WIDTH - 8, y + C_ON_OFF_SWITCH_HEIGHT/2 - 1, x + C_ON_OFF_SWITCH_WIDTH - 6, y + C_ON_OFF_SWITCH_HEIGHT/2 + 1, edgeColor);
 		fill(x + 1, y + 1, x + C_ON_OFF_SWITCH_WIDTH / 2 - 2, y + C_ON_OFF_SWITCH_HEIGHT - 1, leverOff);
+	}
 }
 
 void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
