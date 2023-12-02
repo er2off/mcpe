@@ -60,7 +60,7 @@ void LevelDataPacket::write(RakNet::BitStream* pbs)
 
 	if (pCompressedData)
 	{
-		float ratio = 100.0f * float(compSize) / float(uncompSize);
+		//float ratio = 100.0f * float(compSize) / float(uncompSize);
 		//LOG_I("Compression ratio: %.2f (%d comp, %d uncomp)", ratio, int(compSize), int(uncompSize));
 
 		int cs2 = int(compSize), us2 = int(uncompSize);

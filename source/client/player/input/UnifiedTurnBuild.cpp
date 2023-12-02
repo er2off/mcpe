@@ -30,7 +30,7 @@ UnifiedTurnBuild::UnifiedTurnBuild(int a, int width, int height, float d, float 
 {
 	m_includeExcludeArea.field_4 = false;
 
-	setScreenSize(width, height);
+	UnifiedTurnBuild::setScreenSize(width, height);
 	field_B8 = getTimeS();
 	field_CC = field_B8;
 	field_D0 = 0;

@@ -796,7 +796,7 @@ bool TileRenderer::tesselateWaterInWorld(Tile* tile1, int x, int y, int z)
 
 label_8:
 	bFlag2 = bFlag1;
-	bool bRenderedSides = false;
+	//bool bRenderedSides = false;
 
 	for (int dir = 0; dir < 4; dir++)
 	{
@@ -868,7 +868,7 @@ label_8:
 		texV_2 = C_RATIO * (float(texY) + (1.0f - height2) * 16.0f);
 		texV_3 = C_RATIO * (float(texY + 16.0f) - 0.01f);
 		bFlag2 = true;
-		bRenderedSides = true;
+		//bRenderedSides = true;
 
 		float brightMul = dir >= DIR_XNEG ? 0.6f : 0.8f;
 		float bright = tile->getBrightness(m_pLevelSource, checkX, y, checkZ);

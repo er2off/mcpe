@@ -27,8 +27,7 @@ public:
 	void tick() override;
 
 public:
-	int field_B8C;
-	int field_B90;
+	int m_iTimer;
 	Player* m_owner;
 	bool m_bActive;
 };

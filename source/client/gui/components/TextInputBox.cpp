@@ -47,9 +47,9 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 	if (!m_bFocused)
 		return;
 
-	bool bShiftPressed = minecraft->platform()->shiftPressed();
-	
 #ifndef HANDLE_CHARS_SEPARATELY
+	bool bShiftPressed = minecraft->platform()->shiftPressed();
+
 	char chr = '\0';
 	if (key >= AKEYCODE_A && key <= AKEYCODE_Z)
 	{

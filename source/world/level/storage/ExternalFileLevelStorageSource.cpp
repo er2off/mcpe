@@ -26,7 +26,7 @@ ExternalFileLevelStorageSource::ExternalFileLevelStorageSource(const std::string
 			if (createFolderIfNotExists(m_worldsPath.c_str()))
 			{
 				std::vector<LevelSummary> vls;
-				getLevelList(vls);
+				ExternalFileLevelStorageSource::getLevelList(vls);
 			}
 		}
 	}

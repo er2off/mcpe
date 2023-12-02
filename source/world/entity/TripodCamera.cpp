@@ -12,12 +12,11 @@
 
 TripodCamera::TripodCamera(Level* level, Player* player, float x, float y, float z) : Mob(level)
 {
-	field_B8C = 0;
-	field_B90 = 80;
+	m_iTimer = 80;
 	m_bActive = false;
 
 	m_owner = player;
-	field_C8 = RENDER_CAMERA;
+	m_renderType = RENDER_CAMERA;
 
 	field_60 = m_pitch = player->m_pitch;
 	field_5C = m_yaw = player->m_yaw;
@@ -83,14 +82,14 @@ void TripodCamera::tick()
 	if (!m_bActive)
 		return;
 
-	field_B90--;
-	if (field_B90 == 0)
+	m_iTimer--;
+	if (m_iTimer == 0)
 	{
 		remove();
 		return;
 	}
 
-	if (field_B90 == 8)
+	if (m_iTimer == 8)
 	{
 		m_pLevel->takePicture(this, m_owner);
 		m_pLevel->addParticle("explode", m_pos.x, m_pos.y + 0.6f, m_pos.z, 0.0f, 0.0f, 0.0f);
@@ -99,7 +98,7 @@ void TripodCamera::tick()
 		return;
 	}
 
-	if (field_B90 > 8)
+	if (m_iTimer > 8)
 	{
 		m_pLevel->addParticle("smoke", m_pos.x, m_pos.y + 1.0f, m_pos.z, 0.0f, 0.0f, 0.0f);
 	}

@@ -65,7 +65,7 @@ EntityRenderDispatcher* EntityRenderDispatcher::getInstance()
 
 EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 {
-	switch (pEnt->field_C8)
+	switch (pEnt->m_renderType)
 	{
 		case RENDER_TNT:
 			return &m_TntRenderer;

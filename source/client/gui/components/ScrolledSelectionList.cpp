@@ -97,7 +97,6 @@ void ScrolledSelectionList::renderScrollBackground()
 
 void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 {
-	int nItems = getNumberOfItems();
 	if (Mouse::isButtonDown(BUTTON_LEFT))
 	{
 		if (float(mouseY) >= field_C && float(mouseY) <= field_10 && abs(mouseY - field_28) > 5)

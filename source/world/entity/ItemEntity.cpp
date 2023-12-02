@@ -28,7 +28,7 @@ void ItemEntity::_init(ItemInstance* itemInstance, float x, float y, float z)
 {
 	_init(itemInstance);
 
-	field_C8 = RENDER_ITEM;
+	m_renderType = RENDER_ITEM;
 	setPos(x, y, z);
 
 	m_yaw = 360.0f * Mth::random();
@@ -149,6 +149,7 @@ void ItemEntity::checkInTile(float x, float y, float z)
 	if (!solidYP && 1.0f - ydiff < mindist) mindist = 1.0f - ydiff, mindir = 3;
 	if (!solidZN && zdiff        < mindist) mindist = zdiff,        mindir = 4;
 	if (!solidZP && 1.0f - zdiff < mindist) mindist = 1.0f - zdiff, mindir = 5;
+	(void)mindist;
 
 	// the -1 case will be handled accordingly
 	float force = 0.1f + 0.2f * sharedRandom.nextFloat();

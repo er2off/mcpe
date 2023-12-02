@@ -63,7 +63,7 @@ void PauseScreen::init()
 	m_btnOptions.m_yPos = currY;
 	m_btnOptions.m_xPos = m_btnBack.m_xPos;
 #endif
-	currY += inc;
+	//currY += inc;
 
 	// add the buttons to the screen:
 	m_buttons.push_back(&m_btnBack);

@@ -119,9 +119,9 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_version = 2;
 	sgp.m_time = m_pLevel->getTime();
 	
-	RakNet::BitStream sgpbs;
-	sgp.write(&sgpbs);
-	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+	RakNet::BitStream *sgpbs;
+	sgp.write(sgpbs);
+	m_pRakNetPeer->Send(sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
 	// send the connecting player info about all other players in the world
 	for (int i = 0; i < int(m_pLevel->m_players.size()); i++)

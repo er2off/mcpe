@@ -40,6 +40,7 @@ bool Sapling::maybeGrowTree(Level* level, int x, int y, int z, Random* random)
 	BirchFeature birchFeature;
 	SpruceFeature spruceFeature;
 
+/*
 	Feature* pFeature = &treeFeature;
 
 	int data = level->getData(x, y, z);
@@ -52,6 +53,7 @@ bool Sapling::maybeGrowTree(Level* level, int x, int y, int z, Random* random)
 			pFeature = &spruceFeature;
 			break;
 	}
+*/
 
 	return treeFeature.place(level, random, x, y, z);
 }

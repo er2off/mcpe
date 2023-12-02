@@ -85,6 +85,8 @@ LevelChunk* ChunkCache::getChunk(int x, int z)
 			if (m_pChunkSource)
 				pChunk = m_pChunkSource->getChunk(x, z);
 
+			if (!pChunk)
+				return nullptr;
 			m_chunkMap[z][x] = pChunk;
 			pChunk->lightLava();
 		}
@@ -92,6 +94,8 @@ LevelChunk* ChunkCache::getChunk(int x, int z)
 		pChunk = m_chunkMap[z][x];
 		if (pChunk)
 			pChunk->load();
+		else
+			return nullptr;
 
 		if (!pChunk->field_234 && hasChunk(x + 1, z + 1) && hasChunk(x, z + 1) && hasChunk(x + 1, z))
 			postProcess(this, x, z);

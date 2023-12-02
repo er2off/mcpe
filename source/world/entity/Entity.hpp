@@ -203,7 +203,7 @@ public:
 	int field_BC;
 	int field_C0;
 	int field_C4;
-	int field_C8;  // @NOTE: Render type? (eEntityRenderType)
+	int m_renderType;
 	float m_distanceFallen;
 	int field_D0;
 	uint8_t field_D4;

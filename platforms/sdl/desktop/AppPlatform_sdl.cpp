@@ -14,7 +14,7 @@
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 	: AppPlatform_sdl_base(storageDir, window)
 {
-	setIcon(loadTexture("icon.png"));
+	setIcon(AppPlatform_sdl::loadTexture("icon.png"));
 }
 
 // Take Screenshot
@@ -81,7 +81,7 @@ ret:
 	}
 	if (rows != NULL)
 	{
-		delete rows[height];
+		delete[] rows;
 	}
 	if (file != NULL)
 	{

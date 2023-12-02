@@ -134,8 +134,6 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!m->m_pLevel || !m->m_pLocalPlayer)
 		return;
 
-	bool isTouchscreen = m->isTouchscreen();
-
 	field_4 = -90.0f;
 
 #ifndef ENH_TRANSPARENT_HOTBAR
@@ -257,15 +255,15 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			emptyHeartX += 9 * b1;
 		}
 
+#ifdef ORIGINAL_CODE
 		// @NOTE: At the default scale, this would go off screen.
 
 		int heartX = cenX - 191; // why?
 		int heartYStart = height - 10;
-
+#else
 		//@NOTE: Alpha-style health UI. I'll probably remove this on release.
-#ifndef ORIGINAL_CODE
-		heartX = cenX - 91;
-		heartYStart = height - 32;
+		int heartX = cenX - 91;
+		int heartYStart = height - 32;
 #endif
 
 		int playerHealth = pLP->m_health;
@@ -301,12 +299,12 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
 			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
 
+#ifdef ORIGINAL_CODE
 			int bubbleX = cenX - 191;
 			int bubbleY = height - 19;
-
-#ifndef ORIGINAL_CODE
-			bubbleX = cenX - 91;
-			bubbleY = height - 41;
+#else
+			int bubbleX = cenX - 91;
+			int bubbleY = height - 41;
 #endif
 
 			//@NOTE: Not sure this works as it should

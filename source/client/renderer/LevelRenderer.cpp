@@ -764,10 +764,10 @@ bool LevelRenderer::updateDirtyChunks(Mob* pMob, bool b)
 	ChunkVector* v40; // r0
 	Chunk* v42[3]; // [sp+1Ch] [bp+0h] BYREF
 	Chunk* a3; // [sp+28h] [bp+Ch] BYREF
-	Entity* pMob_1; // [sp+2Ch] [bp+10h] BYREF
+	//Entity* pMob_1; // [sp+2Ch] [bp+10h] BYREF
 
 	v3 = 0;
-	pMob_1 = pMob;
+	//pMob_1 = pMob;
 	DirtyChunkSorter dcs(pMob);
 	memset(v42, 0, sizeof v42);
 	field_88_Beg = this->field_88.begin();

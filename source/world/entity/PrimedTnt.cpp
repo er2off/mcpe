@@ -12,7 +12,7 @@
 void PrimedTnt::_init()
 {
 	m_fuseTimer = 0;
-	field_C8 = RENDER_TNT;
+	m_renderType = RENDER_TNT;
 	field_34 = 1;
 	setSize(0.98f, 0.98f);
 	field_84 = field_8C * 0.5f;

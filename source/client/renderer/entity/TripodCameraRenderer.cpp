@@ -20,10 +20,10 @@ TripodCameraRenderer::TripodCameraRenderer() :
 
 float TripodCameraRenderer::getFlashTime(TripodCamera* camera, float f)
 {
-	if (camera->field_B90 > 7 || camera->field_B90 < 0)
+	if (camera->m_iTimer > 7 || camera->m_iTimer < 0)
 		return -1.0f;
 
-	return 0.125f * (float(camera->field_B90) - f);
+	return 0.125f * (float(camera->m_iTimer) - f);
 }
 
 void TripodCameraRenderer::render(Entity* entity, float x, float y, float z, float a, float b)
