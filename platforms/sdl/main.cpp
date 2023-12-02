@@ -1,4 +1,5 @@
 #include <cstdarg>
+#include <libgen.h>
 
 #include "thirdparty/SDL2/SDL2.h"
 
@@ -305,6 +306,9 @@ void CheckOptionalTextureAvailability()
 // Main
 int main(int argc, char *argv[])
 {
+	// cd build; ./reminecraftpe otherwise
+	chdir(dirname(argv[0]));
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());

@@ -13,8 +13,8 @@ target_link_libraries(reminecraftpe-openal PUBLIC reminecraftpe-core)
 if(EMSCRIPTEN)
     target_link_libraries(reminecraftpe-openal PUBLIC openal)
 else()
-    find_library(OPENAL_LIBRARY NAMES openal REQUIRED)
-    target_link_libraries(reminecraftpe-openal PUBLIC "${OPENAL_LIBRARY}")
+    find_package(OpenAL REQUIRED)
+    target_link_libraries(reminecraftpe-openal PUBLIC OpenAL::OpenAL)
 endif()
 
 # Headers
