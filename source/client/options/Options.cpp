@@ -113,21 +113,21 @@ void Options::_initDefaultValues()
 
 #define KM(idx,code) m_keyMappings[idx].value = code
 #ifdef USE_SDL
-	KM(KM_FORWARD,       SDLVK_w);
-	KM(KM_LEFT,          SDLVK_a);
-	KM(KM_BACKWARD,      SDLVK_s);
-	KM(KM_RIGHT,         SDLVK_d);
+	KM(KM_FORWARD,       SDLVK_W);
+	KM(KM_LEFT,          SDLVK_A);
+	KM(KM_BACKWARD,      SDLVK_S);
+	KM(KM_RIGHT,         SDLVK_D);
 	KM(KM_JUMP,          SDLVK_SPACE);
-	KM(KM_DESTROY,       SDLVK_x);
-	KM(KM_PLACE,         SDLVK_c);
+	KM(KM_DESTROY,       SDLVK_X);
+	KM(KM_PLACE,         SDLVK_C);
 	KM(KM_MENU_NEXT,     SDLVK_DOWN);
 	KM(KM_MENU_PREVIOUS, SDLVK_UP);
 	KM(KM_MENU_OK,       SDLVK_RETURN);
 	KM(KM_MENU_CANCEL,   SDLVK_ESCAPE);
-	KM(KM_DROP,          SDLVK_q);
-	KM(KM_CHAT,          SDLVK_t);
-	KM(KM_FOG,           SDLVK_f);
-	KM(KM_INVENTORY,     SDLVK_e);
+	KM(KM_DROP,          SDLVK_Q);
+	KM(KM_CHAT,          SDLVK_T);
+	KM(KM_FOG,           SDLVK_F);
+	KM(KM_INVENTORY,     SDLVK_E);
 	KM(KM_SNEAK,         SDLVK_LSHIFT);
 	KM(KM_SLOT_1,        SDLVK_1);
 	KM(KM_SLOT_2,        SDLVK_2);
@@ -143,10 +143,10 @@ void Options::_initDefaultValues()
 	KM(KM_TOGGLEDEBUG,   SDLVK_F3);
 	KM(KM_TOGGLEAO,      SDLVK_F4);
 	KM(KM_TOGGLE3RD,     SDLVK_F5);
-	KM(KM_SLOT_L,        SDLVK_y);
-	KM(KM_SLOT_R,        SDLVK_u);
-	KM(KM_FLY_UP,        SDLVK_c);
-	KM(KM_FLY_DOWN,      SDLVK_x);
+	KM(KM_SLOT_L,        SDLVK_Y);
+	KM(KM_SLOT_R,        SDLVK_U);
+	KM(KM_FLY_UP,        SDLVK_C);
+	KM(KM_FLY_DOWN,      SDLVK_X);
 	KM(KM_CHAT_CMD,      SDLVK_SLASH);
 #endif
 #ifdef __ANDROID__

@@ -34,10 +34,10 @@ static void teardown()
 	}
 }
 
-static int TranslateSDLKeyCodeToVirtual(int sdlCode)
+static int TranslateSDLKeyCodeToVirtual(SDL_Scancode sdlCode)
 {
 	switch (sdlCode) {
-		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
+		#define CODE(x) case SDL_SCANCODE_ ## x: return SDLVK_ ## x;
 		#include "compat/SDLKeyCodes.h"
 		#undef  CODE
 	}
@@ -132,7 +132,7 @@ static void handle_events()
 				}
 				*/
 				
-				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
+				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.scancode));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
