@@ -222,7 +222,7 @@ public:
 	const SoundType* m_pSound;
 	float field_28;
 	Material* m_pMaterial;
-	float field_30;
+	float m_acceleration;
 	float m_hardness;
 	float m_blastResistance;
 	AABB m_aabbReturned;
