@@ -136,6 +136,7 @@ void GameRenderer::moveCameraToPlayer(float f)
 	if (m_pMinecraft->getOptions()->m_bThirdPerson)
 	{
 		float v11 = field_30 + (field_2C - field_30) * f;
+#if 0
 		if (m_pMinecraft->getOptions()->field_241)
 		{
 			glTranslatef(0.0f, 0.0f, -v11);
@@ -143,6 +144,8 @@ void GameRenderer::moveCameraToPlayer(float f)
 			glRotatef(field_40 + (field_3C - field_40) * f, 0.0f, 1.0f, 0.0f);
 		}
 		else
+#endif
+#if 1
 		{
 			float mob_yaw = pMob->m_yaw;
 			float mob_pitch = pMob->m_pitch;
@@ -182,6 +185,7 @@ void GameRenderer::moveCameraToPlayer(float f)
 			glRotatef(mob_yaw - pMob->m_yaw, 0.0f, 1.0f, 0.0f);
 			glRotatef(mob_pitch - pMob->m_pitch, 1.0f, 0.0f, 0.0f);
 		}
+#endif
 	}
 	else
 	{
@@ -192,6 +196,11 @@ void GameRenderer::moveCameraToPlayer(float f)
 	{
 		glRotatef(pMob->field_60 + f * (pMob->m_pitch - pMob->field_60), 1.0f, 0.0f, 0.0f);
 		glRotatef(pMob->field_5C + f * (pMob->m_yaw   - pMob->field_5C) + 180.0f, 0.0f, 1.0f, 0.0f);
+	}
+	else
+	{
+		glRotatef(pMob->field_60, -1.0f, 0.0f, 0.0f);
+		glRotatef(pMob->field_5C, 0.0f, 1.0f, 0.0f);
 	}
 
 	glTranslatef(0.0f, headHeightDiff, 0.0f);

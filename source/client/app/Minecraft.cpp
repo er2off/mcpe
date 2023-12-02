@@ -466,7 +466,13 @@ void Minecraft::tickInput()
 
 			if (getOptions()->isKey(KM_TOGGLE3RD, keyCode))
 			{
-				getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
+				bool thirdPerson = getOptions()->m_bThirdPerson;
+				if (thirdPerson && !getOptions()->field_241)
+					getOptions()->field_241 = 1;
+				else {
+					getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
+					getOptions()->field_241 = 0;
+				}
 			}
 			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
 			{
