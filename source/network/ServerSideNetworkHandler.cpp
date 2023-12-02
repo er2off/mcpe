@@ -9,6 +9,9 @@
 #include "ServerSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
 
+#include "world/entity/TripodCamera.hpp"
+#include "world/entity/PrimedTnt.hpp"
+
 // This lets you make the server shut up and not log events in the debug console.
 #define VERBOSE_SERVER
 
@@ -398,12 +401,39 @@ OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID
 
 void ServerSideNetworkHandler::setupCommands()
 {
-	m_commands["?"]     = &ServerSideNetworkHandler::commandHelp;
-	m_commands["help"]  = &ServerSideNetworkHandler::commandHelp;
-	m_commands["stats"] = &ServerSideNetworkHandler::commandStats;
-	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
-	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
-	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
+	m_commands["?"]		= &ServerSideNetworkHandler::commandHelp;
+	m_commands["help"]	= &ServerSideNetworkHandler::commandHelp;
+	m_commands["stats"]	= &ServerSideNetworkHandler::commandStats;
+	m_commands["time"]	= &ServerSideNetworkHandler::commandTime;
+	m_commands["seed"]	= &ServerSideNetworkHandler::commandSeed;
+	m_commands["tp"]	= &ServerSideNetworkHandler::commandTP;
+	m_commands["summon"]	= &ServerSideNetworkHandler::commandSummon;
+}
+
+static inline float convertCoord(const std::string value, float base)
+{
+	float val;
+	std::stringstream ss(value);
+	if (ss.peek() == '~')
+	{
+		ss.ignore();
+		ss >> val;
+		val += base;
+	}
+	else
+	{
+		ss >> val;
+	}
+	return val;
+}
+
+static inline Vec3 convertCoords(const std::vector<std::string> value, int offset, Vec3 pos)
+{
+	Vec3 coord;
+	coord.x = convertCoord(value[0 + offset], pos.x);
+	coord.y = convertCoord(value[1 + offset], pos.y);
+	coord.z = convertCoord(value[2 + offset], pos.z);
+	return coord;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -492,31 +522,65 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 		return;
 	}
 
-	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-
-	float x = pos.x, y = pos.y, z = pos.z;
+	Vec3 playerPos = player->m_pPlayer->getPos(1.0f);
+	Vec3 pos = convertCoords(parms, 0, playerPos);
 
 	std::stringstream ss;
-	if (parms[0] != "~")
+	ss << "Teleported to " << pos.x << ", " << pos.y << ", " << pos.z;
+
+	player->m_pPlayer->setPos(pos.x, pos.y, pos.z);
+
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	if (parms.size() < 4)
 	{
-		ss = std::stringstream(parms[0]);
-		ss >> x;
-	}
-	if (parms[1] != "~")
-	{
-		ss = std::stringstream(parms[1]);
-		ss >> y;
-	}
-	if (parms[2] != "~")
-	{
-		ss = std::stringstream(parms[2]);
-		ss >> z;
+		sendMessage(player, "Usage: /summon <entity> <x> <y> <z>");
+		return;
 	}
 
-	ss = std::stringstream();
-	ss << "Teleported to " << x << ", " << y << ", " << z;
+	std::string entity = parms[0];
+	Entity *ent;
 
-	player->m_pPlayer->setPos(x, y, z);
+	Vec3 playerPos = player->m_pPlayer->getPos(1.0f);
+	Vec3 pos;
+	if (parms.size() > 1)
+	{
+		pos = convertCoords(parms, 1, playerPos);
+	}
+
+	std::stringstream ss;
+
+	if (entity == "camera")
+	{
+		TripodCamera *cam = new TripodCamera(m_pLevel, player->m_pPlayer, pos.x, pos.y, pos.z);
+		if (parms.size() > 4)
+			cam->m_iTimer = std::stoi(parms[4]) * 20;
+		ent = cam;
+	}
+	else if (entity == "tnt")
+	{
+		PrimedTnt *tnt = new PrimedTnt(m_pLevel, pos.x, pos.y, pos.z);
+		if (parms.size() > 4)
+			tnt->m_fuseTimer = std::stoi(parms[4]) * 20;
+		else tnt->m_fuseTimer = 0; // as in original
+		ent = tnt;
+	}
+
+	if (!ent)
+	{
+		ss << "Unknown entity " << '"' << entity << '"';
+		sendMessage(player, ss.str());
+		return;
+	}
+
+	m_pLevel->addEntity(ent);
+	ss << "Summoned " << entity << " at " << pos.x << ", " << pos.y << ", " << pos.z;
 
 	sendMessage(player, ss.str());
 }
