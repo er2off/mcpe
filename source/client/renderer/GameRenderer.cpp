@@ -687,6 +687,18 @@ void GameRenderer::render(float f)
 			debugText << "\npos: " << posStr;
 			debugText << "\nentities: " << m_pMinecraft->m_pLevel->m_entities.size();
 			debugText << "\n" << m_pMinecraft->m_pLevelRenderer->gatherStats1();
+
+			HitResult& hr = m_pMinecraft->m_hitResult;
+			if (hr.m_hitType != HitResult::NONE) {
+				sprintf(posStr, "%d, %d, %d", hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+				debugText << "\nLooking at: " << posStr;
+				Tile *pTile = nullptr;
+				TileID tile = m_pMinecraft->m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
+				if (tile > 0) {
+					pTile = Tile::tiles[tile];
+					debugText << "\nTile: " << std::to_string(tile) <<" "<< pTile->m_descriptionID;
+				}
+			}
 		}
 
 		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
