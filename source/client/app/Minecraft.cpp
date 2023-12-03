@@ -469,8 +469,9 @@ void Minecraft::tickInput()
 				bool thirdPerson = getOptions()->m_bThirdPerson;
 				if (thirdPerson && !getOptions()->field_241)
 					getOptions()->field_241 = 1;
-				else {
-					getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
+				else
+				{
+					getOptions()->m_bThirdPerson = !thirdPerson;
 					getOptions()->field_241 = 0;
 				}
 			}

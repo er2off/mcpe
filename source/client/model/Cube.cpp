@@ -16,30 +16,29 @@ Cube::Cube(int a, int b)
 	m_posX = m_posY = m_posZ = 0.0f;
 	m_rotX = m_rotY = m_rotZ = 0.0f;
 
-	field_18 = false;
-	field_19 = true;
-	field_1A = false;
+	m_swapX = false;
+	m_bIgnore = false;
 	m_bCompiled = false;
-	field_2C0 = 0;
 	m_buffer = 0;
 	m_brightness = 1.0f;
 
-	field_2B4 = a;
-	field_2B8 = b;
+	m_texOffsetX = a;
+	m_texOffsetY = b;
 }
 
-void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
+void Cube::addBox(float x, float y, float z, int displayX, int displayY, int displayZ, float scale)
 {
+	int d = displayX, e = displayY, f = displayZ;
 	float x1 = x, y1 = y, z1 = z;
 	float x2 = x + float(d), y2 = y + float(e), z2 = z + float(f);
-	x1 -= g;
-	y1 -= g;
-	z1 -= g;
-	x2 += g;
-	y2 += g;
-	z2 += g;
+	x1 -= scale;
+	y1 -= scale;
+	z1 -= scale;
+	x2 += scale;
+	y2 += scale;
+	z2 += scale;
 
-	if (field_18)
+	if (m_swapX)
 		std::swap(x1, x2);
 
 	m_verts[0] = VertexPT(x1, y1, z1, 0.0f, 0.0f);
@@ -51,7 +50,7 @@ void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
 	m_verts[6] = VertexPT(x2, y2, z2, 8.0f, 8.0f);
 	m_verts[7] = VertexPT(x1, y2, z2, 8.0f, 0.0f);
 
-	int m = field_2B4, n = field_2B8;
+	int m = m_texOffsetX, n = m_texOffsetY;
 
 	m_faces[0] = PolygonQuad(&m_verts[5], &m_verts[1], &m_verts[2], &m_verts[6], m + f + d,     n + f, m + f + d + f,     n + f + e);     // x2 face
 	m_faces[1] = PolygonQuad(&m_verts[0], &m_verts[4], &m_verts[7], &m_verts[3], m,             n + f, m + f,             n + f + e);     // x1 face
@@ -68,7 +67,7 @@ void Cube::addBox(float x, float y, float z, int d, int e, int f, float g)
 	m_faces[3].setColor(0.5f, 0.5f, 0.5f);
 #endif
 
-	if (field_18)
+	if (m_swapX)
 	{
 		for (int i = 0; i < 6; i++)
 			m_faces[i].mirror();
@@ -114,10 +113,7 @@ void Cube::drawSlow(float scale)
 
 void Cube::render(float scale)
 {
-	if (field_1A)
-		return;
-
-	if (!field_19)
+	if (m_bIgnore)
 		return;
 
 	if (!m_bCompiled)
@@ -159,10 +155,7 @@ void Cube::translateRotTo(float scale)
 
 void Cube::translateTo(float scale)
 {
-	if (field_1A)
-		return;
-
-	if (!field_19)
+	if (m_bIgnore)
 		return;
 
 	if (!hasDefaultRot())
@@ -197,6 +190,6 @@ void Cube::setPos(float x, float y, float z)
 
 void Cube::setTexOffs(int a, int b)
 {
-	field_2B4 = a;
-	field_2B8 = b;
+	m_texOffsetX = a;
+	m_texOffsetY = b;
 }

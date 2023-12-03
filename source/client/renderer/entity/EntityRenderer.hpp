@@ -9,7 +9,7 @@
 #pragma once
 
 #include "world/phys/AABB.hpp"
-#include "client/model/HumanoidModel.hpp"
+#include "client/model/Model.hpp"
 #include "client/renderer/Font.hpp"
 
 class EntityRenderDispatcher;
@@ -31,8 +31,4 @@ public:
 	float field_4;
 	float field_8;
 	EntityRenderDispatcher* m_pDispatcher;
-
-	// @HUH: Why is there a HumanoidModel here? There's another
-	// in HumanoidMobRenderer...
-	HumanoidModel m_model;
 };

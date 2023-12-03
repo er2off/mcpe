@@ -15,7 +15,7 @@ class Mob;
 class Model
 {
 public:
-	Model();
+	Model(std::string texture = "mob/char.png");
 	virtual void onGraphicsReset();
 	virtual void prepareMobModel(Mob*, float, float, float);
 	virtual void render(float, float, float, float, float, float);
@@ -25,4 +25,5 @@ public:
 public:
 	float field_4;
 	bool field_8;
+	std::string m_texture;
 };

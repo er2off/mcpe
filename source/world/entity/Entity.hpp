@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "client/model/Model.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/level/Material.hpp"
@@ -24,6 +25,7 @@ enum eEntityRenderType
 	RENDER_NONE,
 	RENDER_TNT,
 	RENDER_HUMANOID,
+	RENDER_MODEL,
 	RENDER_ITEM,
 	RENDER_CAMERA,
 
@@ -46,7 +48,7 @@ struct EntityPos
 	EntityPos(const Vec3& pos)
 	{
 		m_pos = pos;
-        m_yaw = 0; m_pitch = 0;
+		m_yaw = 0; m_pitch = 0;
 		m_bHasPos = true;
 		m_bHasRot = false;
 	}
@@ -141,6 +143,8 @@ public:
 	virtual void lavaHurt();
 
 	virtual bool isLocalPlayer();
+
+	virtual Model *getModel();
 
 	int hashCode();
 

@@ -1,26 +1,27 @@
 /********************************************************************
 	Minecraft: Pocket Edition - Decompilation Project
 	Copyright (C) 2023 iProgramInCpp
-	
+
 	The following code is licensed under the BSD 1 clause license.
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
 #pragma once
 
-#include "MobRenderer.hpp"
-#include "client/model/HumanoidModel.hpp"
+#include "Mob.hpp"
+#include "client/model/PigModel.hpp"
 
-class HumanoidMobRenderer : public MobRenderer
+class Level;
+class Player;
+
+class Pig : public Mob
 {
 public:
-	HumanoidMobRenderer(HumanoidModel*, float);
-	virtual void additionalRendering(Mob*, float) override;
-	virtual void onGraphicsReset() override;
+	Pig(Level*, float, float, float);
 
-	void renderHand();
+	Model *getModel();
 
-public:
-	HumanoidModel* m_pHumanoidModel;
+private:
+	PigModel m_model = PigModel(0.0f, 0.0f);
 };
 

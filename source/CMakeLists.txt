@@ -91,6 +91,7 @@ add_library(reminecraftpe-core STATIC
     client/model/PolygonQuad.cpp
     client/model/Model.cpp
     client/model/HumanoidModel.cpp
+    client/model/PigModel.cpp
     client/model/Cube.cpp
     client/player/input/ControllerTurnInput.cpp
     client/player/input/Controller.cpp
@@ -148,6 +149,7 @@ add_library(reminecraftpe-core STATIC
     world/entity/Entity.cpp
     world/entity/FallingTile.cpp
     world/entity/TripodCamera.cpp
+    world/entity/Pig.cpp
     world/entity/ItemEntity.cpp
     world/level/Dimension.cpp
     world/level/Material.cpp

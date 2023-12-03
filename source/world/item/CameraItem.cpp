@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "CameraItem.hpp"
+#include "world/entity/Pig.hpp"
 #include "world/level/Level.hpp"
 #include "world/entity/TripodCamera.hpp"
 #include "world/entity/Player.hpp"

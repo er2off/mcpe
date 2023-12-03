@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "client/model/HumanoidModel.hpp"
 #include "common/Utils.hpp"
 #include "thirdparty/raknet/RakNetTypes.h"
 #include "world/item/Inventory.hpp"
@@ -71,6 +72,8 @@ public:
 	void interact(Entity* pEnt);
 #pragma GCC diagnostic pop
 
+	Model *getModel();
+
 public:
 	//TODO
 	Inventory* m_pInventory;
@@ -80,7 +83,6 @@ public:
 	float field_BA0;
 	bool field_BA4;
 	int field_BA8;
-	std::string m_name;
 	int field_BC4;
 	RakNet::RakNetGUID m_guid;
 	//TODO
@@ -88,5 +90,7 @@ public:
 	//TODO
 	bool m_bHaveRespawnPos;
 	//TODO
+
+	HumanoidModel m_model;
 };
 
