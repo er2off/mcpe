@@ -11,6 +11,7 @@
 
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
+	// FIXME: It's lighter now
 	setTicking(true);
 	m_acceleration = 1;
 }

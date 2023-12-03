@@ -9,7 +9,7 @@
 #include "ClothTile.hpp"
 #include "world/level/Level.hpp"
 
-ClothTile::ClothTile(int id, int type) : Tile(id, TEXTURE_CLOTH_64, Material::cloth)
+ClothTile::ClothTile(int id, int type) : Tile(id, TEXTURE_WOOL, Material::cloth)
 {
 	field_6C = type;
 

@@ -586,7 +586,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+			renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 		}
 	}
 
@@ -605,7 +605,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.8f * fLight, topG * 0.8f * fLight, topB * 0.8f * fLight);
-			renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+			renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 		}
 	}
 
@@ -624,7 +624,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+			renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 		}
 	}
 
@@ -643,7 +643,7 @@ bool TileRenderer::tesselateBlockInWorld(Tile* tile, int x, int y, int z, float 
 		if (m_bFancyGrass && texture == TEXTURE_GRASS_SIDE && this->m_textureOverride < 0)
 		{
 			t.color(topR * 0.6f * fLight, topG * 0.6f * fLight, topB * 0.6f * fLight);
-			renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+			renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 		}
 	}
 
@@ -2667,22 +2667,22 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionV2(Tile* tile, int 
 
 			switch (dir) {
 				case DIR_YNEG:
-					renderFaceUp(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					renderFaceUp(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 					break;
 				case DIR_YPOS:
-					renderFaceDown(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					renderFaceDown(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 					break;
 				case DIR_ZNEG:
-					renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					renderNorth(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 					break;
 				case DIR_ZPOS:
-					renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					renderSouth(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 					break;
 				case DIR_XNEG:
-					renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					renderWest(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 					break;
 				case DIR_XPOS:
-					renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE84);
+					renderEast(tile, float(x), float(y), float(z), TEXTURE_NONE38);
 					break;
 			}
 		}

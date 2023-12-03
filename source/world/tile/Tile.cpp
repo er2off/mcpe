@@ -644,17 +644,17 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_CLOTH)
 		->setDescriptionId("cloth");
 
-	Tile::info_updateGame1 = (new DirtTile(TILE_INFO_UPDATEGAME1, TEXTURE_INFO_UPDATEGAME1, Material::dirt))
+	Tile::info_updateGame1 = (new DirtTile(TILE_UPDATE, TEXTURE_UPDATE, Material::dirt))
 		->init()
 		->setDestroyTime(5.0f)
 		->setSoundType(Tile::SOUND_GRAVEL)
 		->setDescriptionId("info_update");
 
-	Tile::info_updateGame2 = (new DirtTile(TILE_INFO_UPDATEGAME2, TEXTURE_INFO_UPDATEGAME2, Material::dirt))
+	Tile::info_updateGame2 = (new DirtTile(TILE_ATEUPD, TEXTURE_ATEUPD, Material::dirt))
 		->init()
 		->setDestroyTime(5.0f)
 		->setSoundType(Tile::SOUND_GRAVEL)
-		->setDescriptionId("info_update");
+		->setDescriptionId("info_ateupd");
 
 	// custom additions here
 
@@ -690,12 +690,12 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("stoneMoss");
 
-	Tile::cryingObsidian = (new Tile(TILE_OBSIDIAN_CRYING, TEXTURE_OBSIDIAN_CRYING, Material::stone))
-		->init()
-		->setDestroyTime(10.0f)
-		->setExplodeable(2000.0f)
-		->setSoundType(Tile::SOUND_STONE)
-		->setDescriptionId("cryingObsidian");
+	//Tile::cryingObsidian = (new Tile(TILE_OBSIDIAN_CRYING, TEXTURE_OBSIDIAN_CRYING, Material::stone))
+	//	->init()
+	//	->setDestroyTime(10.0f)
+	//	->setExplodeable(2000.0f)
+	//	->setSoundType(Tile::SOUND_STONE)
+	//	->setDescriptionId("cryingObsidian");
 
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
@@ -1126,5 +1126,5 @@ Tile
 	*Tile::sponge,
 	*Tile::lapisBlock,
 	*Tile::bookshelf,
-	*Tile::mossStone,
-	*Tile::cryingObsidian;
+	*Tile::mossStone;
+	//*Tile::cryingObsidian;
