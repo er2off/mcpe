@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include "CThread.hpp"
-#include "common/Utils.hpp"
+#include "Utils.hpp"
 
 #if	defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN

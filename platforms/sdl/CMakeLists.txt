@@ -1,9 +1,4 @@
-cmake_minimum_required(VERSION 3.16.0)
-project(reminecraftpe-sdl)
-
 # SDL Build
-add_compile_definitions(USE_SDL USE_OPENAL HANDLE_CHARS_SEPARATELY)
-set(USE_SDL 1)
 
 # WASM
 if(EMSCRIPTEN)
@@ -16,7 +11,7 @@ if(EMSCRIPTEN)
 endif()
 
 # Clang
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     add_compile_options(-Wno-inconsistent-missing-override -Wno-enum-compare-switch -Wno-register)
 endif()
 
@@ -36,22 +31,22 @@ endif()
 # Build
 set(SOURCES
     main.cpp
-    base/AppPlatform_sdl_base.cpp
+    base/AppPlatform_sdl_base.cpp base/AppPlatform_sdl_base.hpp
 )
 if(EMSCRIPTEN)
-    list(APPEND SOURCES emscripten/AppPlatform_sdl.cpp)
+    list(APPEND SOURCES emscripten/AppPlatform_sdl.cpp emscripten/AppPlatform_sdl.hpp)
 else()
-    list(APPEND SOURCES desktop/AppPlatform_sdl.cpp)
+    list(APPEND SOURCES desktop/AppPlatform_sdl.cpp desktop/AppPlatform_sdl.hpp)
 endif()
 add_executable(reminecraftpe ${SOURCES})
 
-# Core
-add_subdirectory(../../source source)
-target_link_libraries(reminecraftpe reminecraftpe-core)
-
 # OpenAL
 add_subdirectory(../openal openal)
-target_link_libraries(reminecraftpe reminecraftpe-openal)
+
+target_link_libraries(reminecraftpe
+    reminecraftpe-core
+    reminecraftpe-openal
+)
 
 # LibPNG (If Needed)
 if(NOT EMSCRIPTEN)
@@ -60,6 +55,17 @@ if(NOT EMSCRIPTEN)
 endif()
 
 # SDL
+add_library(SDL INTERFACE)
+if(EMSCRIPTEN)
+    set(SDL_FLAG -sUSE_SDL=2)
+    target_compile_options(SDL INTERFACE "${SDL_FLAG}")
+    target_link_options(SDL INTERFACE "${SDL_FLAG}")
+else()
+    find_package(SDL2 REQUIRED)
+    target_link_libraries(SDL INTERFACE SDL2::SDL2)
+endif()
+target_link_libraries(reminecraftpe SDL)
+
 if(TARGET SDL2::SDL2main)
     target_link_libraries(reminecraftpe SDL2::SDL2main)
 endif()

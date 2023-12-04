@@ -13,6 +13,7 @@
 
 class Level;
 class Player;
+class PigModel;
 
 class Pig : public Mob
 {

@@ -8,6 +8,7 @@
 
 #include "Player.hpp"
 #include "world/level/Level.hpp"
+#include "client/model/Model.hpp"
 
 Player::Player(Level* pLevel) : Mob(pLevel),
 	m_model(0.0f, 0.0f)

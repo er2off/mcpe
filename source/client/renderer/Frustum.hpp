@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "common/Matrix.hpp"
+#include "Matrix.hpp"
 #include "world/phys/AABB.hpp"
 
 class Frustum

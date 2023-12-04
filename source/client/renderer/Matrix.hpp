@@ -9,7 +9,7 @@
 #pragma once
 
 #include <cstring>
-#include "Mth.hpp"
+#include "common/Mth.hpp"
 #include "thirdparty/GL/GL.hpp"
 
 class Matrix

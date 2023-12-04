@@ -6,6 +6,8 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include "compat/KeyCodes.hpp"
+
 #include "TextInputBox.hpp"
 #include "client/app/Minecraft.hpp"
 #ifndef ORIGINAL_CODE

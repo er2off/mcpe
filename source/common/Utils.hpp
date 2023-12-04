@@ -110,7 +110,6 @@ void closedir(DIR* dir);
 
 #endif
 
-#include "../../compat/KeyCodes.hpp"
 #include "Logger.hpp"
 
 // options:

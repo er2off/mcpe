@@ -72,7 +72,7 @@ public:
 	void interact(Entity* pEnt);
 #pragma GCC diagnostic pop
 
-	Model *getModel();
+	Model *getModel() override;
 
 public:
 	//TODO
@@ -91,6 +91,7 @@ public:
 	bool m_bHaveRespawnPos;
 	//TODO
 
+private:
 	HumanoidModel m_model;
 };
 

@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.16.0)
 
 # Declares and names the project.
 
-project("reminecraftpe")
+project("reminecraftpe-android")
 
 # Add the ANDROID flag. Used by our core
 set(ANDROID)
@@ -32,6 +32,7 @@ add_library( # Sets the name of the library.
              ${MC_ROOT}/platforms/android/AppPlatform_android.cpp
              ${MC_ROOT}/platforms/android/main.cpp 
              ${MC_ROOT}/thirdparty/stb_image_impl.c)
+target_include_directories(reminecraftpe PUBLIC ${MC_ROOT} ${MC_ROOT}/source ${MC_ROOT}/thirdparty/raknet)
 
 # Check for the presence of some optional asset based features.
 if(NOT EXISTS "${MC_ROOT}/game/assets/gui/background/panorama_0.png")
@@ -51,7 +52,6 @@ if(NOT EXISTS "${MC_ROOT}/game/assets/misc/foliagecolor.png")
 endif()
 
 # Add the core as part of the library.
-add_subdirectory(${MC_ROOT}/source source)
 target_link_libraries(reminecraftpe reminecraftpe-core)
 
 # Searches for a specified prebuilt library and stores the path as a

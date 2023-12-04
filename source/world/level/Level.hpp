@@ -16,7 +16,7 @@
 
 #include "world/tile/Tile.hpp"
 #include "world/entity/Entity.hpp"
-#include "world/entity/LocalPlayer.hpp"
+#include "client/player/LocalPlayer.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "world/level/storage/LevelStorageSource.hpp"

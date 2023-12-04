@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "Timer.hpp"
-#include "common/Utils.hpp"
+#include "Utils.hpp"
 
 #if !defined(_WIN32) && defined(USE_ACCURATE_TIMER)
 #error "Implement getAccurateTimeMs() for your platform!"

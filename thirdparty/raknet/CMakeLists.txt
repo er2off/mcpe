@@ -114,4 +114,6 @@ add_library(raknet STATIC
     RakNetSocket2_360_720.cpp
     RakSleep.cpp
 )
+# Avoid 'register' keyword removal in C++17
+set_target_properties(raknet PROPERTIES CXX_STANDARD 11)
 target_include_directories(raknet PUBLIC .)

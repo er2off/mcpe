@@ -16,6 +16,8 @@ typedef AppPlatform_sdl UsedAppPlatform;
 #include "client/app/NinecraftApp.hpp"
 #include "client/player/input/Multitouch.hpp"
 
+#include "compat/KeyCodes.hpp"
+
 static float g_fPointToPixelScale = 1.0f;
 
 UsedAppPlatform *g_pAppPlatform;

@@ -24,6 +24,6 @@ ItemInstance* CameraItem::use(ItemInstance* inst, Level* level, Player* player)
 		return inst;
 #endif
 
-	level->addEntity(new TripodCamera(level, player, player->m_pos.x, player->m_pos.y, player->m_pos.z));
+	level->addEntity(new Pig(level, player->m_pos.x, player->m_pos.y, player->m_pos.z)); //(new TripodCamera(level, player, player->m_pos.x, player->m_pos.y, player->m_pos.z));
 	return inst;
 }

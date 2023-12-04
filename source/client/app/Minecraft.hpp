@@ -16,6 +16,7 @@
 #include "client/gui/Screen.hpp"
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
+#include "client/player/LocalPlayer.hpp"
 #include "client/player/input/IInputHolder.hpp"
 #include "client/player/input/MouseHandler.hpp"
 #include "client/player/input/BuildActionIntention.hpp"
@@ -24,7 +25,6 @@
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
 #include "client/sound/SoundEngine.hpp"
 #include "world/level/Level.hpp"
-#include "world/entity/LocalPlayer.hpp"
 #include "world/gamemode/GameMode.hpp"
 #include "world/particle/ParticleEngine.hpp"
 

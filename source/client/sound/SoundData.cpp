@@ -16,5 +16,5 @@
 // mcpe01_canada.apk file.
 // --------------------------------------------------------------------
 #ifndef MISSING_SOUND_DATA
-#include "../../sound_data/sounds.h"
+#include "sound_data/sounds.h"
 #endif

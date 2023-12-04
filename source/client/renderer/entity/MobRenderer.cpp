@@ -156,8 +156,8 @@ void MobRenderer::renderName(Mob* mob, float x, float y, float z)
 		return;
 
 	Player* player = (Player*)mob;
-	if (player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
-		return;
+	//if (player == m_pDispatcher->m_pMinecraft->m_pLocalPlayer)
+	//	return;
 
 	// @TODO: don't know why but I have to add this correction. look into it and fix it!
 	renderNameTag(mob, player->m_name, x, y - 1.5f, z, mob->isSneaking() ? 32 : 64);

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "client/model/Model.hpp"
+//#include "client/model/Model.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/phys/AABB.hpp"
 #include "world/level/Material.hpp"
@@ -19,6 +19,7 @@
 class Level;
 class Player;
 class ItemInstance;
+class Model;
 
 enum eEntityRenderType
 {

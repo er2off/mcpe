@@ -129,14 +129,26 @@ void EntityRenderDispatcher::render(Entity* entity, float a, float b, float c, f
 	if (pRenderer)
 	{
 #ifndef ORIGINAL_CODE
-		if (pRenderer == &m_HumanoidMobRenderer)
-			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = entity->isSneaking();
+		if (pRenderer == &m_HumanoidRenderer)
+			m_HumanoidRenderer.m_pHumanoidModel->field_10BE = entity->isSneaking();
 		else
-			m_HumanoidMobRenderer.m_pHumanoidModel->field_10BE = false;
+			m_HumanoidRenderer.m_pHumanoidModel->field_10BE = false;
 #endif
 
 		pRenderer->render(entity, a, b, c, d, e);
 	}
+
+	/*
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	AABB hitbox = entity->m_hitbox;
+	float hx = hitbox.min.x, hy = hitbox.min.y, hz = hitbox.min.z;
+	float hw = hitbox.max.x - hx, hh = hitbox.max.y - hy, hd = hitbox.max.z - hz;
+	printf("%f\n", hx);
+	Cube cube(0, 0);
+	cube.addBox(hx, hy, hz, hw, hh, hd);
+	//cube.setPos(a, b, c);
+	cube.render(e);
+	*/
 }
 
 void EntityRenderDispatcher::setLevel(Level* level)
