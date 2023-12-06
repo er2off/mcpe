@@ -14,8 +14,7 @@ EntityRenderDispatcher* EntityRenderDispatcher::instance;
 float EntityRenderDispatcher::xOff, EntityRenderDispatcher::yOff, EntityRenderDispatcher::zOff;
 
 EntityRenderDispatcher::EntityRenderDispatcher() :
-	m_ModelRenderer(nullptr, 0),
-	m_HumanoidRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f)
+	m_HumanoidMobRenderer(new HumanoidModel(0.0f, 0.0f), 0.0f)
 {
 	m_pItemInHandRenderer = nullptr;
 	m_pTextures = nullptr;
@@ -27,8 +26,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() :
 	m_pOptions = nullptr;
 	m_pFont = nullptr;
 
-	m_HumanoidRenderer.init(this);
-	m_ModelRenderer.init(this);
+	m_HumanoidMobRenderer.init(this);
 	m_TntRenderer.init(this);
 	m_CameraRenderer.init(this);
 
@@ -76,11 +74,7 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 		case RENDER_CAMERA:
 			return &m_CameraRenderer;
 		case RENDER_HUMANOID:
-			m_HumanoidRenderer.m_pModel = m_HumanoidRenderer.m_pHumanoidModel = (HumanoidModel *)pEnt->getModel();
-			return &m_HumanoidRenderer;
-		case RENDER_MODEL:
-			m_ModelRenderer.m_pModel = pEnt->getModel();
-			return &m_ModelRenderer;
+			return &m_HumanoidMobRenderer;
 #ifdef ENH_ALLOW_SAND_GRAVITY
 		case RENDER_FALLING_TILE:
 			return &m_FallingTileRenderer;
@@ -92,8 +86,7 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 
 void EntityRenderDispatcher::onGraphicsReset()
 {
-	m_HumanoidRenderer.onGraphicsReset();
-	m_ModelRenderer.onGraphicsReset();
+	m_HumanoidMobRenderer.onGraphicsReset();
 }
 
 void EntityRenderDispatcher::prepare(Level* level, Textures* textures, Font* font, Mob* mob, Options* options, float f)

@@ -1082,8 +1082,3 @@ bool Entity::isLocalPlayer()
 {
 	return false;
 }
-
-Model *Entity::getModel()
-{
-	return nullptr;
-}

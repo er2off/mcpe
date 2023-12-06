@@ -10,7 +10,6 @@
 #include "common/Utils.hpp"
 
 #include "world/entity/TripodCamera.hpp"
-#include "world/entity/Pig.hpp"
 #include "world/entity/PrimedTnt.hpp"
 
 // This lets you make the server shut up and not log events in the debug console.
@@ -123,9 +122,9 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_version = 2;
 	sgp.m_time = m_pLevel->getTime();
 	
-	RakNet::BitStream sgpbs;
-	sgp.write(&sgpbs);
-	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
+	RakNet::BitStream *sgpbs;
+	sgp.write(sgpbs);
+	m_pRakNetPeer->Send(sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
 	// send the connecting player info about all other players in the world
 	for (int i = 0; i < int(m_pLevel->m_players.size()); i++)
@@ -571,11 +570,6 @@ void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::ve
 			tnt->m_fuseTimer = std::stoi(parms[4]) * 20;
 		else tnt->m_fuseTimer = 0; // as in original
 		ent = tnt;
-	}
-	else if (entity == "pig")
-	{
-		Pig *pig = new Pig(m_pLevel, pos.x, pos.y, pos.z);
-		ent = pig;
 	}
 
 	if (!ent)

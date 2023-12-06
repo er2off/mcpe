@@ -9,12 +9,11 @@
 #pragma once
 
 #include "EntityRenderer.hpp"
+#include "HumanoidMobRenderer.hpp"
 #include "TripodCameraRenderer.hpp"
 #include "TntRenderer.hpp"
 #include "ItemRenderer.hpp"
 #include "FallingTileRenderer.hpp"
-#include "MobRenderer.hpp"
-#include "HumanoidMobRenderer.hpp"
 
 class Minecraft;
 class Font;
@@ -41,8 +40,7 @@ public:
 
 public:
 	ItemInHandRenderer* m_pItemInHandRenderer;
-	MobRenderer m_ModelRenderer;
-	HumanoidMobRenderer m_HumanoidRenderer;
+	HumanoidMobRenderer m_HumanoidMobRenderer;
 	TntRenderer m_TntRenderer;
 	ItemRenderer m_ItemRenderer;
 	TripodCameraRenderer m_CameraRenderer;

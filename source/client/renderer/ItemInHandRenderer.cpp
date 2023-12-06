@@ -7,7 +7,6 @@
  ********************************************************************/
 
 #include "ItemInHandRenderer.hpp"
-#include "entity/HumanoidMobRenderer.hpp"
 #include "client/app/Minecraft.hpp"
 
 ItemInHandRenderer::ItemInHandRenderer(Minecraft* pMC) :
@@ -187,8 +186,7 @@ void ItemInHandRenderer::render(float f)
 		glRotatef(Mth::sin(float(M_PI) * Mth::sqrt(fAnim)) * 70.0f, 0.0f, 1.0f, 0.0f);
 		glRotatef(Mth::sin(float(M_PI) * fAnim * fAnim) * -20.0f, 0.0f, 0.0f, 1.0f);
 
-		HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(m_pMinecraft->m_pLocalPlayer);
-		m_pMinecraft->m_pTextures->loadAndBindTexture(pRenderer->m_pModel->m_texture);
+		m_pMinecraft->m_pTextures->loadAndBindTexture("mob/char.png");
 		glTranslatef(-1.0f, 3.6f, 3.5f);
 		glRotatef(120.0f, 0.0f, 0.0f, 1.0f);
 		glRotatef(200.0f, 1.0f, 0.0f, 0.0f);
@@ -196,6 +194,7 @@ void ItemInHandRenderer::render(float f)
 		glScalef(1.0f, 1.0f, 1.0f);
 		glTranslatef(5.6f, 0.0f, 0.0f);
 
+		HumanoidMobRenderer* pRenderer = (HumanoidMobRenderer*)EntityRenderDispatcher::getInstance()->getRenderer(m_pMinecraft->m_pLocalPlayer);
 		glScalef(1.0f, 1.0f, 1.0f);
 		pRenderer->renderHand();
 

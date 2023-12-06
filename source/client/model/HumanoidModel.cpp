@@ -27,12 +27,12 @@ HumanoidModel::HumanoidModel(float a, float b):
 	m_body.setPos(0, b, 0);
 	m_armL.addBox(-3, -2, -2, 4, 12, 4, a);
 	m_armL.setPos(-5, b + 2, 0);
-	m_armR.m_swapX = true;
+	m_armR.field_18 = true;
 	m_armR.addBox(-1, -2, -2, 4, 12, 4, a);
 	m_armR.setPos(5, b + 2, 0);
 	m_legL.addBox(-2, 0, -2, 4, 12, 4, a);
 	m_legL.setPos(-2, b + 12, 0);
-	m_legR.m_swapX = true;
+	m_legR.field_18 = true;
 	m_legR.addBox(-2, 0, -2, 4, 12, 4, a);
 	m_legR.setPos(2, b + 12, 0);
 }

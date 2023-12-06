@@ -57,8 +57,8 @@ Mob::Mob(Level* pLevel) : Entity(pLevel)
 	field_B84 = 0;
 	m_pEntLookedAt = nullptr;
 
+	m_texture = "/mob/char.png";
 	m_class = "";
-	m_renderType = RENDER_MODEL;
 
 	field_34 = 1;
 
@@ -437,6 +437,11 @@ bool Mob::onLadder()
 void Mob::spawnAnim()
 {
 
+}
+
+std::string Mob::getTexture()
+{
+	return m_texture;
 }
 
 void Mob::playAmbientSound()

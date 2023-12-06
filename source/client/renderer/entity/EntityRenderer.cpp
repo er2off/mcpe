@@ -9,7 +9,7 @@
 #include "EntityRenderer.hpp"
 #include "EntityRenderDispatcher.hpp"
 
-EntityRenderer::EntityRenderer()
+EntityRenderer::EntityRenderer() : m_model(0.0f, 0.0f)
 {
 	field_4 = 0.0f;
 	field_8 = 1.0f;

@@ -10,8 +10,7 @@
 #include "world/level/Level.hpp"
 #include "client/model/Model.hpp"
 
-Player::Player(Level* pLevel) : Mob(pLevel),
-	m_model(0.0f, 0.0f)
+Player::Player(Level* pLevel) : Mob(pLevel)
 {
 	m_pInventory = nullptr;
 	field_B94 = 0;
@@ -37,6 +36,7 @@ Player::Player(Level* pLevel) : Mob(pLevel),
 	m_health = 20;
 
 	m_class = "humanoid";
+	m_texture = "mob/char.png";
 
 	field_C4 = 20;
 	field_B5C = 180.0f;
@@ -373,9 +373,4 @@ void Player::touch(Entity* pEnt)
 void Player::interact(Entity* pEnt)
 {
 	pEnt->interact(this);
-}
-
-Model *Player::getModel()
-{
-	return &m_model;
 }

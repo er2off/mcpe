@@ -8,11 +8,10 @@
 
 #include "Model.hpp"
 
-Model::Model(std::string texture)
+Model::Model()
 {
 	field_4 = 0.0f;
 	field_8 = false;
-	m_texture = texture;
 }
 
 void Model::onGraphicsReset()

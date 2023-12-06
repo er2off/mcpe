@@ -40,6 +40,7 @@ public:
 	virtual bool canSee(Entity* pEnt);
 	virtual bool onLadder();
 	virtual void spawnAnim();
+	virtual std::string getTexture();
 	virtual bool isWaterMob();
 	virtual void playAmbientSound();
 	virtual int getAmbientSoundInterval();
@@ -108,8 +109,8 @@ public:
 	char field_B0C;
 	float field_B10;
 	float field_B14;
+	std::string m_texture;
 	std::string m_class;
-	std::string m_name;
 	int field_B48;
 	float field_B4C;
 	float field_B50;

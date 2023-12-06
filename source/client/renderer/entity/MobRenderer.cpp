@@ -104,7 +104,7 @@ void MobRenderer::render(Entity* entity, float x, float y, float z, float unused
 		x1 = 1.0f;
 	float x2 = pMob->field_130 - pMob->field_12C * (1.0f - f);
 
-	bindTexture(m_pModel->m_texture);
+	bindTexture("mob/char.png");
 	glEnable(GL_ALPHA_TEST);
 
 	m_pModel->setBrightness(entity->getBrightness(1.0f));
@@ -165,7 +165,7 @@ void MobRenderer::renderName(Mob* mob, float x, float y, float z)
 
 void MobRenderer::renderNameTag(Mob* mob, const std::string& str, float x, float y, float z, int a)
 {
-	if (mob->distanceToSqr(m_pDispatcher->m_pMob) > float(a * a) || str.length() == 0)
+	if (mob->distanceToSqr(m_pDispatcher->m_pMob) > float(a * a))
 		return;
 
 	Font* font = getFont();
