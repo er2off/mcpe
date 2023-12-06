@@ -3,7 +3,7 @@ add_library(reminecraftpe-world STATIC
     entity/FallingTile.cpp entity/FallingTile.hpp
     entity/ItemEntity.cpp entity/ItemEntity.hpp
     entity/Mob.cpp entity/Mob.hpp
-    entity/Pig.cpp entity/Pig.hpp
+    #entity/Pig.cpp entity/Pig.hpp
     entity/Player.cpp entity/Player.hpp
     entity/PrimedTnt.cpp entity/PrimedTnt.hpp
     entity/TripodCamera.cpp entity/TripodCamera.hpp

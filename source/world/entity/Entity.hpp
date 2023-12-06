@@ -23,10 +23,20 @@ class Model;
 enum eEntityRenderType
 {
 	RENDER_NONE,
+	RENDER_DYNAMIC,
 	RENDER_TNT,
 	RENDER_HUMANOID,
 	RENDER_ITEM,
 	RENDER_CAMERA,
+	RENDER_CHICKEN,
+	RENDER_COW,
+	RENDER_PIG,
+	RENDER_SHEEP,
+	RENDER_SHEEP_FUR,
+	RENDER_ZOMBIE,
+	RENDER_SKELETON,
+	RENDER_SPIDER,
+	RENDER_CREEPER,
 
 	// custom
 	RENDER_FALLING_TILE = 50,
@@ -140,6 +150,7 @@ public:
 	virtual void markHurt();
 	virtual void burn(int);
 	virtual void lavaHurt();
+	virtual int queryEntityRenderer();
 
 	virtual bool isLocalPlayer();
 

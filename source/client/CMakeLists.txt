@@ -3,11 +3,21 @@ add_library(reminecraftpe-client STATIC
     app/AppPlatform.cpp app/AppPlatform.hpp
     app/Minecraft.cpp app/Minecraft.hpp
     app/NinecraftApp.cpp app/NinecraftApp.hpp
+    model/ChickenModel.cpp model/ChickenModel.hpp
+    model/CowModel.cpp model/CowModel.hpp
+    model/CreeperModel.cpp model/CreeperModel.hpp
     model/Cube.cpp model/Cube.hpp
     model/HumanoidModel.cpp model/HumanoidModel.hpp
     model/Model.cpp model/Model.hpp
+    model/ModelPart.cpp model/ModelPart.hpp
     model/PigModel.cpp model/PigModel.hpp
     model/PolygonQuad.cpp model/PolygonQuad.hpp
+    model/QuadrupedModel.cpp model/QuadrupedModel.hpp
+    model/SheepFurModel.cpp model/SheepFurModel.hpp
+    model/SheepModel.cpp model/SheepModel.hpp
+    model/SkeletonModel.cpp model/SkeletonModel.hpp
+    model/SpiderModel.cpp model/SpiderModel.hpp
+    model/ZombieModel.cpp model/ZombieModel.hpp
     network/ClientSideNetworkHandler.cpp network/ClientSideNetworkHandler.hpp
     options/Options.cpp options/Options.hpp
     player/LocalPlayer.cpp player/LocalPlayer.hpp
@@ -58,6 +68,9 @@ add_library(reminecraftpe-client STATIC
     renderer/TileRenderer.cpp renderer/TileRenderer.hpp
     renderer/WaterSideTexture.cpp
     renderer/WaterTexture.cpp
+    renderer/entity/ChickenRenderer.cpp renderer/entity/ChickenRenderer.hpp
+    renderer/entity/CowRenderer.cpp renderer/entity/CowRenderer.hpp
+    renderer/entity/CreeperRenderer.cpp renderer/entity/CreeperRenderer.hpp
     renderer/entity/EntityRenderDispatcher.cpp renderer/entity/EntityRenderDispatcher.hpp
     renderer/entity/EntityRenderer.cpp renderer/entity/EntityRenderer.hpp
     renderer/entity/FallingTileRenderer.cpp renderer/entity/FallingTileRenderer.hpp
@@ -65,8 +78,14 @@ add_library(reminecraftpe-client STATIC
     renderer/entity/ItemRenderer.cpp renderer/entity/ItemRenderer.hpp
     renderer/entity/ItemSpriteRenderer.cpp renderer/entity/ItemSpriteRenderer.hpp
     renderer/entity/MobRenderer.cpp renderer/entity/MobRenderer.hpp
+    renderer/entity/PigRenderer.cpp renderer/entity/PigRenderer.hpp
+    renderer/entity/SheepFurRenderer.cpp renderer/entity/SheepFurRenderer.hpp
+    renderer/entity/SheepRenderer.cpp renderer/entity/SheepRenderer.hpp
+    renderer/entity/SkeletonRenderer.cpp renderer/entity/SkeletonRenderer.hpp
+    renderer/entity/SpiderRenderer.cpp renderer/entity/SpiderRenderer.hpp
     renderer/entity/TntRenderer.cpp renderer/entity/TntRenderer.hpp
     renderer/entity/TripodCameraRenderer.cpp renderer/entity/TripodCameraRenderer.hpp
+    renderer/entity/ZombieRenderer.cpp renderer/entity/ZombieRenderer.hpp
     sound/SoundData.cpp sound/SoundData.hpp
     sound/SoundEngine.cpp sound/SoundEngine.hpp
     sound/SoundRepository.cpp sound/SoundRepository.hpp
