@@ -10,7 +10,6 @@
 
 #include "client/app/Minecraft.hpp"
 #include "IInputHolder.hpp"
-#include "TouchscreenInput_TestFps.hpp"
 #include "UnifiedTurnBuild.hpp"
 
 class Minecraft;
@@ -27,6 +26,27 @@ static inline RectangleArea getRectangleArea(IGui *gui, bool b)
 		Minecraft::height);
 }
 
+class TouchInput : public IMoveInput, public IScreen
+{
+public:
+	TouchInput(Minecraft* pMinecraft, Options* pOptions) :
+		m_pMinecraft(pMinecraft),
+		m_pOptions(pOptions),
+		m_rectArea(0, 0, 0, 0)
+	{
+	}
+
+	RectangleArea getRectangleArea()
+	{
+		return m_rectArea;
+	}
+
+private:
+	Minecraft* m_pMinecraft;
+	Options* m_pOptions;
+	RectangleArea m_rectArea;
+};
+
 class TouchInputHolder : public IInputHolder
 {
 public:
@@ -38,7 +58,7 @@ public:
 	void setScreenSize(int width, int height) override;
 
 public:
-	TouchscreenInput_TestFps m_touchScreenInput;
+	TouchInput m_touchScreenInput;
 	UnifiedTurnBuild m_unifiedTurnBuild;
 	Minecraft* m_pMinecraft;
 };

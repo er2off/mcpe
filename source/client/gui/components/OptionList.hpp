@@ -20,7 +20,7 @@ public:
 	OptionItem() {}
 	virtual ~OptionItem() {}
 	virtual void onClick(OptionList*, int mouseX, int mouseY) = 0;
-	virtual void render(OptionList*, int x, int y) = 0;
+	virtual void onRender(OptionList*, int x, int y) = 0;
 	virtual bool maySelect() { return true; }
 	virtual void setDisabled(bool b) { };
 };
@@ -30,7 +30,7 @@ class BooleanOptionItem : public OptionItem
 public:
 	BooleanOptionItem(bool* pValue, const std::string& text);
 	void onClick(OptionList*, int mouseX, int mouseY) override;
-	void render(OptionList*, int x, int y) override;
+	void onRender(OptionList*, int x, int y) override;
 	void setDisabled(bool b) override { m_bDisabled = b; }
 
 	virtual void toggleState(OptionList*);
@@ -58,7 +58,7 @@ class DistanceOptionItem : public OptionItem
 public:
 	DistanceOptionItem(int* pValue, const std::string& text);
 	void onClick(OptionList*, int mouseX, int mouseY) override;
-	void render(OptionList*, int x, int y) override;
+	void onRender(OptionList*, int x, int y) override;
 
 protected:
 	std::string m_text;
@@ -83,7 +83,7 @@ class HeaderOptionItem : public OptionItem
 {
 public:
 	HeaderOptionItem(const std::string& text);
-	void render(OptionList*, int x, int y) override;
+	void onRender(OptionList*, int x, int y) override;
 	bool maySelect() override { return false; }
 	void onClick(OptionList*, int mouseX, int mouseY) override {}
 

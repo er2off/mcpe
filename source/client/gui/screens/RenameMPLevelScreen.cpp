@@ -13,13 +13,13 @@ RenameMPLevelScreen::RenameMPLevelScreen(const std::string& levelName) : m_level
 {
 }
 
-void RenameMPLevelScreen::init()
+void RenameMPLevelScreen::onInit()
 {
 	m_pMinecraft->platform()->showDialog(AppPlatform::DLG_RENAME_MP_WORLD);
 	m_pMinecraft->platform()->createUserInput();
 }
 
-void RenameMPLevelScreen::render(int mouseX, int mouseY, float f)
+void RenameMPLevelScreen::onRender(int mouseX, int mouseY, float f)
 {
 	int userInputStatus = m_pMinecraft->platform()->getUserInputStatus();
 	if (userInputStatus < 0)

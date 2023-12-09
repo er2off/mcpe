@@ -23,7 +23,7 @@ PauseScreen::PauseScreen() :
 {
 }
 
-void PauseScreen::init()
+void PauseScreen::onInit()
 {
 	bool bAddVisibleButton = m_pMinecraft->m_pRakNetInstance && m_pMinecraft->m_pRakNetInstance->m_bIsHost;
 	
@@ -108,17 +108,17 @@ void PauseScreen::updateServerVisibilityText()
 		m_btnVisible.m_text = "Server is invisible";
 }
 
-void PauseScreen::tick()
+void PauseScreen::onTick()
 {
 	field_40++;
 }
 
-void PauseScreen::render(int a, int b, float c)
+void PauseScreen::onRender(int a, int b, float c)
 {
 	renderBackground();
 
 	drawCenteredString(m_pFont, "Game menu", m_width / 2, 24, 0xFFFFFF);
-	Screen::render(a, b, c);
+	Screen::onRender(a, b, c);
 }
 
 void PauseScreen::buttonClicked(Button* pButton)

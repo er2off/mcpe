@@ -12,7 +12,6 @@
 
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
-#include "client/gui/Gui.hpp"
 
 #include "client/player/input/ControllerTurnInput.hpp"
 #include "client/player/input/MouseTurnInput.hpp"
@@ -30,6 +29,12 @@
 
 // custom:
 #include "client/renderer/PatchManager.hpp"
+
+#ifdef NEWUI
+#include "client/newui/Gui.hpp"
+#else
+#include "client/gui/Gui.hpp"
+#endif
 
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
@@ -147,7 +152,7 @@ void Minecraft::setScreen(IScreen* pScreen)
 		m_pQueuedScreen = pScreen;
 		return;
 	}
-	
+
 	if (pScreen && pScreen->isErrorScreen())
 	{
 		// not in original
@@ -165,7 +170,7 @@ void Minecraft::setScreen(IScreen* pScreen)
 	if (pScreen)
 	{
 		releaseMouse();
-		pScreen->init(this, std::ceil(width * m_pGui->scale), std::ceil(height * m_pGui->scale));
+		pScreen->init(this, std::ceil(float(width) * m_pGui->scale), std::ceil(float(height) * m_pGui->scale));
 	}
 	else
 	{
@@ -529,7 +534,7 @@ void Minecraft::tickInput()
 
 	if (b && !bai.isRemoveContinue())
 		handleBuildAction(&bai);
-	
+
 	bool flag =
 		// If we are mouse operated, the LMB is held down and it's not in the GUI
 		((m_options->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
@@ -685,7 +690,7 @@ void Minecraft::tick()
 
 	tickInput();
 
-	m_pGui->tick();
+	m_pGui->onTick();
 
 	// if the level has been prepared, delete the prep thread
 	if (!m_bPreparingLevel)
@@ -734,7 +739,7 @@ void Minecraft::tick()
 		}
 
 		if (m_pScreen)
-			m_pScreen->tick();
+			m_pScreen->onTick();
 
 		Multitouch::reset();
 	}
@@ -969,7 +974,7 @@ void Minecraft::sizeUpdate(int newWidth, int newHeight)
 	m_pGui->scale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
 
 	if (m_pScreen)
-		m_pScreen->setSize(std::ceil(Minecraft::width * m_pGui->scale), std::ceil(Minecraft::height * m_pGui->scale));
+		m_pScreen->setSize(std::ceil(float(Minecraft::width) * m_pGui->scale), std::ceil(float(Minecraft::height) * m_pGui->scale));
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(newWidth * guiScaleMultiplier, newHeight * guiScaleMultiplier);

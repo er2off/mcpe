@@ -17,7 +17,7 @@ DirectConnectScreen::DirectConnectScreen() :
 	m_btnJoin(2, "Connect")
 {}
 
-void DirectConnectScreen::init()
+void DirectConnectScreen::onInit()
 {
 	m_textAddress.m_width = 200;
 	m_textAddress.m_height = 20;
@@ -41,13 +41,13 @@ void DirectConnectScreen::init()
 	m_buttons.push_back(&m_btnQuit);
 	m_buttons.push_back(&m_btnJoin);
 
-	m_textAddress.init(m_pFont);
+	m_textAddress.onInit(m_pFont);
 }
 
-void DirectConnectScreen::render(int x, int y, float f)
+void DirectConnectScreen::onRender(int x, int y, float f)
 {
 	renderBackground();
-	Screen::render(x, y, f);
+	Screen::onRender(x, y, f);
 
 	drawCenteredString(m_pFont, "Play Multiplayer", m_width / 2, 30, 0xFFFFFF);
 	drawCenteredString(m_pFont, "Enter the IP address of a server to connect to it:", m_width / 2, m_textAddress.m_yPos - 20, 0x999999);

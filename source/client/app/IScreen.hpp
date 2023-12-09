@@ -17,18 +17,17 @@ public:
 	virtual ~IScreen() = default;
 
 	virtual void init(Minecraft*, int, int);
-	virtual void init();
-	//virtual void updateTabButtonSelection();
 	virtual void setSize(int width, int height);
-	virtual void onRender(int mouseX, int mouseY, float f);
 	virtual int getYOffset();
 
-	virtual void render(int, int, float);
+	virtual void onInit();
+	virtual void onRender(int mouseX, int mouseY, float f);
 	virtual void onEvents();
+	virtual void onTick();
+
 	virtual void mouseEvent();
 	virtual void keyboardEvent();
 	virtual bool handleBackEvent(bool);
-	virtual void tick();
 	virtual void removed();
 	virtual void renderBackground();
 	virtual bool isPauseScreen();
@@ -36,9 +35,6 @@ public:
 	virtual bool isInGameScreen();
 	virtual void confirmResult(bool, int);
 	virtual void charInput(char);
-
-	// ported from 0.8
-	//virtual void renderMenuBackground(float f);
 
 	int m_width;
 	int m_height;

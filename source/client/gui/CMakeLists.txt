@@ -10,6 +10,7 @@ add_library(reminecraftpe-gui STATIC
     components/SmallButton.cpp components/SmallButton.hpp
     components/TextInputBox.cpp components/TextInputBox.hpp
     components/WorldSelectionList.cpp components/WorldSelectionList.hpp
+    input/TouchscreenInput_TestFps.cpp input/TouchscreenInput_TestFps.hpp
     screens/ChatScreen.cpp screens/ChatScreen.hpp
     screens/ConfirmScreen.cpp screens/ConfirmScreen.hpp
     screens/CreateWorldScreen.cpp screens/CreateWorldScreen.hpp

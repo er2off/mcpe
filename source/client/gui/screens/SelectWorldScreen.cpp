@@ -25,7 +25,7 @@ SelectWorldScreen::SelectWorldScreen() :
 	field_130 = 0;
 }
 
-void SelectWorldScreen::init()
+void SelectWorldScreen::onInit()
 {
 	SAFE_DELETE(m_pWorldSelectionList);
 
@@ -81,7 +81,7 @@ void SelectWorldScreen::keyPressed(int code)
 
 static char g_SelectWorldFilterArray[] = { '/','\n','\r','\x09','\0','\xC','`','?','*','\\','<','>','|','"',':'};
 
-void SelectWorldScreen::tick()
+void SelectWorldScreen::onTick()
 {
 #ifndef ORIGINAL_CODE
 	m_btnUnknown.field_36 = true;
@@ -141,7 +141,7 @@ void SelectWorldScreen::tick()
 		return;
 	}
 
-	m_pWorldSelectionList->tick();
+	m_pWorldSelectionList->onTick();
 	if (m_pWorldSelectionList->field_90)
 	{
 		LevelSummary& ls = m_pWorldSelectionList->m_levelSummary;
@@ -159,7 +159,7 @@ void SelectWorldScreen::tick()
 	m_btnDelete.m_bEnabled = isIndexValid(m_pWorldSelectionList->m_selectedIndex);
 }
 
-void SelectWorldScreen::render(int mouseX, int mouseY, float f)
+void SelectWorldScreen::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground();
 #ifndef ORIGINAL_CODE
@@ -168,15 +168,15 @@ void SelectWorldScreen::render(int mouseX, int mouseY, float f)
 	m_pWorldSelectionList->setComponentSelected(m_btnUnknown.field_36);
 	if (field_12C)
 	{
-		m_pWorldSelectionList->render(mouseX, mouseY, f);
+		m_pWorldSelectionList->onRender(mouseX, mouseY, f);
 	}
 	else
 	{
-		m_pWorldSelectionList->render(0, 0, f);
+		m_pWorldSelectionList->onRender(0, 0, f);
 		field_12C = Mouse::getButtonState(BUTTON_LEFT);
 	}
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::onRender(mouseX, mouseY, f);
 
 	drawCenteredString(m_pMinecraft->m_pFont, "Select world", m_width / 2, 8, 0xFFFFFFFF);
 }

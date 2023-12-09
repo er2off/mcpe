@@ -147,7 +147,7 @@ void ScrolledSelectionList::checkInput(int mouseX, int mouseY)
 	}
 }
 
-void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
+void ScrolledSelectionList::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground(f);
 

@@ -25,11 +25,10 @@ void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 {
 	m_pFont = pMinecraft->m_pFont;
 	IScreen::init(pMinecraft, a3, a4);
-	init();
 	updateTabButtonSelection();
 }
 
-void Screen::init()
+void Screen::onInit()
 {
 }
 
@@ -100,7 +99,7 @@ static const char* g_panoramaList[] =
 
 static float g_panoramaAngle = 0.0f;
 // TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
-bool g_bIsMenuBackgroundAvailable = false;
+extern bool g_bIsMenuBackgroundAvailable; // client/app/IScreen.cpp
 
 void Screen::renderMenuBackground(float f)
 {
@@ -255,53 +254,37 @@ void Screen::mouseReleased(int xPos, int yPos, int d)
 	}
 }
 
-void Screen::render(int xPos, int yPos, float unused)
+void Screen::onRender(int xPos, int yPos, float unused)
 {
 	for (int i = 0; i < int(m_buttons.size()); i++)
 	{
 		Button* button = m_buttons[i];
-		button->render(m_pMinecraft, xPos, yPos);
+		button->onRender(m_pMinecraft, xPos, yPos);
 	}
 
 #ifndef ORIGINAL_CODE
 	for (int i = 0; i < int(m_textInputs.size()); i++)
 	{
 		TextInputBox* textInput = m_textInputs[i];
-		textInput->tick();
-		textInput->render();
+		textInput->onTick();
+		textInput->onRender();
 	}
 #endif
 }
 
-void Screen::tick()
+void Screen::onTick()
 {
 	g_panoramaAngle++;
 }
 
 void Screen::setSize(int width, int height)
 {
-	m_width = width;
-	m_height = height;
+	IScreen::setSize(width, height);
 
 	// not original code. Will need to re-init again
 	m_buttons.clear();
 	m_textInputs.clear();
-	init();
-}
-
-void Screen::onRender(int mouseX, int mouseY, float f)
-{
-	m_yOffset = getYOffset();
-	if (m_yOffset != 0) {
-		// push the entire screen up
-		glPushMatrix();
-		glTranslatef(0.0f, -float(m_yOffset), 0.0f);
-	}
-
-	render(mouseX, mouseY, f);
-
-	if (m_yOffset != 0)
-		glPopMatrix();
+	onInit();
 }
 
 int Screen::getYOffset()

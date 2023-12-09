@@ -41,7 +41,7 @@ void BooleanOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 	toggleState(pList);
 }
 
-void BooleanOptionItem::render(OptionList* pList, int x, int y)
+void BooleanOptionItem::onRender(OptionList* pList, int x, int y)
 {
 	pList->drawString(
 		pList->m_pMinecraft->m_pFont,
@@ -91,7 +91,7 @@ HeaderOptionItem::HeaderOptionItem(const std::string& text)
 	m_text = text;
 }
 
-void HeaderOptionItem::render(OptionList* pList, int x, int y)
+void HeaderOptionItem::onRender(OptionList* pList, int x, int y)
 {
 	pList->drawString(
 		pList->m_pMinecraft->m_pFont,
@@ -122,7 +122,7 @@ void DistanceOptionItem::onClick(OptionList* pList, int mouseX, int mouseY)
 		pList->m_pMinecraft->m_pLevelRenderer->allChanged();
 }
 
-void DistanceOptionItem::render(OptionList* pList, int x, int y)
+void DistanceOptionItem::onRender(OptionList* pList, int x, int y)
 {
 	pList->drawString(
 		pList->m_pMinecraft->m_pFont,
@@ -236,7 +236,7 @@ void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
 {
 	OptionItem* pItem = m_items[index];
 
-	pItem->render(this, x, y);
+	pItem->onRender(this, x, y);
 }
 
 void OptionList::renderBackground(float f)

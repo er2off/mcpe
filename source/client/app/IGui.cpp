@@ -29,11 +29,11 @@ void IGui::onInventoryUpdated()
 {
 }
 
-void IGui::tick()
+void IGui::onTick()
 {
 }
 
-void IGui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
+void IGui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 {
 }
 

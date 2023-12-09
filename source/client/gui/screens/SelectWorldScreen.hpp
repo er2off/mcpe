@@ -16,11 +16,11 @@ class SelectWorldScreen : public Screen
 public:
 	SelectWorldScreen();
 
-	void init() override;
+	void onInit() override;
 	bool isInGameScreen() override;
 	void keyPressed(int code) override;
-	void tick() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void onTick() override;
+	void onRender(int mouseX, int mouseY, float f) override;
 	bool handleBackEvent(bool b) override;
 	void buttonClicked(Button* pButton) override;
 

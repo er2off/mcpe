@@ -7,7 +7,7 @@
  ********************************************************************/
 
 #include "TouchscreenInput_TestFps.hpp"
-#include "Multitouch.hpp"
+#include "client/player/input/Multitouch.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/options/Options.hpp"
 #include "world/entity/Player.hpp"
@@ -131,7 +131,7 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	// so are these areas we allocated.
 }
 
-void TouchscreenInput_TestFps::tick(Player* pPlayer)
+void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
@@ -246,7 +246,7 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 	}
 }
 
-void TouchscreenInput_TestFps::render(float f)
+void TouchscreenInput_TestFps::onRender(float f)
 {
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);

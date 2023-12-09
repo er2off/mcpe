@@ -83,7 +83,7 @@ bool RolledSelectionList::capXPosition()
 	return false;
 }
 
-void RolledSelectionList::tick()
+void RolledSelectionList::onTick()
 {
 	float diff = g_RolledSelectionListUnk - field_34;
 	g_RolledSelectionListUnk = field_34;
@@ -91,7 +91,7 @@ void RolledSelectionList::tick()
 	field_34 = field_30 - field_38;
 }
 
-void RolledSelectionList::render(int mouseX, int mouseY, float f)
+void RolledSelectionList::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground();
 

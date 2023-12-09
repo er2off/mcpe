@@ -87,7 +87,7 @@ void Button::renderBg(Minecraft*, int, int)
 
 }
 
-void Button::render(Minecraft* pMinecraft, int xPos, int yPos)
+void Button::onRender(Minecraft* pMinecraft, int xPos, int yPos)
 {
 	if (!m_bVisible) return;
 

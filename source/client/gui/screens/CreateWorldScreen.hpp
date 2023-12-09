@@ -17,9 +17,9 @@ class CreateWorldScreen : public Screen
 public:
 	CreateWorldScreen();
 
-	void init() override;
+	void onInit() override;
 	void buttonClicked(Button* pButton) override;
-	void render(int mouseX, int mouseY, float f) override;
+	void onRender(int mouseX, int mouseY, float f) override;
 
 public:
 	TextInputBox m_textName;

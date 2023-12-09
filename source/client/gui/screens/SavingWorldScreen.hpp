@@ -19,8 +19,8 @@ class SavingWorldScreen : public Screen
 public:
 	SavingWorldScreen(bool bCopyMap, Entity* pEntityToDeleteAfterSave);
 	
-	void render(int mouseX, int mouseY, float f) override;
-	void tick() override;
+	void onRender(int mouseX, int mouseY, float f) override;
+	void onTick() override;
 
 public:
 	bool m_bCopyMapAtEnd;

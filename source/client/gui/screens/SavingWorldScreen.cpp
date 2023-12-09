@@ -19,7 +19,7 @@ SavingWorldScreen::SavingWorldScreen(bool bCopyMap, Entity *pEnt)
 	m_pEntityToDeleteAfterSave = pEnt;
 }
 
-void SavingWorldScreen::render(int mouseX, int mouseY, float f)
+void SavingWorldScreen::onRender(int mouseX, int mouseY, float f)
 {
 	renderDirtBackground(0);
 
@@ -32,7 +32,7 @@ void SavingWorldScreen::render(int mouseX, int mouseY, float f)
 	m_pFont->drawShadow("Saving chunks", (x_width - width) / 2, yPos, 0xFFFFFF);
 }
 
-void SavingWorldScreen::tick()
+void SavingWorldScreen::onTick()
 {
 	if (m_timer < 0)
 		return;

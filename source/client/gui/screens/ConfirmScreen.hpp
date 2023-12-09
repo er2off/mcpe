@@ -19,8 +19,8 @@ public:
 
 	void buttonClicked(Button* pButton) override;
 	bool handleBackEvent(bool b) override;
-	void init() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void onInit() override;
+	void onRender(int mouseX, int mouseY, float f) override;
 
 	virtual void postResult(bool b);
 

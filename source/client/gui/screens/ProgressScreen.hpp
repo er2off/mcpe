@@ -13,7 +13,7 @@
 class ProgressScreen : public Screen
 {
 public:
-	void render(int, int, float) override;
+	void onRender(int, int, float) override;
 	void onEvents() override;
 	bool isInGameScreen() override;
 };

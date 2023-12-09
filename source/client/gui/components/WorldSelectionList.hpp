@@ -16,7 +16,7 @@ public:
 	WorldSelectionList(Minecraft*, int, int);
 
 	bool capXPosition() override;
-	void tick() override;
+	void onTick() override;
 	int getNumberOfItems() override;
 	void selectItem(int, bool) override;
 	bool isSelectedItem(int) override;

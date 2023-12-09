@@ -29,8 +29,8 @@ public:
 	void renderSlot(int index, int x, int y, float f);
 	void selectSlotAndClose();
 
-	virtual void init() override;
-	virtual void render(int x, int y, float f) override;
+	virtual void onInit() override;
+	virtual void onRender(int x, int y, float f) override;
 	virtual void mouseClicked(int x, int y, int type) override;
 	virtual void mouseReleased(int x, int y, int type) override;
 	virtual void removed() override;

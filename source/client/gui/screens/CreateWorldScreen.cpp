@@ -21,7 +21,7 @@ CreateWorldScreen::CreateWorldScreen() :
 
 #define CRAMPED() (100 + 32 + 58 > m_height)
 
-void CreateWorldScreen::init()
+void CreateWorldScreen::onInit()
 {
 	m_textName.m_width  = m_textSeed.m_width  = 200;
 	m_textName.m_height = m_textSeed.m_height = 20;
@@ -43,8 +43,8 @@ void CreateWorldScreen::init()
 	m_buttons.push_back(&m_btnCreate);
 	m_buttonTabList.push_back(&m_btnBack);
 	m_buttonTabList.push_back(&m_btnCreate);
-	m_textName.init(m_pFont);
-	m_textSeed.init(m_pFont);
+	m_textName.onInit(m_pFont);
+	m_textSeed.onInit(m_pFont);
 
 	// 100 - yPos of textSeed
 	// 32  - offset + height of "Leave blank for random" text
@@ -124,10 +124,10 @@ void CreateWorldScreen::buttonClicked(Button* pButton)
 	}
 }
 
-void CreateWorldScreen::render(int mouseX, int mouseY, float f)
+void CreateWorldScreen::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground();
-	Screen::render(mouseX, mouseY, f);
+	Screen::onRender(mouseX, mouseY, f);
 
 	drawCenteredString(m_pFont, "Create New World", m_width / 2, CRAMPED() ? 10 : 30, 0xFFFFFF);
 	drawString(m_pFont, "World name",                    m_textName.m_xPos, m_textName.m_yPos - 10, 0xDDDDDD);

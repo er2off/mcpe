@@ -641,7 +641,7 @@ void GameRenderer::render(float f)
 					return;
 			}
 
-			m_pMinecraft->m_pGui->render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
+			m_pMinecraft->m_pGui->onRender(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
 		}
 	}
 	else
@@ -656,12 +656,24 @@ void GameRenderer::render(float f)
 
 	if (m_pMinecraft->m_pLocalPlayer &&
 		m_pMinecraft->m_pLocalPlayer->m_pMoveInput)
-		m_pMinecraft->m_pLocalPlayer->m_pMoveInput->render(f);
+		m_pMinecraft->m_pLocalPlayer->m_pMoveInput->onRender(f);
 
 	if (m_pMinecraft->m_pScreen)
 	{
 		glClear(GL_DEPTH_BUFFER_BIT);
+
+		int offset = m_pMinecraft->m_pScreen->getYOffset();
+		if (offset != 0)
+		{
+			// push the entire screen up
+			glPushMatrix();
+			glTranslatef(0.0f, -float(offset), 0.0f);
+		}
+
 		m_pMinecraft->m_pScreen->onRender(mouseX, mouseY, f);
+
+		if (offset != 0)
+			glPopMatrix();
 
 		if (m_pMinecraft->m_pScreen && !m_pMinecraft->m_pScreen->isInGameScreen())
 		{

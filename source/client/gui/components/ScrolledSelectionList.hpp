@@ -33,7 +33,7 @@ public:
 	virtual void clickedHeader(int x, int y);
 	virtual int getItemAtPosition(int x, int y);
 	virtual void capYPosition();
-	virtual void render(int mouseX, int mouseY, float f);
+	virtual void onRender(int mouseX, int mouseY, float f);
 	virtual void renderHoleBackground(float, float, int, int);
 	virtual void checkInput(int mouseX, int mouseY);
 	virtual void onClickItem(int index, int mouseX, int mouseY);

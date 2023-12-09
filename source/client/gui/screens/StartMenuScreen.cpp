@@ -397,7 +397,7 @@ void StartMenuScreen::buttonClicked(Button* pButton)
 	}
 }
 
-void StartMenuScreen::init()
+void StartMenuScreen::onInit()
 {
 	int yPos = m_height / 2;
 
@@ -455,7 +455,7 @@ bool StartMenuScreen::isInGameScreen()
 	return false;
 }
 
-void StartMenuScreen::render(int a, int b, float c)
+void StartMenuScreen::onRender(int a, int b, float c)
 {
 	//renderBackground();
 	renderMenuBackground(c);
@@ -506,12 +506,12 @@ void StartMenuScreen::render(int a, int b, float c)
 	if (!crampedMode)
 		drawSplash();
 
-	Screen::render(a, b, c);
+	Screen::onRender(a, b, c);
 }
 
-void StartMenuScreen::tick()
+void StartMenuScreen::onTick()
 {
-	Screen::tick();
+	Screen::onTick();
 	_updateLicense();
 }
 

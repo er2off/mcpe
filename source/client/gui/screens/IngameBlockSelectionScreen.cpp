@@ -67,7 +67,7 @@ bool IngameBlockSelectionScreen::isAllowed(int slot)
 	return slot >= 0 && slot < getInventory()->getNumSlots();
 }
 
-void IngameBlockSelectionScreen::init()
+void IngameBlockSelectionScreen::onInit()
 {
 	Inventory* pInv = getInventory();
 
@@ -131,9 +131,9 @@ void IngameBlockSelectionScreen::renderDemoOverlay()
 	drawCenteredString(m_pMinecraft->m_pFont, g_sNotAvailableInDemoVersion, x, y, 0xFFFFFFFF);
 }
 
-void IngameBlockSelectionScreen::render(int x, int y, float f)
+void IngameBlockSelectionScreen::onRender(int x, int y, float f)
 {
-	Screen::render(x, y, f);
+	Screen::onRender(x, y, f);
 	glDisable(GL_DEPTH_TEST);
 
 	fill(0, 0, m_width, m_height, 0x80000000);

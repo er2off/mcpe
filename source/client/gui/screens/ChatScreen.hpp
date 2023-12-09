@@ -15,9 +15,9 @@ class ChatScreen : public Screen
 public:
 	ChatScreen(bool slash = false);
 	void buttonClicked(Button*) override;
-	void init() override;
+	void onInit() override;
 	void removed() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void onRender(int mouseX, int mouseY, float f) override;
 	void keyPressed(int keyCode) override;
 
 	void sendMessageAndExit();

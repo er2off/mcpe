@@ -122,7 +122,7 @@ void Gui::onInventoryUpdated()
 	//field_A3C = true;
 }
 
-void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
+void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 {
 	Minecraft* m = m_pMinecraft;
 
@@ -145,8 +145,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width  = Minecraft::width  * scale,
-		height = Minecraft::height * scale;
+	int width  = std::ceil(Minecraft::width  * scale),
+		height = std::ceil(Minecraft::height * scale);
 
 #ifdef ENH_TRANSPARENT_HOTBAR
 	glEnable(GL_BLEND);
@@ -354,7 +354,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	}
 }
 
-void Gui::tick()
+void Gui::onTick()
 {
 	/*
 	if (field_A18 > 0)

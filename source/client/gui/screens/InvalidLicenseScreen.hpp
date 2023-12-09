@@ -15,9 +15,8 @@ class InvalidLicenseScreen : public Screen
 public:
 	InvalidLicenseScreen(int error, bool bHasQuitButton);
 	void buttonClicked(Button* pButton) override;
-	void init() override;
-	void tick() override;
-	void render(int mouseX, int mouseY, float f) override;
+	void onInit() override;
+	void onRender(int mouseX, int mouseY, float f) override;
 
 private:
 	int m_error;

@@ -23,7 +23,7 @@ OptionsScreen::~OptionsScreen()
 	SAFE_DELETE(m_pList);
 }
 
-void OptionsScreen::init()
+void OptionsScreen::onInit()
 {
 	if (m_pList)
 		SAFE_DELETE(m_pList);
@@ -41,14 +41,14 @@ void OptionsScreen::init()
 	m_buttonTabList.push_back(&m_backButton);
 }
 
-void OptionsScreen::render(int mouseX, int mouseY, float f)
+void OptionsScreen::onRender(int mouseX, int mouseY, float f)
 {
 	if (!m_pList)
 		return;
 
-	m_pList->render(mouseX, mouseY, f);
+	m_pList->onRender(mouseX, mouseY, f);
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::onRender(mouseX, mouseY, f);
 
 	drawCenteredString(m_pFont, "Options", m_width / 2, 10, 0xFFFFFF);
 }
@@ -275,7 +275,7 @@ void OptionsScreen::init()
 #endif
 }
 
-void OptionsScreen::render(int a, int b, float c)
+void OptionsScreen::onRender(int a, int b, float c)
 {
 	if (!m_pMinecraft->isLevelGenerated())
 		renderMenuBackground(c);
@@ -290,7 +290,7 @@ void OptionsScreen::render(int a, int b, float c)
 #ifndef ORIGINAL_CODE
 	drawCenteredString(m_pFont, "Options", m_width / 2, isCramped() ? 5 : 20, 0xFFFFFF);
 
-	Screen::render(a, b, c);
+	Screen::onRender(a, b, c);
 #endif
 }
 

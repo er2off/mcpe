@@ -14,9 +14,9 @@ class PauseScreen : public Screen
 {
 public:
 	PauseScreen();
-	virtual void init() override;
-	virtual void tick() override;
-	virtual void render(int a, int b, float c) override;
+	virtual void onInit() override;
+	virtual void onTick() override;
+	virtual void onRender(int a, int b, float c) override;
 	virtual void buttonClicked(Button*) override;
 	
 	void updateServerVisibilityText();

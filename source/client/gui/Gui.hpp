@@ -30,22 +30,22 @@ public:
 	Gui(Minecraft* pMinecraft);
 
 	// screens
-	IScreen* screenMain();
-	IScreen* screenDeath();
-	IScreen* screenPause();
-	IScreen* screenSaveWorld(bool bCopyMap, Entity *pEnt);
-	IScreen* screenRenameMPWorld(std::string name);
+	IScreen* screenMain() override;
+	IScreen* screenDeath() override;
+	IScreen* screenPause() override;
+	IScreen* screenSaveWorld(bool bCopyMap, Entity *pEnt) override;
+	IScreen* screenRenameMPWorld(std::string name) override;
 
-	void addMessage(const std::string& str);
-	void onInventoryUpdated();
-	void tick();
-	void render(float f, bool bHaveScreen, int mouseX, int mouseY);
+	void addMessage(const std::string& str) override;
+	void onInventoryUpdated() override;
+	void onTick() override;
+	void onRender(float f, bool bHaveScreen, int mouseX, int mouseY) override;
 
-	bool isInside(int mx, int my);
-	void handleClick(int id, int mx, int my);
-	void handleKeyPressed(int keyCode);
-	void renderChatMessages(bool bShowAll);
-	int getNumSlots();					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.
+	bool isInside(int mx, int my) override;
+	void handleClick(int id, int mx, int my) override;
+	void handleKeyPressed(int keyCode) override;
+	void renderChatMessages(bool bShowAll) override;
+	int getNumSlots() override;					  // Gets the number of slots in the inventory. Includes the '...' if in touch mode.
 
 	void renderVignette(float a2, int a3, int a4);
 	void renderSlot(int slot, int x, int y, float f);

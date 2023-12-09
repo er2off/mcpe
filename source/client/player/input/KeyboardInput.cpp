@@ -45,7 +45,7 @@ void KeyboardInput::setKey(int keyCode, bool b)
 	m_keys[index] = b;
 }
 
-void KeyboardInput::tick(Player* pPlayer)
+void KeyboardInput::onTick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;

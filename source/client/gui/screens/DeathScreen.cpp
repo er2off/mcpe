@@ -7,7 +7,7 @@ DeathScreen::DeathScreen() :
 	m_tickCounter = 0;
 }
 
-void DeathScreen::init()
+void DeathScreen::onInit()
 {
 	m_btnRespawn.m_width = m_btnTitle.m_width = m_width / 4;
 	m_btnRespawn.m_xPos  = m_width / 2 - 10 - m_btnRespawn.m_width;
@@ -34,7 +34,7 @@ void DeathScreen::buttonClicked(Button* pButton)
 	}
 }
 
-void DeathScreen::tick()
+void DeathScreen::onTick()
 {
 	m_tickCounter++;
 }
@@ -43,7 +43,7 @@ void DeathScreen::keyPressed(int key)
 {
 }
 
-void DeathScreen::render(int x, int y, float f)
+void DeathScreen::onRender(int x, int y, float f)
 {
 	fillGradient(0, 0, m_width, m_height, 0xA0303080, 0x60000050);
 
@@ -54,5 +54,5 @@ void DeathScreen::render(int x, int y, float f)
 
 	// render the buttons after 1.5 seconds
 	if (m_tickCounter >= 30)
-		Screen::render(x, y, f);
+		Screen::onRender(x, y, f);
 }

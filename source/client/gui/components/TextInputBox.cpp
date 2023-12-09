@@ -34,7 +34,7 @@ TextInputBox::TextInputBox(Screen* parent, int id, int x, int y, int width, int 
 	m_pParent = parent;
 }
 
-void TextInputBox::init(Font* pFont)
+void TextInputBox::onInit(Font* pFont)
 {
 	m_pFont = pFont;
 }
@@ -162,7 +162,7 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 		charPressed(chr);
 }
 
-void TextInputBox::tick()
+void TextInputBox::onTick()
 {
 	if (!m_lastFlashed)
 		m_lastFlashed = getTimeMs();
@@ -281,7 +281,7 @@ void TextInputBox::charPressed(int k)
 	}
 }
 
-void TextInputBox::render()
+void TextInputBox::onRender()
 {
 	fill(m_xPos, m_yPos, m_xPos + m_width, m_yPos + m_height, 0xFFAAAAAA);
 	fill(m_xPos + 1, m_yPos + 1, m_xPos + m_width - 1, m_yPos + m_height - 1, 0xFF000000);

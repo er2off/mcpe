@@ -8,11 +8,11 @@
 
 #pragma once
 
-#include "IMoveInput.hpp"
 #include "client/gui/GuiComponent.hpp"
-#include "RectangleArea.hpp"
-#include "PolygonArea.hpp"
-#include "TouchAreaModel.hpp"
+#include "client/player/input/IMoveInput.hpp"
+#include "client/player/input/RectangleArea.hpp"
+#include "client/player/input/PolygonArea.hpp"
+#include "client/player/input/TouchAreaModel.hpp"
 
 class Minecraft;
 class Options;
@@ -26,8 +26,8 @@ public:
 	void releaseAllKeys() override;
 	void setKey(int key, bool state) override;
 	void setScreenSize(int width, int height) override;
-	void tick(Player*) override;
-	void render(float f) override;
+	void onTick(Player*) override;
+	void onRender(float f) override;
 
 	RectangleArea getRectangleArea();
 	bool isButtonDown(int key);

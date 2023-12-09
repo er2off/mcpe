@@ -7,20 +7,10 @@
  ********************************************************************/
 
 #pragma once
-
 #include "../Screen.hpp"
 
-class DirectConnectScreen : public Screen
+class MainScreen : public Screen
 {
 public:
-	DirectConnectScreen();
-	
-	virtual void onInit() override;
-	virtual void buttonClicked(Button* pButton) override;
-	virtual void onRender(int x, int y, float f) override;
-
-private:
-	TextInputBox m_textAddress;
-	Button m_btnQuit;
-	Button m_btnJoin;
+	MainScreen();
 };

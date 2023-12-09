@@ -42,9 +42,9 @@ bool WorldSelectionList::capXPosition()
 	return false;
 }
 
-void WorldSelectionList::tick()
+void WorldSelectionList::onTick()
 {
-	RolledSelectionList::tick();
+	RolledSelectionList::onTick();
 	field_D0++;
 	if (Mouse::isButtonDown(BUTTON_LEFT) || !field_28)
 		return;

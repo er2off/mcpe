@@ -42,6 +42,7 @@ static int TranslateSDLKeyCodeToVirtual(SDL_Scancode sdlCode)
 		#define CODE(x) case SDL_SCANCODE_ ## x: return SDLVK_ ## x;
 		#include "compat/SDLKeyCodes.h"
 		#undef  CODE
+		case SDL_NUM_SCANCODES: break;
 	}
 	return SDLVK_UNKNOWN;
 }
@@ -275,7 +276,7 @@ static EM_BOOL main_loop(double time, void *user_data)
 	}
 }
 
-extern bool g_bIsMenuBackgroundAvailable; // client/gui/Screen.cpp
+extern bool g_bIsMenuBackgroundAvailable; // client/app/IScreen.cpp
 extern bool g_bAreCloudsAvailable;        // client/renderer/LevelRenderer.cpp
 extern bool g_bIsGrassColorAvailable;	  // world/level/GrassColor.cpp
 extern bool g_bIsFoliageColorAvailable;   // world/level/FoliageColor.cpp
@@ -402,7 +403,7 @@ int main(int argc, char *argv[])
 	g_pApp->init();
 
 	CheckOptionalTextureAvailability();
-	
+
 	// Set Size
 	resize();
 

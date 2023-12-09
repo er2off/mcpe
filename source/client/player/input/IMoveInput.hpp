@@ -27,10 +27,10 @@ public:
 	virtual ~IMoveInput();
 
 	virtual void releaseAllKeys();
-	virtual void render(float f);
+	virtual void onRender(float f);
 	virtual void setKey(int key, bool state);
 	virtual void setScreenSize(int width, int height);
-	virtual void tick(Player*);
+	virtual void onTick(Player*);
 
 public:
 	float m_horzInput;

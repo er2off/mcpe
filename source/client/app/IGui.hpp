@@ -20,8 +20,9 @@ public:
 
 	virtual void addMessage(const std::string& str);
 	virtual void onInventoryUpdated();
-	virtual void tick();
-	virtual void render(float f, bool bHaveScreen, int mouseX, int mouseY);
+
+	virtual void onTick();
+	virtual void onRender(float f, bool bHaveScreen, int mouseX, int mouseY);
 
 	virtual bool isInside(int mx, int my);
 	virtual void handleClick(int id, int mx, int my);

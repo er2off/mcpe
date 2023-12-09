@@ -43,7 +43,6 @@ add_library(reminecraftpe-client STATIC
     player/input/RectangleArea.cpp player/input/RectangleArea.hpp
     player/input/TouchAreaModel.cpp player/input/TouchAreaModel.hpp
     player/input/TouchInputHolder.cpp player/input/TouchInputHolder.hpp
-    player/input/TouchscreenInput_TestFps.cpp player/input/TouchscreenInput_TestFps.hpp
     player/input/UnifiedTurnBuild.cpp player/input/UnifiedTurnBuild.hpp
     renderer/Chunk.cpp renderer/Chunk.hpp
     renderer/Culler.cpp renderer/Culler.hpp
@@ -93,13 +92,15 @@ add_library(reminecraftpe-client STATIC
     sound/SoundRepository.cpp sound/SoundRepository.hpp
     sound/SoundSystem.cpp sound/SoundSystem.hpp
 )
-add_subdirectory(gui)
-#add_subdirectory(player/input)
+if (NEWUI)
+	# NOTE: NEWUI definition is actually used only in Minecraft.cpp
+	target_compile_definitions(reminecraftpe-client PRIVATE NEWUI)
+	add_subdirectory(newui)
+else()
+	add_subdirectory(gui)
+endif()
 
-#add_library(reminecraftpe-client INTERFACE)
 target_link_libraries(reminecraftpe-client PUBLIC
     reminecraftpe-gui
     reminecraftpe-renderer
-    #reminecraftpe-network
-    #reminecraftpe-input
 )

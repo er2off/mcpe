@@ -25,7 +25,7 @@ void IMoveInput::releaseAllKeys()
 {
 }
 
-void IMoveInput::render(float f)
+void IMoveInput::onRender(float f)
 {
 }
 
@@ -37,6 +37,6 @@ void IMoveInput::setScreenSize(int width, int height)
 {
 }
 
-void IMoveInput::tick(Player* pPlayer)
+void IMoveInput::onTick(Player* pPlayer)
 {
 }

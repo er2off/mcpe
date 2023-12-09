@@ -22,7 +22,7 @@ void ChatScreen::buttonClicked(Button* pButton)
 		sendMessageAndExit();
 }
 
-void ChatScreen::init()
+void ChatScreen::onInit()
 {
 	m_btnSend.m_height = 20;
 	m_btnSend.m_width = 40;
@@ -34,7 +34,7 @@ void ChatScreen::init()
 	m_btnSend.m_xPos = m_textChat.m_xPos + m_textChat.m_width;
 	
 	// set focus directly on the chat text box
-	m_textChat.init(m_pFont);
+	m_textChat.onInit(m_pFont);
 	m_textChat.setFocused(true);
 
 	m_buttons.push_back(&m_btnSend);
@@ -47,14 +47,14 @@ void ChatScreen::removed()
 	m_pMinecraft->m_pGui->m_bRenderChatMessages = true;
 }
 
-void ChatScreen::render(int mouseX, int mouseY, float f)
+void ChatScreen::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground();
 
 	// override the default behavior of rendering chat messages
 	m_pMinecraft->m_pGui->m_bRenderChatMessages = true;
 
-	Screen::render(mouseX, mouseY, f);
+	Screen::onRender(mouseX, mouseY, f);
 }
 
 void ChatScreen::keyPressed(int keyCode)

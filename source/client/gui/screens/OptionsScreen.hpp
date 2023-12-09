@@ -19,8 +19,8 @@ class OptionsScreen : public Screen
 public:
 	OptionsScreen();
 	~OptionsScreen();
-	void init() override;
-	void render(int, int, float) override;
+	void onInit() override;
+	void onRender(int, int, float) override;
 	void removed() override;
 	void buttonClicked(Button* pButton) override;
 
@@ -37,7 +37,7 @@ class OptionsScreen : public Screen
 public:
 	OptionsScreen();
 	void init() override;
-	void render(int, int, float) override;
+	void onRender(int, int, float) override;
 	void removed() override;
 
 #ifndef ORIGINAL_CODE

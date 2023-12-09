@@ -16,11 +16,11 @@ public:
 	StartMenuScreen();
 	void _updateLicense();
 
-	void init() override;
+	void onInit() override;
 	void buttonClicked(Button*) override;
 	bool isInGameScreen() override;
-	void render(int, int, float) override;
-	void tick() override;
+	void onRender(int, int, float) override;
+	void onTick() override;
 
 	void drawSplash();
 

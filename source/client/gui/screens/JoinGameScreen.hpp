@@ -18,10 +18,10 @@ public:
 	~JoinGameScreen();
 	void buttonClicked(Button* pButton) override;
 	bool handleBackEvent(bool b) override;
-	void init() override;
+	void onInit() override;
 	bool isInGameScreen() override;
-	void render(int mouseX, int mouseY, float f) override;
-	void tick() override;
+	void onRender(int mouseX, int mouseY, float f) override;
+	void onTick() override;
 
 	virtual bool isIndexValid(int idx);
 

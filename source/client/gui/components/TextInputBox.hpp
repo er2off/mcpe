@@ -24,12 +24,12 @@ class TextInputBox : public GuiComponent
 public:
 	TextInputBox(Screen*, int id, int x, int y, int width = 200, int height = 12, const std::string& placeholder = "", const std::string& text = "");
 
-	void init(Font* pFont);
+	void onInit(Font* pFont);
 	void setEnabled(bool bEnabled);
 	void keyPressed(Minecraft*, int key);
 	void charPressed(int chr);
-	void render();
-	void tick();
+	void onRender();
+	void onTick();
 	void setFocused(bool b);
 	void onClick(int x, int y);
 	bool clicked(int x, int y);

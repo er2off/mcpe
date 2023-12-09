@@ -18,8 +18,8 @@ public:
 	RolledSelectionList(Minecraft*, int, int, int, int, int, int, int);
 	virtual int getItemAtPosition(int, int);
 	virtual bool capXPosition();
-	virtual void tick();
-	virtual void render(int mouseX, int mouseY, float);
+	virtual void onTick();
+	virtual void onRender(int mouseX, int mouseY, float);
 	virtual void renderHoleBackground(float y1, float y2, int a, int b);
 	virtual void setRenderSelection(bool);
 	virtual void setComponentSelected(bool);

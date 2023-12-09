@@ -43,7 +43,7 @@ bool ConfirmScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void ConfirmScreen::init()
+void ConfirmScreen::onInit()
 {
 	m_btnOK.m_xPos = m_width / 2 - 4 - 120;
 	m_btnCancel.m_xPos = m_width / 2 + 4;
@@ -59,12 +59,12 @@ void ConfirmScreen::init()
 	m_buttonTabList.push_back(&m_btnCancel);
 }
 
-void ConfirmScreen::render(int mouseX, int mouseY, float f)
+void ConfirmScreen::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground();
 	drawCenteredString(m_pFont, m_textLine1, m_width / 2, 50, 0xFFFFFF);
 	drawCenteredString(m_pFont, m_textLine2, m_width / 2, 70, 0xFFFFFF);
-	Screen::render(mouseX, mouseY, f);
+	Screen::onRender(mouseX, mouseY, f);
 }
 
 void ConfirmScreen::postResult(bool b)

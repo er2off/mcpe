@@ -61,7 +61,7 @@ bool JoinGameScreen::handleBackEvent(bool b)
 	return true;
 }
 
-void JoinGameScreen::init()
+void JoinGameScreen::onInit()
 {
 	const int BUTTON_WIDTH = 100;
 
@@ -92,16 +92,16 @@ bool JoinGameScreen::isInGameScreen()
 	return false;
 }
 
-void JoinGameScreen::render(int mouseX, int mouseY, float f)
+void JoinGameScreen::onRender(int mouseX, int mouseY, float f)
 {
 	renderBackground();
-	m_pAvailableGamesList->render(mouseX, mouseY, f);
-	Screen::render(mouseX, mouseY, f);
+	m_pAvailableGamesList->onRender(mouseX, mouseY, f);
+	Screen::onRender(mouseX, mouseY, f);
 
 	drawCenteredString(m_pMinecraft->m_pFont, "Scanning for Games...", m_width / 2, 8, 0xFFFFFFFF);
 }
 
-void JoinGameScreen::tick()
+void JoinGameScreen::onTick()
 {
 	std::vector<PingedCompatibleServer> *serverList, serverListFiltered;
 	serverList = m_pMinecraft->m_pRakNetInstance->getServerList();

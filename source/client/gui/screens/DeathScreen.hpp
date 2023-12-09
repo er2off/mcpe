@@ -15,11 +15,11 @@ class DeathScreen : public Screen
 public:
 	DeathScreen();
 
-	virtual void init() override;
+	virtual void onInit() override;
 	virtual void buttonClicked(Button* pButton) override;
-	virtual void tick() override;
+	virtual void onTick() override;
 	virtual void keyPressed(int key) override;
-	virtual void render(int x, int y, float f) override;
+	virtual void onRender(int x, int y, float f) override;
 
 private:
 	int m_tickCounter;

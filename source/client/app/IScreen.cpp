@@ -8,6 +8,9 @@
 
 #include "IScreen.hpp"
 
+// TODO: This should be inside of an initialized "Minecraft" instance rather than the global namespace
+bool g_bIsMenuBackgroundAvailable = false;
+
 IScreen::IScreen()
 {
 	m_width = 1;
@@ -20,10 +23,10 @@ void IScreen::init(Minecraft* pMinecraft, int a3, int a4)
 	m_width  = a3;
 	m_height = a4;
 	m_pMinecraft = pMinecraft;
-	init();
+	onInit();
 }
 
-void IScreen::init()
+void IScreen::onInit()
 {
 }
 
@@ -42,10 +45,6 @@ int IScreen::getYOffset()
 	return 0;
 }
 
-void IScreen::render(int xPos, int yPos, float unused)
-{
-}
-
 void IScreen::onEvents()
 {
 }
@@ -58,7 +57,7 @@ void IScreen::keyboardEvent()
 {
 }
 
-void IScreen::tick()
+void IScreen::onTick()
 {
 }
 
