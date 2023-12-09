@@ -13,11 +13,12 @@
 #include "world/entity/Player.hpp"
 
 TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Options* pOptions) :
-	m_rectArea(0.0f, 0.0f, 1.0f, 1.0f),
-	m_pOptions(pOptions),
+	TouchInput(pMinecraft, pOptions),
+	//m_rectArea(0.0f, 0.0f, 1.0f, 1.0f),
+	//m_pOptions(pOptions),
 	field_40(false),
 	m_bJumpBeingHeld(false),
-	m_pMinecraft(pMinecraft),
+	//m_pMinecraft(pMinecraft),
 	m_pAreaLeft(nullptr),
 	m_pAreaRight(nullptr),
 	m_pAreaForward(nullptr),
@@ -277,11 +278,6 @@ void TouchscreenInput_TestFps::onRender(float f)
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
-}
-
-RectangleArea TouchscreenInput_TestFps::getRectangleArea()
-{
-	return m_rectArea;
 }
 
 bool TouchscreenInput_TestFps::isButtonDown(int key)

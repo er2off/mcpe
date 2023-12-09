@@ -9,15 +9,15 @@
 #pragma once
 
 #include "client/gui/GuiComponent.hpp"
-#include "client/player/input/IMoveInput.hpp"
 #include "client/player/input/RectangleArea.hpp"
 #include "client/player/input/PolygonArea.hpp"
 #include "client/player/input/TouchAreaModel.hpp"
+#include "client/player/input/TouchInputHolder.hpp"
 
 class Minecraft;
 class Options;
 
-class TouchscreenInput_TestFps : public IMoveInput, public GuiComponent
+class TouchscreenInput_TestFps : public TouchInput, public GuiComponent
 {
 public:
 	TouchscreenInput_TestFps(Minecraft*, Options*);
@@ -29,17 +29,13 @@ public:
 	void onTick(Player*) override;
 	void onRender(float f) override;
 
-	RectangleArea getRectangleArea();
 	bool isButtonDown(int key);
 
 private:
-	RectangleArea m_rectArea;
 	bool field_30[10];
-	Options* m_pOptions;
 	bool field_40;
 	bool m_bJumpBeingHeld;
 	TouchAreaModel m_touchAreaModel;
-	Minecraft* m_pMinecraft;
 	PolygonArea* m_pAreaLeft;
 	PolygonArea* m_pAreaRight;
 	PolygonArea* m_pAreaForward;

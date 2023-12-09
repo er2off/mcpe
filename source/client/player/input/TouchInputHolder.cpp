@@ -12,7 +12,7 @@
 #include "client/options/Options.hpp"
 
 TouchInputHolder::TouchInputHolder(Minecraft* pMinecraft, Options* pOptions) :
-	m_touchScreenInput(pMinecraft, pOptions),
+	m_touchScreenInput(nullptr),
 	m_unifiedTurnBuild(2, Minecraft::width, Minecraft::height, 200.0f, 1.05f, this),
 	m_pMinecraft(pMinecraft)
 {
@@ -41,7 +41,7 @@ bool TouchInputHolder::allowPicking()
 
 IMoveInput* TouchInputHolder::getMoveInput()
 {
-	return &m_touchScreenInput;
+	return m_touchScreenInput;
 }
 
 ITurnInput* TouchInputHolder::getTurnInput()
@@ -56,8 +56,8 @@ IBuildInput* TouchInputHolder::getBuildInput()
 
 void TouchInputHolder::setScreenSize(int width, int height)
 {
-	m_touchScreenInput.setScreenSize(width, height);
-	m_unifiedTurnBuild.field_40 = m_touchScreenInput.getRectangleArea();
+	m_touchScreenInput->setScreenSize(width, height);
+	m_unifiedTurnBuild.field_40 = m_touchScreenInput->getRectangleArea();
 	m_unifiedTurnBuild.field_58 = getRectangleArea(m_pMinecraft->m_pGui, false);
 	m_unifiedTurnBuild.setScreenSize(width, height);
 }

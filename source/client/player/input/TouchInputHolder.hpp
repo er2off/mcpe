@@ -41,7 +41,7 @@ public:
 		return m_rectArea;
 	}
 
-private:
+protected:
 	Minecraft* m_pMinecraft;
 	Options* m_pOptions;
 	RectangleArea m_rectArea;
@@ -58,7 +58,7 @@ public:
 	void setScreenSize(int width, int height) override;
 
 public:
-	TouchInput m_touchScreenInput;
+	TouchInput *m_touchScreenInput;
 	UnifiedTurnBuild m_unifiedTurnBuild;
 	Minecraft* m_pMinecraft;
 };

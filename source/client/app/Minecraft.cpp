@@ -34,6 +34,7 @@
 #include "client/newui/Gui.hpp"
 #else
 #include "client/gui/Gui.hpp"
+#include "client/gui/input/TouchscreenInput_TestFps.hpp"
 #endif
 
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
@@ -644,7 +645,11 @@ void Minecraft::_reloadInput()
 
 	if (isTouchscreen())
 	{
-		m_pInputHolder = new TouchInputHolder(this, m_options);
+		TouchInputHolder *holder = new TouchInputHolder(this, m_options);
+#ifndef NEWUI
+		holder->m_touchScreenInput = new TouchscreenInput_TestFps(this, m_options);
+#endif
+		m_pInputHolder = holder;
 	}
 	else
 	{

@@ -1,5 +1,5 @@
 set(RENDER GL CACHE STRING "Active renderer")
-set_property(CACHE RENDER PROPERTY STRINGS GL)
+set_property(CACHE RENDER PROPERTY STRINGS GL GLES)
 
 #add_library(reminecraftpe-renderer STATIC)
 if (RENDER STREQUAL GL)
@@ -12,6 +12,10 @@ if (RENDER STREQUAL GL)
     else()
 	set(USE_GLES1_COMPATIBILITY_LAYER TRUE)
     endif()
+elseif (RENDER STREQUAL GLES)
+    # OpenGL ES
+    # nothing?
+    set(SOURCES GL/GL.cpp GL/GL.hpp)
 else()
     message(FATAL_ERROR "Unknown renderer!")
 endif()

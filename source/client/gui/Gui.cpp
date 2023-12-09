@@ -527,7 +527,12 @@ void Gui::renderChatMessages(bool bShowAll)
 int Gui::getNumSlots()
 {
 	if (m_pMinecraft->isTouchscreen())
-		return 4;
+	{
+		if (scale < 0.5)
+			return 4;
+		else
+			return 10;
+	}
 
 	return 9;
 }
