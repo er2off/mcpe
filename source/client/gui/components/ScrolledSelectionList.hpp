@@ -8,7 +8,9 @@
 
 #pragma once
 
+#include "../Gui.hpp"
 #include "../GuiComponent.hpp"
+#include "../Screen.hpp"
 #include "client/app/Minecraft.hpp"
 
 #define C_SCROLLED_LIST_ITEM_WIDTH (220)

@@ -7,16 +7,12 @@
  ********************************************************************/
 
 #include "client/app/Minecraft.hpp"
-#include "client/gui/screens/PauseScreen.hpp"
-#include "client/gui/screens/StartMenuScreen.hpp"
-#include "client/gui/screens/RenameMPLevelScreen.hpp"
-#include "client/gui/screens/SavingWorldScreen.hpp"
-#include "client/gui/screens/DeathScreen.hpp"
 #include "network/ServerSideNetworkHandler.hpp"
 #include "client/network/ClientSideNetworkHandler.hpp"
 
 #include "world/gamemode/SurvivalMode.hpp"
 #include "world/gamemode/CreativeMode.hpp"
+#include "client/gui/Gui.hpp"
 
 #include "client/player/input/ControllerTurnInput.hpp"
 #include "client/player/input/MouseTurnInput.hpp"
@@ -25,6 +21,7 @@
 #include "client/player/input/CustomInputHolder.hpp"
 #include "client/player/input/TouchInputHolder.hpp"
 #include "client/player/input/Multitouch.hpp"
+#include "client/player/input/Keyboard.hpp"
 
 #include "world/tile/SandTile.hpp"
 
@@ -52,9 +49,10 @@ const char* Minecraft::progressMessages[] =
 	"Saving chunks",
 };
 
-Minecraft::Minecraft() :
-    m_gui(this)
+Minecraft::Minecraft()
 {
+	// TODO: Gui selection?
+	m_pGui = new Gui(this);
 	m_options = nullptr;
 	field_18 = false;
 	field_288 = false;
@@ -134,7 +132,7 @@ void Minecraft::grabMouse()
 	platform()->setMouseGrabbed(!isTouchscreen());
 }
 
-void Minecraft::setScreen(Screen* pScreen)
+void Minecraft::setScreen(IScreen* pScreen)
 {
 #ifndef ORIGINAL_CODE
 	if (pScreen == nullptr && !isLevelGenerated())
@@ -167,7 +165,7 @@ void Minecraft::setScreen(Screen* pScreen)
 	if (pScreen)
 	{
 		releaseMouse();
-		pScreen->init(this, int(width * Gui::InvGuiScale), int(height * Gui::InvGuiScale));
+		pScreen->init(this, std::ceil(width * m_pGui->scale), std::ceil(height * m_pGui->scale));
 	}
 	else
 	{
@@ -338,6 +336,7 @@ void Minecraft::handleBuildAction(BuildActionIntention* pAction)
 						hitSide = HitResult::MINY;
 					}
 
+					if (!m_pRakNetInstance) return; // throw std::exception()?
 					m_pRakNetInstance->send(new PlaceBlockPacket(m_pLocalPlayer->m_EntityID, dx, dy, dz, uint8_t(pItem->m_itemID), hitSide));
 				}
 			}
@@ -376,10 +375,10 @@ void Minecraft::tickInput()
 {
 	if (m_pScreen)
 	{
-		if (!m_pScreen->field_10)
+		if (!m_pScreen->m_bIgnore)
 		{
 			m_bUsingScreen = true;
-			m_pScreen->updateEvents();
+			m_pScreen->onEvents();
 			m_bUsingScreen = false;
 
 			if (m_bHasQueuedScreen)
@@ -395,7 +394,7 @@ void Minecraft::tickInput()
 	if (!m_pLocalPlayer)
 		return;
 
-	bool bIsInGUI = m_gui.isInside(Mouse::getX(), Mouse::getY());
+	bool bIsInGUI = m_pGui->isInside(Mouse::getX(), Mouse::getY());
 
 	while (Mouse::next())
 	{
@@ -403,7 +402,7 @@ void Minecraft::tickInput()
 			continue;
 
 		if (Mouse::isButtonDown(BUTTON_LEFT))
-			m_gui.handleClick(1, Mouse::getX(), Mouse::getY());
+			m_pGui->handleClick(1, Mouse::getX(), Mouse::getY());
 
 		if (!bIsInGUI && getOptions()->field_19)
 		{
@@ -422,7 +421,7 @@ void Minecraft::tickInput()
 			{
 				int slot = m_pLocalPlayer->m_pInventory->m_SelectedHotbarSlot;
 
-				int maxItems = m_gui.getNumSlots() - 1;
+				int maxItems = m_pGui->getNumSlots() - 1;
 				if (isTouchscreen())
 					maxItems--;
 
@@ -456,9 +455,9 @@ void Minecraft::tickInput()
 
 		if (bPressed)
 		{
-			m_gui.handleKeyPressed(keyCode);
+			m_pGui->handleKeyPressed(keyCode);
 
-			for (int i = 0; i < m_gui.getNumSlots(); i++)
+			for (int i = 0; i < m_pGui->getNumSlots(); i++)
 			{
 				if (getOptions()->isKey(eKeyMappingIndex(KM_SLOT_1 + i), keyCode))
 					m_pLocalPlayer->m_pInventory->selectSlot(i);
@@ -576,7 +575,7 @@ void Minecraft::sendMessage(const std::string& message)
 		if (m_pRakNetInstance)
 			m_pRakNetInstance->send(new MessagePacket(message));
 		else
-			m_gui.addMessage("You aren't actually playing multiplayer!");
+			m_pGui->addMessage("You aren't actually playing multiplayer!");
 	}
 	else
 	{
@@ -585,7 +584,7 @@ void Minecraft::sendMessage(const std::string& message)
 		if (m_pNetEventCallback && m_pRakNetInstance)
 			m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
 		else
-			m_gui.addMessage("You aren't hosting a multiplayer server!");
+			m_pGui->addMessage("You aren't hosting a multiplayer server!");
 	}
 }
 
@@ -680,13 +679,13 @@ void Minecraft::tick()
 	{
 		if (m_pLocalPlayer && m_pLocalPlayer->m_health <= 0)
 		{
-			setScreen(new DeathScreen);
+			setScreen(m_pGui->screenDeath());
 		}
 	}
 
 	tickInput();
 
-	m_gui.tick();
+	m_pGui->tick();
 
 	// if the level has been prepared, delete the prep thread
 	if (!m_bPreparingLevel)
@@ -967,10 +966,10 @@ void Minecraft::prepareLevel(const std::string& unused)
 void Minecraft::sizeUpdate(int newWidth, int newHeight)
 {
 	// re-calculate the GUI scale.
-	Gui::InvGuiScale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
+	m_pGui->scale = getBestScaleForThisScreenSize(newWidth, newHeight) / guiScaleMultiplier;
 
 	if (m_pScreen)
-		m_pScreen->setSize(int(Minecraft::width * Gui::InvGuiScale), int(Minecraft::height * Gui::InvGuiScale));
+		m_pScreen->setSize(std::ceil(Minecraft::width * m_pGui->scale), std::ceil(Minecraft::height * m_pGui->scale));
 
 	if (m_pInputHolder)
 		m_pInputHolder->setScreenSize(newWidth * guiScaleMultiplier, newHeight * guiScaleMultiplier);
@@ -1067,7 +1066,7 @@ void Minecraft::pauseGame()
 {
 	if (m_pScreen) return;
 	m_pLevel->savePlayerData();
-	setScreen(new PauseScreen);
+	setScreen(m_pGui->screenPause());
 }
 
 void Minecraft::setLevel(Level* pLevel, const std::string& text, LocalPlayer* pLocalPlayer)
@@ -1163,7 +1162,7 @@ void Minecraft::leaveGame(bool bCopyMap)
 
 #ifdef ENH_IMPROVED_SAVING
 	field_288 = true;
-	setScreen(new SavingWorldScreen(bCopyMap, m_pLocalPlayer));
+	setScreen(m_pGui->screenSaveWorld(bCopyMap, m_pLocalPlayer));
 #else
 	if (m_pLevel)
 	{
@@ -1188,9 +1187,9 @@ void Minecraft::leaveGame(bool bCopyMap)
 	SAFE_DELETE(m_pLocalPlayer);
 
 	if (bCopyMap)
-		setScreen(new RenameMPLevelScreen("_LastJoinedServer"));
+		setScreen(m_pGui->screenRenameMPWorld("_LastJoinedServer"));
 	else
-		setScreen(new StartMenuScreen);
+		setScreen(m_pGui->screenMain());
 #endif
 }
 

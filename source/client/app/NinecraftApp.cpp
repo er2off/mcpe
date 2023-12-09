@@ -9,7 +9,6 @@
 #include "NinecraftApp.hpp"
 #include "world/item/Item.hpp"
 #include "client/player/input/Multitouch.hpp"
-#include "client/gui/screens/StartMenuScreen.hpp"
 
 #ifdef DEMO
 #include "world/level/storage/MemoryLevelStorageSource.hpp"
@@ -94,7 +93,7 @@ void NinecraftApp::init()
 
 	field_D9C = 0;
 
-	setScreen(new StartMenuScreen);
+	setScreen(m_pGui->screenMain());
 }
 
 void NinecraftApp::onGraphicsReset()

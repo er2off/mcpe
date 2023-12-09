@@ -175,8 +175,8 @@ void ScrolledSelectionList::render(int mouseX, int mouseY, float f)
 		renderHeader(itemX, scrollY, t);
 
 	// Note, X/Y are the lower left's X/Y coordinates, not the upper left's.
-	int lowerY = Minecraft::height - int(field_10 / Gui::InvGuiScale);
-	int upperY = Minecraft::height - int(field_C  / Gui::InvGuiScale);
+	int lowerY = Minecraft::height - int(field_10 / m_pMinecraft->m_pGui->scale);
+	int upperY = Minecraft::height - int(field_C  / m_pMinecraft->m_pGui->scale);
 	glScissor(0, lowerY, Minecraft::width, upperY - lowerY);
 	glEnable(GL_SCISSOR_TEST);
 

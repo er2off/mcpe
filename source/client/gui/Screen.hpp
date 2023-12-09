@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "client/app/IGui.hpp"
 #include "client/player/input/Mouse.hpp"
 #include "client/player/input/Keyboard.hpp"
 #include "components/Button.hpp"
@@ -16,7 +17,7 @@
 class Button;
 class TextInputBox;
 
-class Screen : public GuiComponent
+class Screen : public GuiComponent, public IScreen
 {
 public:
 	Screen();
@@ -30,19 +31,13 @@ public:
 
 	virtual void render(int, int, float);
 	virtual void init();
-	virtual void updateEvents();
+	virtual void onEvents();
 	virtual void mouseEvent();
 	virtual void keyboardEvent();
-	virtual bool handleBackEvent(bool);
 	virtual void tick();
-	virtual void removed();
 	virtual void renderBackground(int);
 	virtual void renderBackground();
 	virtual void renderDirtBackground(int);
-	virtual bool isPauseScreen();
-	virtual bool isErrorScreen();
-	virtual bool isInGameScreen();
-	virtual void confirmResult(bool, int);
 	virtual void buttonClicked(Button*);
 	virtual void mouseClicked(int, int, int);
 	virtual void mouseReleased(int, int, int);
@@ -53,10 +48,6 @@ public:
 	virtual void renderMenuBackground(float f);
 
 public:
-	int m_width;
-	int m_height;
-	bool field_10;
-	Minecraft* m_pMinecraft;
 	std::vector<Button*> m_buttons;
 	std::vector<Button*> m_buttonTabList; 
 	int m_tabButtonIndex;

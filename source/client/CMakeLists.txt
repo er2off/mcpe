@@ -1,6 +1,8 @@
 add_library(reminecraftpe-client STATIC
     app/App.cpp app/App.hpp
     app/AppPlatform.cpp app/AppPlatform.hpp
+    app/IGui.cpp app/IGui.hpp
+    app/IScreen.cpp app/IScreen.hpp
     app/Minecraft.cpp app/Minecraft.hpp
     app/NinecraftApp.cpp app/NinecraftApp.hpp
     model/ChickenModel.cpp model/ChickenModel.hpp

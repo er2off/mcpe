@@ -242,7 +242,7 @@ void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
 void OptionList::renderBackground(float f)
 {
 	if (!m_pMinecraft->isLevelGenerated())
-		m_pMinecraft->m_pScreen->renderMenuBackground(f);
+		m_pMinecraft->m_pScreen->renderBackground(); //renderMenuBackground(f);
 }
 
 void OptionList::renderHoleBackground(float a, float b, int c, int d)

@@ -8,11 +8,8 @@
 
 #include "Screen.hpp"
 
-Screen::Screen()
+Screen::Screen() : IScreen()
 {
-	m_width = 1;
-	m_height = 1;
-	field_10 = false;
 	m_tabButtonIndex = 0;
 	m_pClickedButton = 0;
 	m_yOffset = -1;
@@ -26,47 +23,18 @@ Screen::~Screen()
 
 void Screen::init(Minecraft* pMinecraft, int a3, int a4)
 {
-	m_width  = a3;
-	m_height = a4;
-	m_pMinecraft = pMinecraft;
 	m_pFont = pMinecraft->m_pFont;
+	IScreen::init(pMinecraft, a3, a4);
 	init();
 	updateTabButtonSelection();
 }
 
 void Screen::init()
 {
-
 }
 
 void Screen::buttonClicked(Button* pButton)
 {
-
-}
-
-void Screen::confirmResult(bool b, int i)
-{
-
-}
-
-bool Screen::handleBackEvent(bool b)
-{
-	return false;
-}
-
-bool Screen::isPauseScreen()
-{
-	return true;
-}
-
-bool Screen::isErrorScreen()
-{
-	return false;
-}
-
-bool Screen::isInGameScreen()
-{
-	return true;
 }
 
 void Screen::keyPressed(int key)
@@ -310,11 +278,6 @@ void Screen::tick()
 	g_panoramaAngle++;
 }
 
-void Screen::removed()
-{
-
-}
-
 void Screen::setSize(int width, int height)
 {
 	m_width = width;
@@ -358,7 +321,7 @@ int Screen::getYOffset()
 		if (!pBox->m_bFocused)
 			continue;
 		
-		int heightLeft = m_height - int(float(keybOffset) * Gui::InvGuiScale);
+		int heightLeft = m_height - int(float(keybOffset) * m_pMinecraft->m_pGui->scale);
 
 		// we want to keep the center of the text box in the center of the screen
 		int textCenterY = pBox->m_yPos + pBox->m_height / 2;
@@ -379,9 +342,9 @@ int Screen::getYOffset()
 	return offset;
 }
 
-void Screen::updateEvents()
+void Screen::onEvents()
 {
-	if (field_10) return;
+	if (m_bIgnore) return;
 
 	while (Mouse::next())
 		mouseEvent();

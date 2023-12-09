@@ -214,8 +214,8 @@ void GameRenderer::saveMatrices()
 
 void GameRenderer::setupGuiScreen()
 {
-	float x = Gui::InvGuiScale * Minecraft::width;
-	float y = Gui::InvGuiScale * Minecraft::height;
+	float x = m_pMinecraft->m_pGui->scale * Minecraft::width;
+	float y = m_pMinecraft->m_pGui->scale * Minecraft::height;
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -612,8 +612,8 @@ void GameRenderer::render(float f)
 		pMC->m_pLocalPlayer->turn(diff_field_84 * field_7C, diff_field_84 * multPitch * field_80);
 	}
 
-	int mouseX = int(Mouse::getX() * Gui::InvGuiScale);
-	int mouseY = int(Mouse::getY() * Gui::InvGuiScale);
+	int mouseX = int(Mouse::getX() * m_pMinecraft->m_pGui->scale);
+	int mouseY = int(Mouse::getY() * m_pMinecraft->m_pGui->scale);
 
 	if (m_pMinecraft->isTouchscreen())
 	{
@@ -625,8 +625,8 @@ void GameRenderer::render(float f)
 		}
 		else
 		{
-			mouseX = int(float(Multitouch::getX(pointerId)) * Gui::InvGuiScale);
-			mouseY = int(float(Multitouch::getY(pointerId)) * Gui::InvGuiScale);
+			mouseX = int(float(Multitouch::getX(pointerId)) * m_pMinecraft->m_pGui->scale);
+			mouseY = int(float(Multitouch::getY(pointerId)) * m_pMinecraft->m_pGui->scale);
 		}
 	}
 
@@ -641,7 +641,7 @@ void GameRenderer::render(float f)
 					return;
 			}
 
-			m_pMinecraft->m_gui.render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
+			m_pMinecraft->m_pGui->render(f, m_pMinecraft->m_pScreen != nullptr, mouseX, mouseY);
 		}
 	}
 	else

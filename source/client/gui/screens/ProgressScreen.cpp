@@ -23,8 +23,8 @@ void ProgressScreen::render(int a, int b, float c)
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/background.png");
 
 	//! why not use the screen stuff
-	int x_width  = int(Minecraft::width  * Gui::InvGuiScale);
-	int x_height = int(Minecraft::height * Gui::InvGuiScale);
+	int x_width  = int(Minecraft::width  * m_pMinecraft->m_pGui->scale);
+	int x_height = int(Minecraft::height * m_pMinecraft->m_pGui->scale);
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
@@ -79,7 +79,7 @@ void ProgressScreen::render(int a, int b, float c)
 #endif
 }
 
-void ProgressScreen::updateEvents()
+void ProgressScreen::onEvents()
 {
 	if (m_pMinecraft->isLevelGenerated())
 	{
@@ -87,5 +87,5 @@ void ProgressScreen::updateEvents()
 		return;
 	}
 
-	Screen::updateEvents();
+	Screen::onEvents();
 }

@@ -6,23 +6,19 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include "Gui.hpp"
+#include "screens/IngameBlockSelectionScreen.hpp"
+#include "screens/ChatScreen.hpp"
 #include "client/app/Minecraft.hpp"
-#include "client/gui/screens/IngameBlockSelectionScreen.hpp"
-#include "client/gui/screens/ChatScreen.hpp"
 #include "client/renderer/entity/ItemRenderer.hpp"
 
 #ifdef _WIN32
 #pragma warning(disable : 4244)
 #endif
 
-#ifdef ENH_USE_GUI_SCALE_2
-float Gui::InvGuiScale = 1.0f / 2.0f;
-#else
-float Gui::InvGuiScale = 1.0f / 3.0f;
-#endif
-
-Gui::Gui(Minecraft* pMinecraft)
+Gui::Gui(Minecraft* pMinecraft) : IGui(pMinecraft)
 {
+	/*
 	field_8 = 0;
 	field_C = "";
 	field_24 = 0;
@@ -32,11 +28,9 @@ Gui::Gui(Minecraft* pMinecraft)
 	field_A00 = "";
 	field_A18 = 0;
 	field_A1C = false;
-	field_A20 = 1.0f;
-	field_A3C = true;
-	m_bRenderMessages = true;
-
-	m_pMinecraft = pMinecraft;
+	*/
+	m_vignetteColor = 1.0f;
+	//field_A3C = true; // unused
 
 	xglGenBuffers(1, &m_renderChunk.field_0);
 }
@@ -81,12 +75,14 @@ void Gui::addMessage(const std::string& s)
 	m_guiMessages.insert(m_guiMessages.begin(), GuiMessage(str, 0));
 }
 
+/* for jukebox
 void Gui::setNowPlaying(const std::string& str)
 {
 	field_A00 = "Now playing: " + str;
 	field_A18 = 60;
 	field_A1C = true;
 }
+*/
 
 void Gui::renderVignette(float a2, int a3, int a4)
 {
@@ -96,11 +92,11 @@ void Gui::renderVignette(float a2, int a3, int a4)
 	if (a2 < 0.0f)
 		a2 = 0.0f;
 
-	field_A20 += ((a2 - field_A20) * 0.01f);
+	m_vignetteColor += ((a2 - m_vignetteColor) * 0.01f);
 	glDisable(GL_DEPTH_TEST);
 	glDepthMask(false);
 	glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-	glColor4f(field_A20, field_A20, field_A20, 1.0f);
+	glColor4f(m_vignetteColor, m_vignetteColor, m_vignetteColor, 1.0f);
 
 	//! @BUG: No misc/vignette.png to be found in the original.
 	//! This function is unused anyways
@@ -120,9 +116,10 @@ void Gui::renderVignette(float a2, int a3, int a4)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Gui::inventoryUpdated()
+void Gui::onInventoryUpdated()
 {
-	field_A3C = true;
+	// unused
+	//field_A3C = true;
 }
 
 void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
@@ -148,8 +145,8 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	field_4 = -90.0f;
 
-	int width  = Minecraft::width  * InvGuiScale,
-		height = Minecraft::height * InvGuiScale;
+	int width  = Minecraft::width  * scale,
+		height = Minecraft::height * scale;
 
 #ifdef ENH_TRANSPARENT_HOTBAR
 	glEnable(GL_BLEND);
@@ -189,7 +186,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		// NOTE: real Minecraft PE takes it directly from the gamemode as "current progress" and
 		// "last progress". Well guess what? The game mode in question updates our field_8 with
 		// the pre-interpolated break progress! Isn't that awesome?!
-		float breakProgress = field_8;
+		float breakProgress = 0.0f; //field_8;
 
 		// don't know about this if-structure, it feels like it'd be like
 		// if (field_C >= 0.0f && breakProgress <= 0.0f)
@@ -207,7 +204,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+				blit(scale * xPos - 44.0f, scale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 
 				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
 				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_fill.png");
@@ -215,7 +212,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 				// note: scale starts from 4.0f
 				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
 
-				blit(InvGuiScale * xPos - halfWidth, InvGuiScale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
+				blit(scale * xPos - halfWidth, scale * yPos - halfWidth, 0, 0, halfWidth * 2, halfWidth * 2, 256, 256);
 
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				glDisable(GL_BLEND);
@@ -230,7 +227,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, m_pMinecraft->m_pInputHolder->m_feedbackAlpha));
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			blit(InvGuiScale * xPos - 44.0f, InvGuiScale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
+			blit(scale * xPos - 44.0f, scale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 			glDisable(GL_BLEND);
 		}
@@ -245,7 +242,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
 
 		// why??
-		m_random.init_genrand(312871 * field_9FC);
+		m_random.init_genrand(312871 * m_pMinecraft->m_timer.m_ticks);
 
 		int emptyHeartX = 16;
 		bool b1 = false;
@@ -341,9 +338,7 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 		slotX += 20;
 	}
 
-#undef DIFF
-
-	field_A3C = false;
+	//field_A3C = false;
 
 	// blit the "more items" button
 	if (m->isTouchscreen())
@@ -353,18 +348,18 @@ void Gui::render(float f, bool bHaveScreen, int mouseX, int mouseY)
 	}
 
 	// render messages
-	if (m_bRenderMessages)
+	if (m_bRenderChatMessages)
 	{
-		renderMessages(false);
+		renderChatMessages(false);
 	}
 }
 
 void Gui::tick()
 {
+	/*
 	if (field_A18 > 0)
 		field_A18--;
-
-	field_9FC++;
+	*/
 
 	for (int i = 0; i < int(m_guiMessages.size()); i++)
 	{
@@ -403,8 +398,8 @@ void Gui::renderSlotOverlay(int slot, int x, int y, float f)
 
 int Gui::getSlotIdAt(int mouseX, int mouseY)
 {
-	int scaledY = int(InvGuiScale * mouseY);
-	int scaledHeight = int(InvGuiScale * Minecraft::height);
+	int scaledY = int(scale * mouseY);
+	int scaledHeight = int(scale * Minecraft::height);
 
 	if (scaledY >= scaledHeight)
 		return -1;
@@ -413,7 +408,7 @@ int Gui::getSlotIdAt(int mouseX, int mouseY)
 
 	int hotbarOffset = getNumSlots() * 20 / 2 - 2;
 
-	int slotX = (int(InvGuiScale * mouseX) - int(InvGuiScale * Minecraft::width) / 2 + hotbarOffset + 20) / 20;
+	int slotX = (int(scale * mouseX) - int(scale * Minecraft::width) / 2 + hotbarOffset + 20) / 20;
 
 	if (slotX >= 0)
 		slotX--;
@@ -485,10 +480,10 @@ void Gui::handleKeyPressed(int keyCode)
 	}
 }
 
-void Gui::renderMessages(bool bShowAll)
+void Gui::renderChatMessages(bool bShowAll)
 {
-	//int width = Minecraft::width * InvGuiScale,
-    int height = Minecraft::height * InvGuiScale;
+	//int width = Minecraft::width * scale,
+	int height = Minecraft::height * scale;
 
 	int topEdge = height - 49;
 	
@@ -537,18 +532,29 @@ int Gui::getNumSlots()
 	return 9;
 }
 
-int Gui::getNumUsableSlots()
+// screens
+#include "screens/PauseScreen.hpp"
+#include "screens/StartMenuScreen.hpp"
+#include "screens/RenameMPLevelScreen.hpp"
+#include "screens/SavingWorldScreen.hpp"
+#include "screens/DeathScreen.hpp"
+IScreen* Gui::screenMain()
 {
-	return getNumSlots() - m_pMinecraft->isTouchscreen();
+	return new StartMenuScreen();
 }
-
-RectangleArea Gui::getRectangleArea(bool b)
+IScreen* Gui::screenDeath()
 {
-	float centerX = Minecraft::width / 2;
-	float hotbarWidthHalf = (10 * getNumSlots() + 5) / InvGuiScale;
-	return RectangleArea(
-		b ? (centerX - hotbarWidthHalf) : 0,
-		Minecraft::height - 24.0f / InvGuiScale,
-		centerX + hotbarWidthHalf,
-		Minecraft::height);
+	return new DeathScreen();
+}
+IScreen* Gui::screenPause()
+{
+	return new PauseScreen();
+}
+IScreen* Gui::screenSaveWorld(bool bCopyMap, Entity *pEnt)
+{
+	return new SavingWorldScreen(bCopyMap, pEnt);
+}
+IScreen* Gui::screenRenameMPWorld(std::string name)
+{
+	return new RenameMPLevelScreen(name);
 }

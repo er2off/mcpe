@@ -9,7 +9,6 @@
 #include <RakPeer.h>
 #include "ClientSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
-#include "client/gui/screens/StartMenuScreen.hpp"
 
 // This lets you make the client shut up and not log events in the debug console.
 #define VERBOSE_CLIENT
@@ -65,7 +64,7 @@ void ClientSideNetworkHandler::onUnableToConnect()
 	}
 
 	// throw to the start menu for now
-	m_pMinecraft->setScreen(new StartMenuScreen);
+	m_pMinecraft->m_pGui->screenMain();
 }
 
 void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
@@ -75,14 +74,14 @@ void ClientSideNetworkHandler::onDisconnect(const RakNet::RakNetGUID& rakGuid)
 	if (m_pLevel)
 		m_pLevel->m_bIsMultiplayer = false;
 
-	m_pMinecraft->m_gui.addMessage("Disconnected from server");
+	m_pMinecraft->m_pGui->addMessage("Disconnected from server");
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, MessagePacket* pMsgPkt)
 {
 	puts_ignorable("MessagePacket");
 
-	m_pMinecraft->m_gui.addMessage(pMsgPkt->m_str.C_String());
+	m_pMinecraft->m_pGui->addMessage(pMsgPkt->m_str.C_String());
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, StartGamePacket* pStartGamePkt)
@@ -141,7 +140,7 @@ void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, AddPlay
 
 	pPlayer->m_pInventory->prepareCreativeInventory();
 
-	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
+	m_pMinecraft->m_pGui->addMessage(pPlayer->m_name + " joined the game");
 }
 
 void ClientSideNetworkHandler::handle(const RakNet::RakNetGUID& rakGuid, RemoveEntityPacket* pRemoveEntityPkt)

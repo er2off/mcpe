@@ -1,0 +1,99 @@
+/********************************************************************
+	Minecraft: Pocket Edition - Decompilation Project
+	Copyright (C) 2023 iProgramInCpp
+
+	The following code is licensed under the BSD 1 clause license.
+	SPDX-License-Identifier: BSD-1-Clause
+ ********************************************************************/
+
+#include "IScreen.hpp"
+
+IScreen::IScreen()
+{
+	m_width = 1;
+	m_height = 1;
+	m_bIgnore = false;
+}
+
+void IScreen::init(Minecraft* pMinecraft, int a3, int a4)
+{
+	m_width  = a3;
+	m_height = a4;
+	m_pMinecraft = pMinecraft;
+	init();
+}
+
+void IScreen::init()
+{
+}
+
+void IScreen::setSize(int width, int height)
+{
+	m_width = width;
+	m_height = height;
+}
+
+void IScreen::onRender(int mouseX, int mouseY, float f)
+{
+}
+
+int IScreen::getYOffset()
+{
+	return 0;
+}
+
+void IScreen::render(int xPos, int yPos, float unused)
+{
+}
+
+void IScreen::onEvents()
+{
+}
+
+void IScreen::mouseEvent()
+{
+}
+
+void IScreen::keyboardEvent()
+{
+}
+
+void IScreen::tick()
+{
+}
+
+void IScreen::removed()
+{
+}
+
+bool IScreen::handleBackEvent(bool b)
+{
+	return false;
+}
+
+void IScreen::renderBackground()
+{
+}
+
+bool IScreen::isPauseScreen()
+{
+	return true;
+}
+
+bool IScreen::isErrorScreen()
+{
+	return false;
+}
+
+bool IScreen::isInGameScreen()
+{
+	return true;
+}
+
+void IScreen::confirmResult(bool b, int i)
+{
+}
+
+void IScreen::charInput(char ch)
+{
+}

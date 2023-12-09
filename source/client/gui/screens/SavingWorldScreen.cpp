@@ -23,8 +23,9 @@ void SavingWorldScreen::render(int mouseX, int mouseY, float f)
 {
 	renderDirtBackground(0);
 
-	int x_width  = int(Minecraft::width  * Gui::InvGuiScale);
-	int x_height = int(Minecraft::height * Gui::InvGuiScale);
+	//! why not use the screen stuff
+	int x_width  = int(Minecraft::width  * m_pMinecraft->m_pGui->scale);
+	int x_height = int(Minecraft::height * m_pMinecraft->m_pGui->scale);
 	int yPos = x_height / 2;
 
 	int width = m_pFont->width("Saving chunks");

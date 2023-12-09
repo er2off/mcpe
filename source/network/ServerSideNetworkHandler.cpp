@@ -122,7 +122,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.m_version = 2;
 	sgp.m_time = m_pLevel->getTime();
 	
-	RakNet::BitStream *sgpbs;
+	RakNet::BitStream *sgpbs = nullptr;
 	sgp.write(sgpbs);
 	m_pRakNetPeer->Send(sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
 
@@ -143,7 +143,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	else
 		pPlayer->m_pInventory->prepareSurvivalInventory();
 
-	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
+	m_pMinecraft->m_pGui->addMessage(pPlayer->m_name + " joined the game");
 
 	AddPlayerPacket app(guid, RakNet::RakString(pPlayer->m_name.c_str()), pPlayer->m_EntityID, pPlayer->m_pos.x, pPlayer->m_pos.y - pPlayer->field_84, pPlayer->m_pos.z);
 	RakNet::BitStream appbs;
@@ -360,7 +360,7 @@ void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 
 void ServerSideNetworkHandler::displayGameMessage(const std::string& msg)
 {
-	m_pMinecraft->m_gui.addMessage(msg);
+	m_pMinecraft->m_pGui->addMessage(msg);
 	m_pRakNetInstance->send(new MessagePacket(msg));
 }
 
@@ -368,7 +368,7 @@ void ServerSideNetworkHandler::sendMessage(const RakNet::RakNetGUID& guid, const
 {
 	if (m_pRakNetPeer->GetMyGUID() == guid)
 	{
-		m_pMinecraft->m_gui.addMessage(msg);
+		m_pMinecraft->m_pGui->addMessage(msg);
 		return;
 	}
 

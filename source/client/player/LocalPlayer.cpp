@@ -8,6 +8,7 @@
 
 #include "LocalPlayer.hpp"
 #include "client/app/Minecraft.hpp"
+#include "input/Keyboard.hpp"
 
 int dword_250ADC, dword_250AE0;
 

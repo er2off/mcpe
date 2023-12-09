@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "../Screen.hpp"
 #include "../GuiComponent.hpp"
 #include "client/app/Minecraft.hpp"
 

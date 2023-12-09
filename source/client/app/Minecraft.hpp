@@ -9,11 +9,11 @@
 #pragma once
 
 #include "App.hpp"
+#include "IGui.hpp"
+#include "IScreen.hpp"
 #include "common/CThread.hpp"
 #include "common/Mth.hpp"
 #include "common/Timer.hpp"
-#include "client/gui/Gui.hpp"
-#include "client/gui/Screen.hpp"
 #include "network/RakNetInstance.hpp"
 #include "network/NetEventCallback.hpp"
 #include "client/player/LocalPlayer.hpp"
@@ -28,8 +28,6 @@
 #include "world/gamemode/GameMode.hpp"
 #include "world/particle/ParticleEngine.hpp"
 
-class Screen; // in case we're included from Screen.hpp
-
 class Minecraft : public App
 {
 public:
@@ -37,7 +35,7 @@ public:
 	virtual ~Minecraft();
 
 	int getLicenseId();
-	void setScreen(Screen * pScreen);
+	void setScreen(IScreen * pScreen);
 	void releaseMouse();
 	void grabMouse();
 	void tick();
@@ -119,10 +117,10 @@ public:
 	Level* m_pLevel;
 	LocalPlayer* m_pLocalPlayer;
 	Mob* m_pMobPersp; // why is there a duplicate?
-	Gui m_gui;
+	IGui *m_pGui;
 	int field_D0C;
 	CThread* m_pPrepThread;
-	Screen* m_pScreen;
+	IScreen* m_pScreen;
 	int field_D18;
 	IInputHolder* m_pInputHolder;
 	MouseHandler m_mouseHandler;
@@ -141,11 +139,13 @@ public:
 	int field_DAC;
 	bool m_bUsingScreen;
 	bool m_bHasQueuedScreen;
-	Screen* m_pQueuedScreen;
+	IScreen* m_pQueuedScreen;
 	int m_licenseID;
 	ItemInstance m_CurrItemInstance;
 
 	// in 0.8. Offset 3368
 	double m_fDeltaTime, m_fLastUpdated;
+
+	float m_breakProgress;
 };
 

@@ -172,14 +172,14 @@ void IngameBlockSelectionScreen::mouseReleased(int x, int y, int type)
 
 void IngameBlockSelectionScreen::removed()
 {
-	m_pMinecraft->m_gui.inventoryUpdated();
+	m_pMinecraft->m_pGui->onInventoryUpdated();
 }
 
 void IngameBlockSelectionScreen::selectSlotAndClose()
 {
 	Inventory* pInv = getInventory();
 	
-	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_gui.getNumUsableSlots());
+	pInv->selectItem(m_selectedSlot, m_pMinecraft->m_pGui->getNumUsableSlots());
 
 	m_pMinecraft->m_pSoundEngine->play("random.click");
 	m_pMinecraft->setScreen(nullptr);

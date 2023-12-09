@@ -221,7 +221,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 	}
 }
 
-static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int srcY)
+static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int srcY, float scale)
 {
 	float tc[8];
 
@@ -237,8 +237,8 @@ static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int s
 	for (int i = 0; i < pArea->m_count; i++)
 	{
 		t->vertexUV(
-			Gui::InvGuiScale * pArea->m_xPos[i],
-			Gui::InvGuiScale * pArea->m_yPos[i],
+			scale * pArea->m_xPos[i],
+			scale * pArea->m_yPos[i],
 			0.0f,
 			tc[(2 * i) % 8],
 			tc[(2 * i + 1) % 8]
@@ -253,24 +253,25 @@ void TouchscreenInput_TestFps::render(float f)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui.png");
+	float scale = m_pMinecraft->m_pGui->scale;
 
 	Tesselator& t = Tesselator::instance;
 	t.begin();
 
 	t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 64, 112);
+	RenderTouchButton(&t, m_pAreaLeft, 64, 112, scale);
 
 	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaRight, 192, 112);
+	RenderTouchButton(&t, m_pAreaRight, 192, 112, scale);
 
 	t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaForward, 0, 112);
+	RenderTouchButton(&t, m_pAreaForward, 0, 112, scale);
 
 	t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaBackward, 128, 112);
+	RenderTouchButton(&t, m_pAreaBackward, 128, 112, scale);
 
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaJump, 0, 176);
+	RenderTouchButton(&t, m_pAreaJump, 0, 176, scale);
 
 	t.draw();
 

@@ -6,6 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
+#include "../Screen.hpp"
 #include "RolledSelectionList.hpp"
 
 static float g_RolledSelectionListUnk, g_RolledSelectionListUnk2;
