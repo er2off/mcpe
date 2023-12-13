@@ -346,7 +346,7 @@ void Player::setRespawnPos(Pos* pos)
 	m_bHaveRespawnPos = true;
 	m_respawnPos.x = pos->x;
 	m_respawnPos.y = pos->y;
-	// @BUG: no m_respawnPos.z = pos->z ??
+	m_respawnPos.z = pos->z;
 }
 
 void Player::startCrafting(int x, int y, int z)

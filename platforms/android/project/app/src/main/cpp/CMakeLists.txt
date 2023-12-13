@@ -35,19 +35,19 @@ add_library( # Sets the name of the library.
 target_include_directories(reminecraftpe PUBLIC ${MC_ROOT} ${MC_ROOT}/source ${MC_ROOT}/thirdparty/raknet)
 
 # Check for the presence of some optional asset based features.
-if(NOT EXISTS "${MC_ROOT}/game/assets/gui/background/panorama_0.png")
+if(EXISTS "${MC_ROOT}/game/assets/gui/background/panorama_0.png")
 	target_compile_definitions(reminecraftpe PUBLIC FEATURE_MENU_BACKGROUND)
 endif()
 
-if(NOT EXISTS "${MC_ROOT}/game/assets/environment/clouds.png")
+if(EXISTS "${MC_ROOT}/game/assets/environment/clouds.png")
 	target_compile_definitions(reminecraftpe PUBLIC FEATURE_CLOUDS)
 endif()
 
-if(NOT EXISTS "${MC_ROOT}/game/assets/misc/grasscolor.png")
+if(EXISTS "${MC_ROOT}/game/assets/misc/grasscolor.png")
 	target_compile_definitions(reminecraftpe PUBLIC FEATURE_GRASS_COLOR)
 endif()
 
-if(NOT EXISTS "${MC_ROOT}/game/assets/misc/foliagecolor.png")
+if(EXISTS "${MC_ROOT}/game/assets/misc/foliagecolor.png")
 	target_compile_definitions(reminecraftpe PUBLIC FEATURE_FOLIAGE_COLOR)
 endif()
 

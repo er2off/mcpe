@@ -12,10 +12,10 @@
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/GrassColor.hpp"
 
-#define C_OPTION_ITEM_HEIGHT (18)
+#define C_OPTION_ITEM_HEIGHT (19)
 
-#define C_ON_OFF_SWITCH_WIDTH (28)
-#define C_ON_OFF_SWITCH_HEIGHT (16)
+#define C_ON_OFF_SWITCH_WIDTH (36)
+#define C_ON_OFF_SWITCH_HEIGHT (17)
 
 #define C_DISTANCE_SWITCH_WIDTH (60)
 #define C_DISTANCE_SWITCH_HEIGHT (16)
@@ -242,7 +242,7 @@ void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
 void OptionList::renderBackground(float f)
 {
 	if (!m_pMinecraft->isLevelGenerated())
-		m_pMinecraft->m_pScreen->renderBackground(); //renderMenuBackground(f);
+		((Screen*)m_pMinecraft->m_pScreen)->renderMenuBackground(f);
 }
 
 void OptionList::renderHoleBackground(float a, float b, int c, int d)

@@ -9,6 +9,7 @@
 #include "UnifiedTurnBuild.hpp"
 #include "Multitouch.hpp"
 
+#include "client/player/input/IMoveInput.hpp"
 #include "common/Utils.hpp"
 #include "world/entity/Player.hpp"
 
@@ -70,7 +71,7 @@ TurnDelta UnifiedTurnBuild::getTurnDelta()
 		int finger = activePtrs[i];
 		int x = Multitouch::getX(finger);
 		int y = Multitouch::getY(finger);
-		if (m_touchAreaModel.getPointerId(x, y, finger) == 100)
+		if (m_touchAreaModel.getPointerId(x, y, finger) == 100 + INPUT_FORWARD)
 		{
 			touched = true;
 			m1 = float(x) * 0.5f;
@@ -202,7 +203,7 @@ bool UnifiedTurnBuild::tickBuild(Player* pPlayer, BuildActionIntention* pIntenti
 		{
 			int finger = m_touchAreaModel.getPointerId(pEvent->_posX, pEvent->_posY, pEvent->_fingerId);
 
-			if (finger == 100)
+			if (finger == 100 + INPUT_FORWARD)
 			{
 				if (field_BC > 20.0f || pEvent->_buttonState || wroteIntention)
 				{

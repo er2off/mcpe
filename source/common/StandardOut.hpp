@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "../../GameMods.hpp"
 
 class StandardOut
 {
@@ -13,7 +14,7 @@ public:
 	void printf(const char* const fmt, ...);
 };
 
-#ifdef _DEBUG
+#ifdef MC_DEBUG
 
 #define LOG(...) StandardOut::singleton()->printf(__VA_ARGS__)
 

@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "TouchscreenInput_TestFps.hpp"
+#include "client/gui/screens/ChatScreen.hpp"
 #include "client/player/input/Multitouch.hpp"
 #include "client/app/Minecraft.hpp"
 #include "client/options/Options.hpp"
@@ -127,6 +128,9 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	m_pAreaRight = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_RIGHT, m_pAreaRight);
 
+	float scale = m_pMinecraft->m_pGui->scale;
+	m_touchAreaModel.addArea(110, new RectangleArea(width - 17.0f / scale, 0, width, 17.0f / scale));
+
 	// NOTE: We are not leaking memory! Since by default IArea's constructor sets
 	// field_4 to true, TouchAreaModel owns the pointers, so when it's destroyed,
 	// so are these areas we allocated.
@@ -202,6 +206,10 @@ void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 			case 100 + INPUT_RIGHT:
 				m_horzInput -= 1.0f;
 				break;
+			case 110:
+				if (!m_pMinecraft->m_pScreen && Multitouch::isPressed(finger))
+					m_pMinecraft->setScreen(new ChatScreen());
+				break;
 		}
 	}
 
@@ -275,6 +283,9 @@ void TouchscreenInput_TestFps::onRender(float f)
 	RenderTouchButton(&t, m_pAreaJump, 0, 176, scale);
 
 	t.draw();
+
+	int screenWidth = scale * Minecraft::width;
+	fill(screenWidth - 17, 1, screenWidth - 1, 17, 0xC0C0C0C0);
 
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);

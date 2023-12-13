@@ -17,6 +17,19 @@ AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 	setIcon(AppPlatform_sdl::loadTexture("icon.png"));
 }
 
+
+std::string AppPlatform_sdl::getPatchData()
+{
+	std::ifstream ifs("assets/patches/patch_data.txt");
+	if (!ifs.is_open())
+		return "";
+
+	std::stringstream ss;
+	ss << ifs.rdbuf();
+
+	return ss.str();
+}
+
 // Take Screenshot
 static int save_png(const char *filename, unsigned char *pixels, int line_size, int width, int height)
 {

@@ -131,6 +131,8 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 	if (!m->m_pLevel || !m->m_pLocalPlayer)
 		return;
 
+	LocalPlayer* pLP = m->m_pLocalPlayer;
+
 	field_4 = -90.0f;
 
 #ifndef ENH_TRANSPARENT_HOTBAR
@@ -141,7 +143,7 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 
 	m->m_pTextures->loadAndBindTexture("gui/gui.png");
 
-	Inventory* pInventory = m->m_pLocalPlayer->m_pInventory;
+	Inventory* pInventory = pLP->m_pInventory;
 
 	field_4 = -90.0f;
 
@@ -193,21 +195,21 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 		//     that;
 		// else
 		//     this;
-		if (breakProgress > 0.0f || m_pMinecraft->m_pInputHolder->m_feedbackAlpha < 0.0f)
+		if (breakProgress > 0.0f || m->m_pInputHolder->m_feedbackAlpha < 0.0f)
 		{
 			if (breakProgress > 0.0f)
 			{
-				float xPos = m_pMinecraft->m_pInputHolder->m_feedbackX;
-				float yPos = m_pMinecraft->m_pInputHolder->m_feedbackY;
+				float xPos = m->m_pInputHolder->m_feedbackX;
+				float yPos = m->m_pInputHolder->m_feedbackY;
 
-				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
+				m->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				blit(scale * xPos - 44.0f, scale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
 
 				glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
-				m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_fill.png");
+				m->m_pTextures->loadAndBindTexture("gui/feedback_fill.png");
 
 				// note: scale starts from 4.0f
 				float halfWidth = (40.0f * breakProgress + 48.0f) / 2.0f;
@@ -220,11 +222,11 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 		}
 		else
 		{
-			float xPos = m_pMinecraft->m_pInputHolder->m_feedbackX;
-			float yPos = m_pMinecraft->m_pInputHolder->m_feedbackY;
+			float xPos = m->m_pInputHolder->m_feedbackX;
+			float yPos = m->m_pInputHolder->m_feedbackY;
 
-			m_pMinecraft->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
-			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, m_pMinecraft->m_pInputHolder->m_feedbackAlpha));
+			m->m_pTextures->loadAndBindTexture("gui/feedback_outer.png");
+			glColor4f(1.0f, 1.0f, 1.0f, Mth::Min(1.0f, m->m_pInputHolder->m_feedbackAlpha));
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			blit(scale * xPos - 44.0f, scale * yPos - 44.0f, 0, 0, 88, 88, 256, 256);
@@ -237,12 +239,10 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 	glDisable(GL_BLEND);
 #endif
 
-	if (m_pMinecraft->m_pGameMode->canHurtPlayer())
+	if (m->m_pGameMode->canHurtPlayer())
 	{
-		LocalPlayer* pLP = m_pMinecraft->m_pLocalPlayer;
-
 		// why??
-		m_random.init_genrand(312871 * m_pMinecraft->m_timer.m_ticks);
+		m_random.init_genrand(312871 * m->m_timer.m_ticks);
 
 		int emptyHeartX = 16;
 		bool b1 = false;
@@ -290,9 +290,9 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 			heartX += 8;
 		}
 
-		if (m->m_pLocalPlayer->isUnderLiquid(Material::water))
+		if (pLP->isUnderLiquid(Material::water))
 		{
-			int breathRaw = m->m_pLocalPlayer->field_BC;
+			int breathRaw = pLP->field_BC;
 			int breathFull  = int(ceilf((float(breathRaw - 2) * 10.0f) / 300.0f));
 			int breathMeter = int(ceilf((float(breathRaw)     * 10.0f) / 300.0f)) - breathFull;
 
@@ -317,8 +317,6 @@ void Gui::onRender(float f, bool bHaveScreen, int mouseX, int mouseY)
 			}
 		}
 	}
-
-	m->m_pTextures->loadAndBindTexture("gui/gui_blocks.png");
 
 	int diff = m->isTouchscreen();
 

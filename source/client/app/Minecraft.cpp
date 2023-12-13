@@ -237,7 +237,7 @@ void Minecraft::setGuiScaleMultiplier(float f)
 
 void Minecraft::handleMouseDown(int type, bool b)
 {
-	if (!m_pGameMode->field_8 && (type != 1 || this->field_DA4 <= 0))
+	if (type != BUTTON_LEFT || this->field_DA4 <= 0)
 	{
 		if (b && type == 1 && m_hitResult.m_hitType == HitResult::AABB && !m_hitResult.m_bUnk24)
 		{
@@ -698,56 +698,49 @@ void Minecraft::tick()
 	m_pGui->onTick();
 
 	// if the level has been prepared, delete the prep thread
-	if (!m_bPreparingLevel)
+	if (m_bPreparingLevel) return;
+
+	if (m_pPrepThread)
 	{
-		if (m_pPrepThread)
+		delete m_pPrepThread;
+		m_pPrepThread = nullptr;
+		_levelGenerated();
+	}
+
+	SandTile::instaFall = false;
+
+	if (m_pLevel && !field_288)
+	{
+		m_pGameMode->tick();
+		m_pGameRenderer->tick();
+		m_pLevelRenderer->tick();
+		m_pLevel->tickEntities();
+		m_pLevel->tick();
+
+		if (m_pLocalPlayer)
 		{
-			delete m_pPrepThread;
-			m_pPrepThread = nullptr;
-			_levelGenerated();
+			m_pLevel->animateTick(
+				Mth::floor(m_pLocalPlayer->m_pos.x),
+				Mth::floor(m_pLocalPlayer->m_pos.y),
+				Mth::floor(m_pLocalPlayer->m_pos.z));
 		}
 
-		SandTile::instaFall = false;
-
-		if (m_pLevel && !field_288)
-		{
-			m_pGameMode->tick();
-			m_pGameRenderer->tick();
-			m_pLevelRenderer->tick();
-			m_pLevel->tickEntities();
-			m_pLevel->tick();
-
-			if (m_pLocalPlayer)
-			{
-				m_pLevel->animateTick(
-					Mth::floor(m_pLocalPlayer->m_pos.x),
-					Mth::floor(m_pLocalPlayer->m_pos.y),
-					Mth::floor(m_pLocalPlayer->m_pos.z));
-			}
-		}
-
-		m_pTextures->loadAndBindTexture(C_TERRAIN_NAME);
-
-		if (!field_288)
-		{
-			m_pTextures->tick();
-			m_pParticleEngine->tick();
+		m_pTextures->tick();
+		m_pParticleEngine->tick();
 
 #ifndef ORIGINAL_CODE
-			if (m_pMobPersp)
-			{
-				m_pSoundEngine->m_pSoundSystem->setListenerPos(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z);
-				m_pSoundEngine->m_pSoundSystem->setListenerAngle(m_pMobPersp->m_yaw, m_pMobPersp->m_pitch);
-			}
-#endif
-
+		if (m_pMobPersp)
+		{
+			m_pSoundEngine->m_pSoundSystem->setListenerPos(m_pMobPersp->m_pos.x, m_pMobPersp->m_pos.y, m_pMobPersp->m_pos.z);
+			m_pSoundEngine->m_pSoundSystem->setListenerAngle(m_pMobPersp->m_yaw, m_pMobPersp->m_pitch);
 		}
-
-		if (m_pScreen)
-			m_pScreen->onTick();
-
-		Multitouch::reset();
+#endif
 	}
+
+	if (m_pScreen)
+		m_pScreen->onTick();
+
+	Multitouch::reset();
 }
 
 void Minecraft::update()

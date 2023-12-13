@@ -132,21 +132,40 @@ xcuserdata/
 
 # Ignore original Minecraft PE assets.
 /game/assets/font/default.png
+/game/assets/font/default8.png
+/game/assets/gui/background.png
+/game/assets/gui/bg32.png
+/game/assets/gui/controls/dpad.png
+/game/assets/gui/controls/dpad_jump.png
+/game/assets/gui/controls/dpadbutton.png
+/game/assets/gui/selectworld/add.png
 /game/assets/gui/feedback_fill.png
 /game/assets/gui/feedback_outer.png
-/game/assets/gui/background.png
 /game/assets/gui/default_world.png
 /game/assets/gui/gui.png
 /game/assets/gui/gui_blocks.png
 /game/assets/gui/icons.png
+/game/assets/gui/itemframe.png
 /game/assets/gui/items.png
+/game/assets/gui/touchgui.png
 /game/assets/gui/title.png
 /game/assets/item/camera.png
 /game/assets/misc/foliagecolor.png
 /game/assets/misc/grasscolor.png
-/game/assets/mob/char.png
 /game/assets/particles.png
 /game/assets/terrain.png
+
+# Ignore mobs
+/game/assets/mob/char.png
+/game/assets/mob/chicken.png
+/game/assets/mob/cow.png
+/game/assets/mob/creeper.png
+/game/assets/mob/pig.png
+/game/assets/mob/sheep_fur.png
+/game/assets/mob/sheep.png
+/game/assets/mob/skeleton.png
+/game/assets/mob/spider.png
+/game/assets/mob/zombie.png
 
 # Ignore the panorama textures. Adding them yourself will make the title screen use them.
 /game/assets/gui/background/panorama_0.png

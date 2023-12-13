@@ -10,6 +10,7 @@
 
 #include "../Screen.hpp"
 
+//#define OLD_OPTIONS_SCREEN
 #ifndef OLD_OPTIONS_SCREEN
 
 #include "../components/OptionList.hpp"
@@ -36,7 +37,7 @@ class OptionsScreen : public Screen
 {
 public:
 	OptionsScreen();
-	void init() override;
+	void onInit() override;
 	void onRender(int, int, float) override;
 	void removed() override;
 

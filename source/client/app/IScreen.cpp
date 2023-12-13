@@ -89,10 +89,6 @@ bool IScreen::isInGameScreen()
 	return true;
 }
 
-void IScreen::confirmResult(bool b, int i)
-{
-}
-
 void IScreen::charInput(char ch)
 {
 }

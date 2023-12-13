@@ -684,12 +684,13 @@ void GameRenderer::render(float f)
 		}
 	}
 
-	std::stringstream debugText;
-	debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
-	debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
-
 	if (m_pMinecraft->getOptions()->m_bDebugText)
 	{
+		std::stringstream debugText;
+		std::stringstream debugTextRight;
+		debugText << "ReMinecraftPE " << m_pMinecraft->getVersionString();
+		debugText << "\n" << m_shownFPS << " fps, " << m_shownChunkUpdates << " chunk updates";
+
 		if (m_pMinecraft->m_pLocalPlayer)
 		{
 			char posStr[96];
@@ -703,17 +704,20 @@ void GameRenderer::render(float f)
 			HitResult& hr = m_pMinecraft->m_hitResult;
 			if (hr.m_hitType != HitResult::NONE) {
 				sprintf(posStr, "%d, %d, %d", hr.m_tileX, hr.m_tileY, hr.m_tileZ);
-				debugText << "\nLooking at: " << posStr;
+				debugTextRight << "Looking at: " << posStr;
 				Tile *pTile = nullptr;
 				TileID tile = m_pMinecraft->m_pLevel->getTile(hr.m_tileX, hr.m_tileY, hr.m_tileZ);
 				if (tile > 0) {
 					pTile = Tile::tiles[tile];
-					debugText << "\nTile: " << std::to_string(tile) <<" "<< pTile->m_descriptionID;
+					debugTextRight << "\nTile: " << std::to_string(tile) <<" "<< pTile->m_descriptionID;
 				}
 			}
 		}
 
+		int screenWidth = m_pMinecraft->m_pGui->scale * Minecraft::width;
+		int textWidth = m_pMinecraft->m_pFont->width(debugTextRight.str());
 		m_pMinecraft->m_pFont->drawShadow(debugText.str(), 2, 2, 0xFFFFFF);
+		m_pMinecraft->m_pFont->drawShadow(debugTextRight.str(), screenWidth - textWidth - 2, 2, 0xFFFFFF);
 	}
 
 	int timeMs = getTimeMs();

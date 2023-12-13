@@ -33,7 +33,6 @@ public:
 	virtual bool isPauseScreen();
 	virtual bool isErrorScreen();
 	virtual bool isInGameScreen();
-	virtual void confirmResult(bool, int);
 	virtual void charInput(char);
 
 	int m_width;

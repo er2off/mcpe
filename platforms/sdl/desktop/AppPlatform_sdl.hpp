@@ -18,6 +18,9 @@ public:
 	
 	bool hasFileSystemAccess() override;
 	
+	// Also add this to allow dynamic texture patching.
+	std::string getPatchData() override;
+
 protected:
 	void ensureDirectoryExists(const char* path) override;
 };

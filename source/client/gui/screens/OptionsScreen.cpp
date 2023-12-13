@@ -187,7 +187,7 @@ void OptionsScreen::setWidthAllButtons(int width)
 	m_biomeColorsButton.m_width = width;
 }
 
-void OptionsScreen::init()
+void OptionsScreen::onInit()
 {
 	m_pMinecraft->platform()->showDialog(AppPlatform::DLG_OPTIONS);
 	m_pMinecraft->platform()->createUserInput();

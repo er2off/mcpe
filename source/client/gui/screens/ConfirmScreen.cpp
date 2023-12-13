@@ -69,7 +69,6 @@ void ConfirmScreen::onRender(int mouseX, int mouseY, float f)
 
 void ConfirmScreen::postResult(bool b)
 {
-	m_pScreen->confirmResult(b, field_40);
 }
 
 

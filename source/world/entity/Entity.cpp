@@ -661,7 +661,7 @@ void Entity::baseTick()
 			for (int i = 0; float(i) < field_88 * 20.0f + 1.0f; i++)
 			{
 				m_pLevel->addParticle(
-					"splash",
+					"bubble",
 					m_pos.x + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f),
 					f1 + 1.0f,
 					m_pos.z + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f),

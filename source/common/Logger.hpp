@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "../../GameMods.hpp"
 
 enum eLogLevel
 {
@@ -26,14 +27,7 @@ public:
 	virtual void printf(eLogLevel, const char* const fmt, ...);
 };
 
-// TODO: For now
-#ifdef __ANDROID__
-	#ifndef NDEBUG
-		#define _DEBUG
-	#endif
-#endif
-
-#ifdef _DEBUG
+#ifdef MC_DEBUG
 
 #define LOG(level, ...) Logger::singleton()->printf(level, __VA_ARGS__)
 
