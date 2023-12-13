@@ -49,6 +49,7 @@ void KeyboardInput::onTick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
+	m_flyInput = 0.0f;
 
 	if (m_keys[INPUT_FORWARD])  m_vertInput += 1.0f;
 	if (m_keys[INPUT_BACKWARD]) m_vertInput -= 1.0f;

@@ -69,12 +69,6 @@ void LocalPlayer::calculateFlight(float x, float y, float z)
 	float x1 = f1 * x;
 	float z1 = f1 * z;
 
-	float y1 = 0.0f;
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_UP)))
-		y1 = f1 * 0.2f;
-	if (Keyboard::isKeyDown(m_pMinecraft->getOptions()->getKey(KM_FLY_DOWN)))
-		y1 = f1 * -0.2f;
-
 	field_BFC += x1;
 	float f2 = m_pMinecraft->getOptions()->field_8 * 0.35f;
 	float f3 = f2 * (field_BFC - field_C00);
@@ -85,7 +79,7 @@ void LocalPlayer::calculateFlight(float x, float y, float z)
 	field_C00 += f4;
 	field_BF0 = f4 * 10.0f;
 
-	field_C08 += y1;
+	field_C08 += m_pMoveInput->m_flyInput;
 	float f5 = f2 * (field_C08 - field_C0C);
 	float f6 = field_C10 + 0.5f * (f5 - field_C10);
 	field_C10 = f6;

@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "ChatScreen.hpp"
+#include "client/player/input/Multitouch.hpp"
 
 // @NOTE: This is unused.
 
@@ -24,7 +25,10 @@ void ChatScreen::buttonClicked(Button* pButton)
 	if (pButton->m_buttonId == m_btnSend.m_buttonId)
 		sendMessageAndExit();
 	if (pButton->m_buttonId == m_btnBack.m_buttonId)
+	{
+		Multitouch::reset(); // HACK
 		m_pMinecraft->setScreen(nullptr);
+	}
 }
 
 void ChatScreen::onInit()
@@ -37,8 +41,8 @@ void ChatScreen::onInit()
 	m_textChat.m_height = 20;
 	m_btnSend.m_yPos = m_height - 20;
 	m_btnSend.m_xPos = m_textChat.m_xPos + m_textChat.m_width;
-	m_btnBack.m_yPos = 10;
-	m_btnBack.m_xPos = m_width - m_btnBack.m_width - 10;
+	m_btnBack.m_yPos = 0;
+	m_btnBack.m_xPos = m_width - m_btnBack.m_width;
 	
 	// set focus directly on the chat text box
 	m_textChat.onInit(m_pFont);
@@ -62,7 +66,7 @@ void ChatScreen::onRender(int mouseX, int mouseY, float f)
 	// override the default behavior of rendering chat messages
 	m_pMinecraft->m_pGui->m_bRenderChatMessages = true;
 
-	m_btnBack.m_yPos = 10 + getYOffset();
+	m_btnBack.m_yPos = getYOffset();
 
 	Screen::onRender(mouseX, mouseY, f);
 }

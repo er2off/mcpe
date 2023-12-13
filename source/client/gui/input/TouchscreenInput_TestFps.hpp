@@ -33,8 +33,10 @@ public:
 
 private:
 	bool field_30[10];
-	bool field_40;
-	bool m_bJumpBeingHeld;
+	bool m_bForwardHeld;
+	bool m_bJumpingHeld;
+	bool m_bFlyActive;
+	int m_jumpTick;
 	TouchAreaModel m_touchAreaModel;
 	PolygonArea* m_pAreaLeft;
 	PolygonArea* m_pAreaRight;

@@ -35,6 +35,7 @@ public:
 public:
 	float m_horzInput;
 	float m_vertInput;
+	float m_flyInput;
 	bool field_C;
 	bool m_bJumpButton;
 	bool m_bSneakButton;

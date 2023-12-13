@@ -17,8 +17,10 @@ TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Option
 	TouchInput(pMinecraft, pOptions),
 	//m_rectArea(0.0f, 0.0f, 1.0f, 1.0f),
 	//m_pOptions(pOptions),
-	field_40(false),
-	m_bJumpBeingHeld(false),
+	m_bForwardHeld(false),
+	m_bJumpingHeld(false),
+	m_bFlyActive(false),
+	m_jumpTick(0),
 	//m_pMinecraft(pMinecraft),
 	m_pAreaLeft(nullptr),
 	m_pAreaRight(nullptr),
@@ -40,6 +42,7 @@ void TouchscreenInput_TestFps::releaseAllKeys()
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
+	m_flyInput = 0.0f;
 	for (int i = 0; i < 5; i++)
 		field_6C[i] = false;
 }
@@ -140,6 +143,7 @@ void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
+	m_flyInput = 0.0f;
 	m_bJumpButton = false;
 
 	for (int i = 0; i < 5; i++)
@@ -148,7 +152,7 @@ void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 	const int* activePointers;
 	int activePointerCount = Multitouch::getActivePointerIds(&activePointers);
 
-	bool bJumpPressed = false, bForwardPressed = false;
+	bool bJumpPressed = false, bForwardPressed = false, bBackwardPressed = false;
 
 	for (int i = 0; i < activePointerCount; i++)
 	{
@@ -172,13 +176,26 @@ void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 
 		if (pointerId == 100 + INPUT_JUMP) // jump
 		{
-			if (pPlayer->isInWater())
-				m_bJumpButton = true;
-			else if (Multitouch::isPressed(finger))
-				m_bJumpButton = true;
-			else if (field_40)
+			if (Multitouch::isPressed(finger))
 			{
-				pointerId = 100; // forward
+				m_bJumpButton = true;
+				int tick = getTimeMs();
+				if (tick - m_jumpTick < 300)
+				{
+					m_jumpTick = tick;
+					m_bFlyActive = !m_bFlyActive;
+					m_pMinecraft->getOptions()->m_bFlyCheat = m_bFlyActive;
+					m_bJumpButton = false;
+				}
+				else m_jumpTick = tick;
+			}
+			else if (m_bFlyActive)
+				bJumpPressed = true;
+			else if (pPlayer->isInWater())
+				m_bJumpButton = true;
+			else if (m_bForwardHeld)
+			{
+				pointerId = 100 + INPUT_FORWARD;
 				bJumpPressed = true;
 				m_vertInput += 1.0f;
 			}
@@ -196,6 +213,7 @@ void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 				break;
 
 			case 100 + INPUT_BACKWARD:
+				bBackwardPressed = true;
 				m_vertInput -= 1.0f;
 				break;
 
@@ -213,20 +231,29 @@ void TouchscreenInput_TestFps::onTick(Player* pPlayer)
 		}
 	}
 
-	field_40 = bForwardPressed;
+	m_bForwardHeld = bForwardPressed;
 
 	if (bJumpPressed)
 	{
 		// Don't allow the player to hold jump to repeatedly jump.
 		// Only let them jump once - have them jump again
-		if (!m_bJumpBeingHeld)
+		if (!m_bJumpingHeld && !m_bFlyActive)
 			m_bJumpButton = true;
 
-		m_bJumpBeingHeld = true;
+		m_bJumpingHeld = true;
+	}
+	else if (m_bFlyActive && m_bJumpingHeld && (bForwardPressed || bBackwardPressed))
+	{
+		if (bForwardPressed)
+			m_flyInput += 0.2f;
+		if (bBackwardPressed)
+			m_flyInput -= 0.2f;
+
+		m_vertInput = 0.0f;
 	}
 	else
 	{
-		m_bJumpBeingHeld = false;
+		m_bJumpingHeld = false;
 	}
 }
 
