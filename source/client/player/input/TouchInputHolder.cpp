@@ -9,7 +9,7 @@
 #include "TouchInputHolder.hpp"
 #include "Multitouch.hpp"
 #include "client/app/Minecraft.hpp"
-#include "client/options/Options.hpp"
+#include "server/Options.hpp"
 
 TouchInputHolder::TouchInputHolder(Minecraft* pMinecraft, Options* pOptions) :
 	m_touchScreenInput(pMinecraft, pOptions),

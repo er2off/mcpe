@@ -10,11 +10,11 @@
 
 #include <map>
 #include "NetEventCallback.hpp"
-#include "client/app/Minecraft.hpp"
+#include "server/Server.hpp"
 #include "RakNetInstance.hpp"
 #include "world/level/LevelListener.hpp"
 
-class Minecraft;
+class Server;
 class ServerSideNetworkHandler;
 
 struct OnlinePlayer
@@ -36,11 +36,11 @@ public:
 
 	// @TODO: We can do the following to finally split Network code from Client code
 	// ServerSideNetworkHandler(GameCallbacks *gameCallbacks, Level* level, GameMode* gameMode, RakNetInstance* rakNetInstance, PacketSender* packetSender, Player* localPlayer);
-	ServerSideNetworkHandler(Minecraft* minecraft, RakNetInstance* rakNetInstance);
+	ServerSideNetworkHandler(Server* server, RakNetInstance* rakNetInstance);
 	~ServerSideNetworkHandler();
 
 	// Overridden from NetEventCallback
-	void levelGenerated(Level*) override;
+	void levelGenerated(Level*, LocalPlayer*) override;
 	void onNewClient(const RakNet::RakNetGUID&) override;
 	void onDisconnect(const RakNet::RakNetGUID&) override;
 	void handle(const RakNet::RakNetGUID&, LoginPacket*) override;
@@ -66,14 +66,15 @@ public:
 	void setupCommands();
 
 	// Commands
-	void commandHelp (OnlinePlayer*, const std::vector<std::string>&);
-	void commandStats(OnlinePlayer*, const std::vector<std::string>&);
-	void commandTime (OnlinePlayer*, const std::vector<std::string>&);
-	void commandSeed (OnlinePlayer*, const std::vector<std::string>&);
-	void commandTP   (OnlinePlayer*, const std::vector<std::string>&);
+	void commandHelp	(OnlinePlayer*, const std::vector<std::string>&);
+	void commandStats	(OnlinePlayer*, const std::vector<std::string>&);
+	void commandTime	(OnlinePlayer*, const std::vector<std::string>&);
+	void commandSeed	(OnlinePlayer*, const std::vector<std::string>&);
+	void commandTP		(OnlinePlayer*, const std::vector<std::string>&);
+	void commandSummon	(OnlinePlayer*, const std::vector<std::string>&);
 
 public:
-	Minecraft* m_pMinecraft;
+	Server* m_pServer;
 	Level* m_pLevel;
 	RakNetInstance* m_pRakNetInstance;
 	RakNet::RakPeerInterface* m_pRakNetPeer;

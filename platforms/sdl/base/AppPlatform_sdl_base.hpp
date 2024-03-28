@@ -23,6 +23,7 @@ public:
 
 	int checkLicense() override;
 	const char* const getWindowTitle() const;
+	void getScreenSize(int* width, int* height) const;
 	int getScreenWidth() const override;
 	int getScreenHeight() const override;
 	Texture loadTexture(const std::string& path, bool bIsRequired = false) override = 0;
@@ -66,6 +67,7 @@ private:
 	SoundSystem* m_pSoundSystem;
 
 	bool m_bIsTouchscreen;
+	bool m_bMouseGrabbed;
 
 	static SDL_Surface* getSurfaceForTexture(const Texture* const texture);
 protected:

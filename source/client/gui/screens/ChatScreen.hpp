@@ -25,5 +25,6 @@ public:
 private:
 	TextInputBox m_textChat;
 	Button m_btnSend;
+	Button m_btnBack;
 };
 

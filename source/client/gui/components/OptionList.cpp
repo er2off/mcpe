@@ -7,10 +7,10 @@
  ********************************************************************/
 
 #include "OptionList.hpp"
-#include "client/options/Options.hpp"
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/FoliageColor.hpp"
 #include "client/renderer/GrassColor.hpp"
+#include "server/Options.hpp"
 
 #define C_OPTION_ITEM_HEIGHT (20)
 
@@ -84,7 +84,7 @@ AORenderOptionItem::AORenderOptionItem(bool* pValue, const std::string& text) :
 void AORenderOptionItem::toggleState(OptionList* pList)
 {
 	BooleanOptionItem::toggleState(pList);
-	Minecraft::useAmbientOcclusion = *m_pValue;
+	pList->m_pMinecraft->getOptions()->m_bAmbientOcclusion = *m_pValue;
 	pList->m_pMinecraft->m_pLevelRenderer->allChanged();
 }
 
@@ -206,7 +206,6 @@ void OptionList::drawOnOffSwitch(int x, int y, bool state, bool disabled)
 
 void OptionList::renderItem(int index, int x, int y, int height, Tesselator& t)
 {
-	Font* f = m_pMinecraft->m_pFont;
 	OptionItem* pItem = m_items[index];
 
 	pItem->render(this, x, y);
@@ -321,6 +320,8 @@ void OptionList::initDefaultMenu()
 
 #ifdef __EMSCRIPTEN
 	m_items[idxLM]->setDisabled(true);
+#else
+	(void)idxLM;
 #endif
 	
 	if (!GetPatchManager()->IsGrassSidesTinted())

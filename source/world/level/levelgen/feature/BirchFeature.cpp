@@ -74,19 +74,19 @@ bool BirchFeature::place(Level* level, Random* random, int x, int y, int z)
 	for (int i = lowerY; i <= upperY; i++, diff = i - upperY)
 	{
 		int c1 = 1 - diff / 2;
-		int c2 = diff / 2 - 1;
+		//int c2 = diff / 2 - 1;
 		for (int ax = x - c1; ax <= x + c1; ax++)
 		{
-			int c3 = c2;
+			//int c3 = c2;
 			int c4 = diff / 2 - 1;
-			if (c2 < 0)
-				c3 = -c2;
+			//if (c2 < 0)
+			//	c3 = -c2;
 
 			//int c5 = c3;
 
 			for (int az = z - c1; az <= z + c1; az++, c4++)
 			{
-                if ((abs(ax - x) != c1 || abs(az - z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[level->getTile(ax, i, az)])
+				if ((abs(ax - x) != c1 || abs(az - z) != c1 || (random->nextInt(2) != 0 && diff != 0)) && !Tile::solid[level->getTile(ax, i, az)])
 				{
 					level->setTileAndDataNoUpdate(ax, i, az, Tile::leaves->m_ID, 2);
 				}

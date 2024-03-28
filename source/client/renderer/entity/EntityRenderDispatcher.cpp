@@ -104,7 +104,7 @@ EntityRenderer* EntityRenderDispatcher::getRenderer(int renderType)
 
 EntityRenderer* EntityRenderDispatcher::getRenderer(Entity* pEnt)
 {
-	int renderType = pEnt->field_C8;
+	int renderType = pEnt->m_renderType;
 	if (renderType == RENDER_DYNAMIC)
 		renderType = pEnt->queryEntityRenderer();
 

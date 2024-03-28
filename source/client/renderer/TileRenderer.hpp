@@ -65,7 +65,7 @@ public:
 
 	static bool m_bFancyGrass;
 	static bool m_bBiomeColors;
-
+	static bool m_bUseAmbientOcclusion;
 private:
 	LevelSource* m_pLevelSource;
 	int m_textureOverride;

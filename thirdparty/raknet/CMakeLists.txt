@@ -115,3 +115,7 @@ add_library(raknet STATIC
     RakSleep.cpp
 )
 target_include_directories(raknet PUBLIC .)
+
+if (WIN32)
+    target_link_libraries(raknet PRIVATE ws2_32)
+endif()

@@ -8,7 +8,7 @@
 
 #include "NetEventCallback.hpp"
 
-void NetEventCallback::levelGenerated(Level* level)
+void NetEventCallback::levelGenerated(Level* level, LocalPlayer* pLP)
 {
 }
 

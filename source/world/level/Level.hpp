@@ -16,17 +16,16 @@
 
 #include "world/tile/Tile.hpp"
 #include "world/entity/Entity.hpp"
-#include "world/entity/LocalPlayer.hpp"
 #include "world/level/levelgen/chunk/LevelChunk.hpp"
 #include "world/level/levelgen/chunk/ChunkSource.hpp"
 #include "world/level/storage/LevelStorageSource.hpp"
 #include "world/level/storage/LevelSource.hpp"
 #include "world/level/storage/LevelData.hpp"
 #include "world/level/path/PathFinder.hpp"
+#include "world/level/LightUpdate.hpp"
 #include "Dimension.hpp"
 #include "LevelListener.hpp"
 #include "TickNextTickData.hpp"
-#include "client/renderer/LightUpdate.hpp"
 
 class Dimension;
 class Level;

@@ -20,6 +20,7 @@ enum
 	INPUT_RIGHT,
 	INPUT_JUMP,
 	INPUT_SNEAK,
+	INPUT_CHAT,
 };
 
 class IMoveInput

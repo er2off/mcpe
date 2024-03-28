@@ -4,7 +4,7 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include "BitStream.h"
+#include "thirdparty/raknet/BitStream.h"
 
 class RegionFile
 {

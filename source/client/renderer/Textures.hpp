@@ -10,8 +10,8 @@
 #include <map>
 
 #include "thirdparty/GL/GL.hpp"
-#include "client/options/Options.hpp"
 #include "client/app/AppPlatform.hpp"
+#include "server/Options.hpp"
 #include "DynamicTexture.hpp"
 
 class DynamicTexture; // in case we are being included from DynamicTexture. We don't store complete references to that

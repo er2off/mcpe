@@ -49,7 +49,7 @@ void Entity::_init()
 	field_B8 = 0;
 	field_BC = 300;
 	field_C0 = 0;
-	field_C8 = 0;  // @NOTE: Render type? (eEntityRenderType)
+	m_renderType = RENDER_NONE;
 	m_distanceFallen = 0.0f;
 	field_D0 = 300;
 	field_D4 = 0;
@@ -64,7 +64,7 @@ Entity::Entity(Level* pLevel)
 
 	m_pLevel = pLevel;
 	m_EntityID = ++entityCounter;
-	setPos(0, 0, 0);
+	Entity::setPos(0, 0, 0);
 }
 
 Entity::~Entity()
@@ -663,7 +663,7 @@ void Entity::baseTick()
 			for (int i = 0; float(i) < field_88 * 20.0f + 1.0f; i++)
 			{
 				m_pLevel->addParticle(
-					"splash",
+					"bubble",
 					m_pos.x + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f),
 					f1 + 1.0f,
 					m_pos.z + field_88 * (sharedRandom.nextFloat() * 2.0f - 1.0f),

@@ -22,7 +22,7 @@ Player::Player(Level* pLevel) : Mob(pLevel)
 	field_BC4 = 0;
 	m_bHaveRespawnPos = false;
 
-	field_C8 = RENDER_HUMANOID;
+	m_renderType = RENDER_HUMANOID;
 
 	m_pInventory = new Inventory(this);
 
@@ -345,7 +345,7 @@ void Player::setRespawnPos(Pos* pos)
 	m_bHaveRespawnPos = true;
 	m_respawnPos.x = pos->x;
 	m_respawnPos.y = pos->y;
-	// @BUG: no m_respawnPos.z = pos->z ??
+	m_respawnPos.z = pos->z;
 }
 
 void Player::startCrafting(int x, int y, int z)

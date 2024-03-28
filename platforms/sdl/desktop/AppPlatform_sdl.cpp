@@ -15,7 +15,7 @@
 AppPlatform_sdl::AppPlatform_sdl(std::string storageDir, SDL_Window *window)
 	: AppPlatform_sdl_base(storageDir, window)
 {
-	setIcon(loadTexture("icon.png", false));
+	setIcon(AppPlatform_sdl::loadTexture("icon.png", false));
 }
 
 // Take Screenshot
@@ -37,7 +37,7 @@ void AppPlatform_sdl::ensureDirectoryExists(const char* path)
 	{
 		// Create Screenshots Folder
 #ifdef _WIN32
-		int ret = XPL_MKDIR(path);
+		int ret = XPL_MKDIR(path, 0);
 #else
 		int ret = XPL_MKDIR(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif

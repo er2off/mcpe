@@ -9,8 +9,8 @@
 #pragma once
 
 #include <string>
-#include "RakNetTypes.h"
-#include "RakString.h"
+#include "thirdparty/raknet/RakNetTypes.h"
+#include "thirdparty/raknet/RakString.h"
 
 
 struct PingedCompatibleServer

@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "client/options/Options.hpp"
 #include "common/Random.hpp"
+#include "server/Options.hpp"
 #include "SoundSystem.hpp"
 #include "SoundRepository.hpp"
 

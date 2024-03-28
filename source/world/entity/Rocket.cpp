@@ -14,7 +14,7 @@ Rocket::Rocket(Level* level, float x, float y, float z) : Entity(level)
 {
 	field_B8C = 0;
 	field_B90 = 80;
-	field_C8 = RENDER_ROCKET;
+	m_renderType = RENDER_ROCKET;
 
 	field_34 = 1;
 

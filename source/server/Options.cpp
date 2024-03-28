@@ -10,12 +10,13 @@
 
 #include "Options.hpp"
 #include "common/Util.hpp"
+#include "common/Utils.hpp"
 #include "compat/KeyCodes.hpp"
-#include "client/app/Minecraft.hpp"
-
+#ifndef SERVER
 #include "client/renderer/PatchManager.hpp"
 #include "client/renderer/GrassColor.hpp"
 #include "client/renderer/FoliageColor.hpp"
+#endif
 
 Options::Option
 	Options::Option::MUSIC            (0,  "options.music",          true,  false),
@@ -48,7 +49,7 @@ void Options::_initDefaultValues()
 	m_bInvertMouse = false;
 	m_bAnaglyphs = false;
 	field_16  = 0;
-	m_bAmbientOcclusion = Minecraft::useAmbientOcclusion;
+	m_bAmbientOcclusion = false;
 	field_240 = 1;
 	m_iViewDistance = 2;
 	m_bViewBobbing  = 1;
@@ -115,21 +116,21 @@ void Options::_initDefaultValues()
 
 #define KM(idx,code) m_keyMappings[idx].value = code
 #ifdef USE_SDL
-	KM(KM_FORWARD,       SDLVK_w);
-	KM(KM_LEFT,          SDLVK_a);
-	KM(KM_BACKWARD,      SDLVK_s);
-	KM(KM_RIGHT,         SDLVK_d);
+	KM(KM_FORWARD,       SDLVK_W);
+	KM(KM_LEFT,          SDLVK_A);
+	KM(KM_BACKWARD,      SDLVK_S);
+	KM(KM_RIGHT,         SDLVK_D);
 	KM(KM_JUMP,          SDLVK_SPACE);
-	KM(KM_DESTROY,       SDLVK_x);
-	KM(KM_PLACE,         SDLVK_c);
+	KM(KM_DESTROY,       SDLVK_X);
+	KM(KM_PLACE,         SDLVK_C);
 	KM(KM_MENU_NEXT,     SDLVK_DOWN);
 	KM(KM_MENU_PREVIOUS, SDLVK_UP);
 	KM(KM_MENU_OK,       SDLVK_RETURN);
 	KM(KM_MENU_CANCEL,   SDLVK_ESCAPE);
-	KM(KM_DROP,          SDLVK_q);
-	KM(KM_CHAT,          SDLVK_t);
-	KM(KM_FOG,           SDLVK_f);
-	KM(KM_INVENTORY,     SDLVK_e);
+	KM(KM_DROP,          SDLVK_Q);
+	KM(KM_CHAT,          SDLVK_T);
+	KM(KM_FOG,           SDLVK_F);
+	KM(KM_INVENTORY,     SDLVK_E);
 	KM(KM_SNEAK,         SDLVK_LSHIFT);
 	KM(KM_SLOT_1,        SDLVK_1);
 	KM(KM_SLOT_2,        SDLVK_2);
@@ -145,10 +146,10 @@ void Options::_initDefaultValues()
 	KM(KM_TOGGLEDEBUG,   SDLVK_F3);
 	KM(KM_TOGGLEAO,      SDLVK_F4);
 	KM(KM_TOGGLE3RD,     SDLVK_F5);
-	KM(KM_SLOT_L,        SDLVK_y);
-	KM(KM_SLOT_R,        SDLVK_u);
-	KM(KM_FLY_UP,        SDLVK_c);
-	KM(KM_FLY_DOWN,      SDLVK_x);
+	KM(KM_SLOT_L,        SDLVK_Y);
+	KM(KM_SLOT_R,        SDLVK_U);
+	KM(KM_FLY_UP,        SDLVK_C);
+	KM(KM_FLY_DOWN,      SDLVK_X);
 	KM(KM_CHAT_CMD,      SDLVK_SLASH);
 #endif
 #ifdef USE_NATIVE_ANDROID
@@ -250,7 +251,7 @@ void Options::_load()
 		else if (key == "mp_server_visible_default")
 			m_bServerVisibleDefault = readBool(value);
 		else if (key == "gfx_smoothlighting")
-			Minecraft::useAmbientOcclusion = m_bAmbientOcclusion = readBool(value);
+			m_bAmbientOcclusion = readBool(value);
 		else if (key == "gfx_viewdistance")
 			m_iViewDistance = readInt(value);
 		else if (key == "gfx_blockoutlines")
@@ -258,16 +259,20 @@ void Options::_load()
 		else if (key == "gfx_fancygrass")
 		{
 			m_bFancyGrass = readBool(value);
+#ifndef SERVER // TODO(Er2): Move this to client?
 			if (!(GetPatchManager()->IsGrassSidesTinted()))
 				m_bFancyGrass = false;
+#endif
 		}
 		else if (key == "gfx_biomecolors")
 		{
 			m_bBiomeColors = readBool(value);
+#ifndef SERVER // TODO(Er2): this too
 			if (!GrassColor::isAvailable() && !FoliageColor::isAvailable())
 			{
 				m_bBiomeColors = false;
 			}
+#endif
 		}
 		else if (key == "gfx_hidegui")
 			m_bDontRenderGui = readBool(value);

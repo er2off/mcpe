@@ -20,3 +20,6 @@ add_library(zlib STATIC
 	zutil.c
 )
 target_include_directories(zlib PUBLIC .)
+if (CMAKE_C_COMPILER_ID MATCHES "Clang")
+    target_compile_options(zlib PRIVATE -Wno-deprecated-non-prototype)
+endif()

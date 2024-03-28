@@ -21,8 +21,10 @@ int GlassTile::getResourceCount(Random* pRandom)
 
 int GlassTile::getRenderLayer()
 {
+#ifndef SERVER
 	if (GetPatchManager()->IsGlassSemiTransparent())
 		return LAYER_ALPHA;
+#endif
 
 	return LAYER_OPAQUE;
 }

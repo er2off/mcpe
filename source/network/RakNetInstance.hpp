@@ -10,9 +10,9 @@
 
 #include <string>
 #include <vector>
+#include "thirdparty/raknet/BitStream.h"
+#include "thirdparty/raknet/RakPeerInterface.h"
 #include "PingedCompatibleServer.hpp"
-#include "BitStream.h"
-#include "RakPeerInterface.h"
 #include "Packet.hpp"
 
 class Packet;

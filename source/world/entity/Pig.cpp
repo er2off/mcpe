@@ -9,7 +9,7 @@
 
 Pig::Pig(Level* pLevel) : Animal(pLevel)
 {
-	field_C8 = RENDER_PIG;
+	m_renderType = RENDER_PIG;
 	m_texture = "mob/pig.png";
 	setSize(0.9f, 0.9f);
 	// some dataitem stuff

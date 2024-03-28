@@ -8,6 +8,12 @@
 
 #include "ServerSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
+#include "client/player/LocalPlayer.hpp"
+
+// summon command
+#include "world/entity/TripodCamera.hpp"
+#include "world/entity/Pig.hpp"
+#include "world/entity/PrimedTnt.hpp"
 
 // This lets you make the server shut up and not log events in the debug console.
 #define VERBOSE_SERVER
@@ -20,9 +26,9 @@
 #define printf_ignorable(str, ...)
 #endif
 
-ServerSideNetworkHandler::ServerSideNetworkHandler(Minecraft* minecraft, RakNetInstance* rakNetInstance)
+ServerSideNetworkHandler::ServerSideNetworkHandler(Server* server, RakNetInstance* rakNetInstance)
 {
-	m_pMinecraft = minecraft;
+	m_pServer = server;
 	m_pLevel = nullptr;
 	m_pRakNetInstance = rakNetInstance;
 	allowIncomingConnections(false);
@@ -43,20 +49,20 @@ ServerSideNetworkHandler::~ServerSideNetworkHandler()
 	m_onlinePlayers.clear();
 }
 
-void ServerSideNetworkHandler::levelGenerated(Level* level)
+void ServerSideNetworkHandler::levelGenerated(Level* level, LocalPlayer* pLP)
 {
 	m_pLevel = level;
 
-	if (m_pMinecraft->m_pLocalPlayer)
+	if (pLP)
 	{
-		m_pMinecraft->m_pLocalPlayer->m_guid = m_pRakNetPeer->GetMyGUID();
+		pLP->m_guid = m_pRakNetPeer->GetMyGUID();
 	}
 
 	level->addListener(this);
 
-	allowIncomingConnections(m_pMinecraft->getOptions()->m_bServerVisibleDefault);
+	allowIncomingConnections(m_pServer->getOptions()->m_bServerVisibleDefault);
 
-	m_onlinePlayers[m_pMinecraft->m_pLocalPlayer->m_guid] = new OnlinePlayer(m_pMinecraft->m_pLocalPlayer, m_pMinecraft->m_pLocalPlayer->m_guid);
+	m_onlinePlayers[pLP->m_guid] = new OnlinePlayer(pLP, pLP->m_guid);
 }
 
 void ServerSideNetworkHandler::onNewClient(const RakNet::RakNetGUID& guid)
@@ -118,7 +124,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 	sgp.field_18 = pPlayer->m_pos.z;
 	sgp.m_version = 2;
 	sgp.m_time = m_pLevel->getTime();
-	
+
 	RakNet::BitStream sgpbs;
 	sgp.write(&sgpbs);
 	m_pRakNetPeer->Send(&sgpbs, HIGH_PRIORITY, RELIABLE_ORDERED, 0, guid, false);
@@ -135,12 +141,12 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, LoginPacke
 
 	m_pLevel->addEntity(pPlayer);
 
-	if (m_pMinecraft->m_pGameMode->isCreativeType())
+	if (m_pServer->getGameMode()->isCreativeType())
 		pPlayer->m_pInventory->prepareCreativeInventory();
 	else
 		pPlayer->m_pInventory->prepareSurvivalInventory();
 
-	m_pMinecraft->m_gui.addMessage(pPlayer->m_name + " joined the game");
+	displayGameMessage(pPlayer->m_name + " joined the game");
 
 	AddPlayerPacket app(guid, RakNet::RakString(pPlayer->m_name.c_str()), pPlayer->m_EntityID, pPlayer->m_pos.x, pPlayer->m_pos.y - pPlayer->field_84, pPlayer->m_pos.z);
 	RakNet::BitStream appbs;
@@ -257,10 +263,7 @@ void ServerSideNetworkHandler::handle(const RakNet::RakNetGUID& guid, RemoveBloc
 	if (pTile && setTileResult)
 	{
 		const Tile::SoundType* pSound = pTile->m_pSound;
-		m_pMinecraft->m_pSoundEngine->play("step." + pSound->m_name, float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
-
-		// redistribute the packet only if needed
-		redistributePacket(packet, guid);
+		m_pLevel->playSound(float(x) + 0.5f, float(y) + 0.5f, float(z) + 0.5f, "step." + pSound->m_name, 0.5f * (pSound->volume + 1.0f), pSound->pitch * 0.8f);
 	}
 }
 
@@ -345,7 +348,7 @@ void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 {
 	if (b)
 	{
-		m_pRakNetInstance->announceServer(m_pMinecraft->getOptions()->m_playerName);
+		m_pRakNetInstance->announceServer(m_pServer->getOptions()->m_playerName);
 	}
 	else
 	{
@@ -357,7 +360,7 @@ void ServerSideNetworkHandler::allowIncomingConnections(bool b)
 
 void ServerSideNetworkHandler::displayGameMessage(const std::string& msg)
 {
-	m_pMinecraft->m_gui.addMessage(msg);
+	m_pServer->addMessage(msg);
 	m_pRakNetInstance->send(new MessagePacket(msg));
 }
 
@@ -365,7 +368,7 @@ void ServerSideNetworkHandler::sendMessage(const RakNet::RakNetGUID& guid, const
 {
 	if (m_pRakNetPeer->GetMyGUID() == guid)
 	{
-		m_pMinecraft->m_gui.addMessage(msg);
+		m_pServer->addMessage(msg);
 		return;
 	}
 
@@ -398,12 +401,39 @@ OnlinePlayer* ServerSideNetworkHandler::getPlayerByGUID(const RakNet::RakNetGUID
 
 void ServerSideNetworkHandler::setupCommands()
 {
-	m_commands["?"]     = &ServerSideNetworkHandler::commandHelp;
-	m_commands["help"]  = &ServerSideNetworkHandler::commandHelp;
-	m_commands["stats"] = &ServerSideNetworkHandler::commandStats;
-	m_commands["time"]  = &ServerSideNetworkHandler::commandTime;
-	m_commands["seed"]  = &ServerSideNetworkHandler::commandSeed;
-	m_commands["tp"]    = &ServerSideNetworkHandler::commandTP;
+	m_commands["?"]		= &ServerSideNetworkHandler::commandHelp;
+	m_commands["help"]	= &ServerSideNetworkHandler::commandHelp;
+	m_commands["stats"]	= &ServerSideNetworkHandler::commandStats;
+	m_commands["time"]	= &ServerSideNetworkHandler::commandTime;
+	m_commands["seed"]	= &ServerSideNetworkHandler::commandSeed;
+	m_commands["tp"]	= &ServerSideNetworkHandler::commandTP;
+	m_commands["summon"]	= &ServerSideNetworkHandler::commandSummon;
+}
+
+static inline float convertCoord(const std::string value, float base)
+{
+	float val;
+	std::stringstream ss(value);
+	if (ss.peek() == '~')
+	{
+		ss.ignore();
+		ss >> val;
+		val += base;
+	}
+	else
+	{
+		ss >> val;
+	}
+	return val;
+}
+
+static inline Vec3 convertCoords(const std::vector<std::string> value, int offset, Vec3 pos)
+{
+	Vec3 coord;
+	coord.x = convertCoord(value[0 + offset], pos.x);
+	coord.y = convertCoord(value[1 + offset], pos.y);
+	coord.z = convertCoord(value[2 + offset], pos.z);
+	return coord;
 }
 
 void ServerSideNetworkHandler::commandHelp(OnlinePlayer* player, const std::vector<std::string>& parms)
@@ -426,7 +456,7 @@ void ServerSideNetworkHandler::commandStats(OnlinePlayer* player, const std::vec
 
 	std::stringstream ss;
 	ss << "Server uptime: " << getTimeS() << " seconds.\n";
-	ss << "Host's name: " << m_pMinecraft->m_pUser->field_0 << "\n";
+	//ss << "Host's name: " << m_pServer->m_pUser->field_0 << "\n";
 
 	int nPlayers = int(m_onlinePlayers.size());
 	if (nPlayers == 1)
@@ -479,44 +509,86 @@ void ServerSideNetworkHandler::commandTP(OnlinePlayer* player, const std::vector
 {
 	if (!m_pLevel)
 		return;
-    
+
 	if (parms.size() != 3)
 	{
 		sendMessage(player, "Usage: /tp <x> <y> <z>");
 		return;
 	}
-    
-	if (player->m_pPlayer != this->m_pMinecraft->m_pLocalPlayer)
+
+/*
+	if (player->m_pPlayer != this->m_pServer->m_pLocalPlayer)
 	{
 		sendMessage(player, "Sorry, only the host can use this command at the moment");
 		return;
 	}
-    
-	Vec3 pos = player->m_pPlayer->getPos(1.0f);
-    
-	float x = pos.x, y = pos.y, z = pos.z;
-    
+*/
+
+	Vec3 playerPos = player->m_pPlayer->getPos(1.0f);
+	Vec3 pos = convertCoords(parms, 0, playerPos);
+
 	std::stringstream ss;
-	if (parms[0] != "~")
+	ss << "Teleported to " << pos.x << ", " << pos.y << ", " << pos.z;
+
+	player->m_pPlayer->setPos(pos.x, pos.y, pos.z);
+
+	sendMessage(player, ss.str());
+}
+
+void ServerSideNetworkHandler::commandSummon(OnlinePlayer* player, const std::vector<std::string>& parms)
+{
+	if (!m_pLevel)
+		return;
+
+	if (parms.size() < 4)
 	{
-		ss.str(parms[0]);
-		ss >> x;
+		sendMessage(player, "Usage: /summon <entity> <x> <y> <z>");
+		return;
 	}
-	if (parms[1] != "~")
+
+	std::string entity = parms[0];
+	Entity *ent = nullptr;
+
+	Vec3 playerPos = player->m_pPlayer->getPos(1.0f);
+	Vec3 pos;
+	if (parms.size() > 1)
 	{
-		ss.str(parms[1]);
-		ss >> y;
+		pos = convertCoords(parms, 1, playerPos);
 	}
-	if (parms[2] != "~")
+
+	std::stringstream ss;
+
+	if (entity == "camera")
 	{
-		ss.str(parms[2]);
-		ss >> z;
+		TripodCamera *cam = new TripodCamera(m_pLevel, player->m_pPlayer, pos.x, pos.y, pos.z);
+		if (parms.size() > 4)
+			cam->m_iTimer = std::stoi(parms[4]) * 20;
+		ent = cam;
 	}
-    
-	ss.str(std::string());
-	ss << "Teleported to " << x << ", " << y << ", " << z;
-    
-	player->m_pPlayer->setPos(x, y, z);
-    
+	else if (entity == "tnt")
+	{
+		PrimedTnt *tnt = new PrimedTnt(m_pLevel, pos.x, pos.y, pos.z);
+		if (parms.size() > 4)
+			tnt->m_fuseTimer = std::stoi(parms[4]) * 20;
+		else tnt->m_fuseTimer = 0; // as in original
+		ent = tnt;
+	}
+	else if (entity == "pig")
+	{
+		Pig* pig = new Pig(m_pLevel);
+		pig->setPos(pos.x, pos.y, pos.z);
+		ent = pig;
+	}
+
+	if (!ent)
+	{
+		ss << "Unknown entity " << '"' << entity << '"';
+		sendMessage(player, ss.str());
+		return;
+	}
+
+	m_pLevel->addEntity(ent);
+	ss << "Summoned " << entity << " at " << pos.x << ", " << pos.y << ", " << pos.z;
+
 	sendMessage(player, ss.str());
 }

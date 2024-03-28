@@ -12,6 +12,7 @@
 IceTile::IceTile(int a, int b, Material* c) : HalfTransparentTile(a, b, c)
 {
 	setTicking(true);
+	m_acceleration = 1;
 }
 
 int IceTile::getRenderLayer()

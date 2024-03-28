@@ -141,6 +141,7 @@ void LevelRenderer::allChanged()
 
 	TileRenderer::m_bFancyGrass = m_pMinecraft->getOptions()->m_bFancyGrass;
 	TileRenderer::m_bBiomeColors = m_pMinecraft->getOptions()->m_bBiomeColors;
+	TileRenderer::m_bUseAmbientOcclusion = m_pMinecraft->getOptions()->m_bAmbientOcclusion;
 
 	field_BC = m_pMinecraft->getOptions()->m_iViewDistance;
 
@@ -765,10 +766,10 @@ bool LevelRenderer::updateDirtyChunks(Mob* pMob, bool b)
 	ChunkVector* v40; // r0
 	Chunk* v42[3]; // [sp+1Ch] [bp+0h] BYREF
 	Chunk* a3; // [sp+28h] [bp+Ch] BYREF
-	Entity* pMob_1; // [sp+2Ch] [bp+10h] BYREF
+	// Entity* pMob_1; // [sp+2Ch] [bp+10h] BYREF
 
 	v3 = 0;
-	pMob_1 = pMob;
+	// pMob_1 = pMob; // lol it's unused
 	DirtyChunkSorter dcs(pMob);
 	memset(v42, 0, sizeof v42);
 	field_88_Beg = this->field_88.begin();

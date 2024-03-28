@@ -10,7 +10,7 @@
 
 #include "IMoveInput.hpp"
 
-#include "client/options/Options.hpp"
+#include "server/Options.hpp"
 
 class KeyboardInput : public IMoveInput
 {

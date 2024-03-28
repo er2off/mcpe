@@ -16,5 +16,5 @@
 // Minecraft PE 0.1.3 .apk file.
 // --------------------------------------------------------------------
 #ifndef MISSING_SOUND_DATA
-#include "../../sound_data/sounds.h"
+#include "sound_data/sounds.h"
 #endif

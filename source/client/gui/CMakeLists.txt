@@ -1,0 +1,31 @@
+add_library(Gui STATIC
+    Gui.cpp Gui.hpp
+    GuiComponent.cpp GuiComponent.hpp
+    Screen.cpp Screen.hpp
+    components/AvailableGamesList.cpp components/AvailableGamesList.hpp
+    components/Button.cpp components/Button.hpp
+    components/OptionList.cpp components/OptionList.hpp
+    components/RolledSelectionList.cpp components/RolledSelectionList.hpp
+    components/ScrolledSelectionList.cpp components/ScrolledSelectionList.hpp
+    components/SmallButton.cpp components/SmallButton.hpp
+    components/TextInputBox.cpp components/TextInputBox.hpp
+    components/WorldSelectionList.cpp components/WorldSelectionList.hpp
+    screens/ChatScreen.cpp screens/ChatScreen.hpp
+    screens/ConfirmScreen.cpp screens/ConfirmScreen.hpp
+    screens/CreateWorldScreen.cpp screens/CreateWorldScreen.hpp
+    screens/DeathScreen.cpp screens/DeathScreen.hpp
+    screens/DeathScreen.cpp screens/DeathScreen.hpp
+    screens/DeleteWorldScreen.cpp screens/DeleteWorldScreen.hpp
+    screens/DirectConnectScreen.cpp screens/DirectConnectScreen.hpp
+    screens/IngameBlockSelectionScreen.cpp screens/IngameBlockSelectionScreen.hpp
+    screens/InvalidLicenseScreen.cpp screens/InvalidLicenseScreen.hpp
+    screens/JoinGameScreen.cpp screens/JoinGameScreen.hpp
+    screens/OptionsScreen.cpp screens/OptionsScreen.hpp
+    screens/PauseScreen.cpp screens/PauseScreen.hpp
+    screens/ProgressScreen.cpp screens/ProgressScreen.hpp
+    screens/RenameMPLevelScreen.cpp screens/RenameMPLevelScreen.hpp
+    screens/SavingWorldScreen.cpp screens/SavingWorldScreen.hpp
+    screens/SelectWorldScreen.cpp screens/SelectWorldScreen.hpp
+    screens/StartMenuScreen.cpp screens/StartMenuScreen.hpp
+)
+target_link_libraries(Gui PRIVATE Common Client)

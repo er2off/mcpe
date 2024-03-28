@@ -8,6 +8,7 @@
 
 #include "TextInputBox.hpp"
 #include "client/app/Minecraft.hpp"
+#include "compat/KeyCodes.hpp"
 #ifndef ORIGINAL_CODE
 
 #ifdef USE_NATIVE_ANDROID
@@ -52,9 +53,9 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 	if (!m_bFocused)
 		return;
 
+#if !defined(HANDLE_CHARS_SEPARATELY) && defined(__ANDROID__)
 	bool bShiftPressed = minecraft->platform()->shiftPressed();
 	
-#ifndef HANDLE_CHARS_SEPARATELY
 	char chr = '\0';
 	if (key >= AKEYCODE_A && key <= AKEYCODE_Z)
 	{
@@ -131,6 +132,8 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 #define AKEYCODE_ARROW_LEFT  VK_LEFT
 #define AKEYCODE_ARROW_RIGHT VK_RIGHT
 #define AKEYCODE_DEL         VK_BACK
+#else
+#error
 #endif
 
 	switch (key)

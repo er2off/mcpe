@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "Frustum.hpp"
+#include "thirdparty/GL/GL.hpp"
 
 Frustum Frustum::frustum;
 
@@ -14,8 +15,8 @@ void Frustum::doOurJobInGameRenderer()
 {
 	Frustum& f = Frustum::frustum;
 
-	f.m[16].fetchGL(GL_PROJECTION_MATRIX);
-	f.m[17].fetchGL(GL_MODELVIEW_MATRIX);
+	glGetFloatv(GL_PROJECTION_MATRIX, f.m[16].c);
+	glGetFloatv(GL_MODELVIEW_MATRIX, f.m[17].c);
 
 	f.m[18] = f.m[17] * f.m[16];
 

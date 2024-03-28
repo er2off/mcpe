@@ -14,7 +14,7 @@
 #if defined(_WIN32) && !defined(_XBOX)
 
 #define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include <windows.h>
 #include <io.h>
 #include <direct.h>
 
@@ -37,7 +37,7 @@
 
 int g_TimeSecondsOnInit = 0;
 
-#if (!defined(USE_SDL) || defined(_WIN32)) && !defined(ANDROID) && !MC_TARGET_OS_MAC
+#ifdef _WIN32
 
 DIR* opendir(const char* name)
 {

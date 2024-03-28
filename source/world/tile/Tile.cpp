@@ -66,7 +66,7 @@ void Tile::_init()
 	m_TextureFrame = 1;
 	m_pSound = nullptr;
 	field_28 = 1.0f;
-	field_30 = 0.6f;
+	m_acceleration = 0.6f;
 	m_hardness = 0.0f;
 	m_blastResistance = 0.0f;
 	m_descriptionID = "";

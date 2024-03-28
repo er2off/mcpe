@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include "common/Utils.hpp"
-#include "client/renderer/LightLayer.hpp"
+#include "world/level/LightLayer.hpp"
 #include "world/phys/AABB.hpp"
 
 class Level;

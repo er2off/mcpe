@@ -12,6 +12,7 @@
 #include "world/item/ItemInstance.hpp"
 
 class Minecraft;
+class LocalPlayer;
 
 class GameMode
 {

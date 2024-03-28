@@ -50,6 +50,7 @@ void AppPlatform_sdl_base::_init(std::string storageDir, SDL_Window *window)
 			m_bIsTouchscreen = false;
 		}
 	}
+	m_bMouseGrabbed = false;
 }
 
 void AppPlatform_sdl_base::initSoundSystem()
@@ -140,22 +141,28 @@ const char* const AppPlatform_sdl_base::getWindowTitle() const
 	return SDL_GetWindowTitle(_window);
 }
 
+void AppPlatform_sdl_base::getScreenSize(int* width, int* height) const
+{
+	SDL_GL_GetDrawableSize(_window, width, height);
+}
+
 int AppPlatform_sdl_base::getScreenWidth() const
 {
 	int width;
-	SDL_GL_GetDrawableSize(_window, &width, nullptr);
+	getScreenSize(&width, nullptr);
 	return width;
 }
 
 int AppPlatform_sdl_base::getScreenHeight() const
 {
 	int height;
-	SDL_GL_GetDrawableSize(_window, nullptr, &height);
+	getScreenSize(nullptr, &height);
 	return height;
 }
 
 void AppPlatform_sdl_base::setMouseGrabbed(bool b)
 {
+	m_bMouseGrabbed = b;
 	SDL_SetWindowGrab(_window, b ? SDL_TRUE : SDL_FALSE);
 	SDL_SetRelativeMouseMode(b ? SDL_TRUE : SDL_FALSE);
 }
@@ -164,6 +171,15 @@ void AppPlatform_sdl_base::setMouseDiff(int x, int y)
 {
 	xrel = x;
 	yrel = y;
+
+	// Keep mouse centered if it's grabbed
+	if (m_bMouseGrabbed)
+	{
+		int width, height;
+		getScreenSize(&width, &height);
+		SDL_WarpMouseInWindow(_window, width / 2, height / 2);
+		Mouse::feed(MouseButtonType::BUTTON_NONE, false, width / 2, height / 2);
+	}
 }
 
 void AppPlatform_sdl_base::getMouseDiff(int& x, int& y)

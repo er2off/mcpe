@@ -9,7 +9,7 @@
 #pragma once
 
 #include <string>
-#include "BitStream.h"
+#include "thirdparty/raknet/BitStream.h"
 #include "common/Utils.hpp"
 #include "world/phys/Vec3.hpp"
 #include "world/item/Inventory.hpp"

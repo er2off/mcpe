@@ -6,7 +6,7 @@
 	SPDX-License-Identifier: BSD-1-Clause
  ********************************************************************/
 
-#include <RakPeer.h>
+#include "thirdparty/raknet/RakPeer.h"
 #include "ClientSideNetworkHandler.hpp"
 #include "common/Utils.hpp"
 #include "client/gui/screens/StartMenuScreen.hpp"
@@ -34,7 +34,7 @@ ClientSideNetworkHandler::ClientSideNetworkHandler(Minecraft* pMinecraft, RakNet
 	m_field_24 = 0;
 }
 
-void ClientSideNetworkHandler::levelGenerated(Level* level)
+void ClientSideNetworkHandler::levelGenerated(Level* level, LocalPlayer* pLP)
 {
 	m_pLevel = level;
 	requestNextChunk();

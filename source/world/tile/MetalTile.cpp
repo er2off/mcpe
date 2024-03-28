@@ -20,6 +20,9 @@ MetalTile::MetalTile(int ID, int texture, Material* pMtl) : Tile(ID, pMtl)
 // textures for these tiles. :)
 int MetalTile::getTexture(int dir)
 {
+#ifdef SERVER
+	return m_TextureFrame;
+#else
 	int yoff = GetPatchManager()->GetMetalSideYOffset();
 	if (yoff < 0 || m_ID == Tile::lapisBlock->m_ID)
 		return m_TextureFrame;
@@ -28,4 +31,5 @@ int MetalTile::getTexture(int dir)
 	if (dir == DIR_YNEG) return m_TextureFrame + 16 * (yoff + 1);
 
 	return m_TextureFrame + 16 * (yoff + 0);
+#endif
 }

@@ -1709,6 +1709,7 @@ float Level::getSeenPercent(Vec3 vec, AABB aabb)
 	float aabbSizeZ = aabb.max.z - aabb.min.z;
 
 	// This shoots a bunch of rays from a point and checks if the rays hit something. Stuupiiiddd
+	// FIXME(Er2): clang-analyzer-security.FloatLoopCounter
 	for (float xi = 0.0f; xi <= 1.0f; xi += 1.0f / (1.0f + 2 * aabbSizeX))
 	{
 		for (float yi = 0.0f; yi <= 1.0f; yi += 1.0f / (1.0f + 2 * aabbSizeY))

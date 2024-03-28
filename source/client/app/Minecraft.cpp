@@ -37,7 +37,6 @@
 int Minecraft::width  = C_DEFAULT_SCREEN_WIDTH;
 int Minecraft::height = C_DEFAULT_SCREEN_HEIGHT;
 float Minecraft::guiScaleMultiplier = 1.0f;
-bool Minecraft::useAmbientOcclusion = false;
 int Minecraft::customDebugId = 0;
 
 //@HUH: For the demo, this is defined as TRUE.
@@ -53,23 +52,19 @@ const char* Minecraft::progressMessages[] =
 };
 
 Minecraft::Minecraft() :
+	Server(false),
 	m_gui(this)
 {
-	m_options = nullptr;
 	field_18 = false;
 	field_288 = false;
 	m_pLevelRenderer = nullptr;
 	m_pGameRenderer = nullptr;
 	m_pParticleEngine = nullptr;
 	m_pSoundEngine = nullptr;
-	m_pGameMode = nullptr;
 	m_pTextures = nullptr;
 	m_pFont = nullptr;
-	m_pRakNetInstance = nullptr;
-	m_pNetEventCallback = nullptr;
 	field_2B0 = 0;
 	m_pUser = nullptr;
-	m_pLevel = nullptr;
 	m_pLocalPlayer = nullptr;
 	m_pMobPersp = nullptr; // why is there a duplicate?
 	field_D0C = 0;
@@ -224,7 +219,7 @@ bool Minecraft::isTouchscreen()
 
 bool Minecraft::useSplitControls()
 {
-	return !m_bIsTouchscreen || m_options->m_bSplitControls;
+	return !m_bIsTouchscreen || m_pOptions->m_bSplitControls;
 }
 
 void Minecraft::setGuiScaleMultiplier(float f)
@@ -476,7 +471,14 @@ void Minecraft::tickInput()
 
 			if (getOptions()->isKey(KM_TOGGLE3RD, keyCode))
 			{
-				getOptions()->m_bThirdPerson = !getOptions()->m_bThirdPerson;
+				bool thirdPerson = getOptions()->m_bThirdPerson;
+				if (thirdPerson && !getOptions()->field_241)
+					getOptions()->field_241 = 1;
+				else
+				{
+					getOptions()->m_bThirdPerson = !thirdPerson;
+					getOptions()->field_241 = 0;
+				}
 			}
 			else if (getOptions()->isKey(KM_MENU_CANCEL, keyCode))
 			{
@@ -504,7 +506,6 @@ void Minecraft::tickInput()
 			{
 				// Toggle ambient occlusion.
 				getOptions()->m_bAmbientOcclusion = !getOptions()->m_bAmbientOcclusion;
-				Minecraft::useAmbientOcclusion = getOptions()->m_bAmbientOcclusion;
 				m_pLevelRenderer->allChanged();
 			}
 #endif
@@ -537,9 +538,9 @@ void Minecraft::tickInput()
 
 	bool flag =
 		// If we are mouse operated, the LMB is held down and it's not in the GUI
-		((m_options->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
+		((m_pOptions->field_19 && Mouse::isButtonDown(BUTTON_LEFT) && !bIsInGUI) ||
 		// We are instead keyboard operated, so check for the KM_DESTROY key being held down
-		(!m_options->field_19 && Keyboard::isKeyDown(m_options->m_keyMappings[KM_DESTROY].value)) ||
+		(!m_pOptions->field_19 && Keyboard::isKeyDown(m_pOptions->m_keyMappings[KM_DESTROY].value)) ||
 		// The build action intention is a remove one
 		(b && bai.isRemove()));
 
@@ -572,6 +573,11 @@ void Minecraft::handleCharInput(char chr)
 		m_pScreen->charInput(chr);
 }
 
+void Minecraft::addMessage(const std::string& message)
+{
+	m_gui.addMessage(message);
+}
+
 void Minecraft::sendMessage(const std::string& message)
 {
 	if (isOnlineClient())
@@ -580,7 +586,7 @@ void Minecraft::sendMessage(const std::string& message)
 		if (m_pRakNetInstance)
 			m_pRakNetInstance->send(new MessagePacket(message));
 		else
-			m_gui.addMessage("You aren't actually playing multiplayer!");
+			addMessage("You aren't actually playing multiplayer!");
 	}
 	else
 	{
@@ -589,7 +595,7 @@ void Minecraft::sendMessage(const std::string& message)
 		if (m_pNetEventCallback && m_pRakNetInstance)
 			m_pNetEventCallback->handle(m_pRakNetInstance->m_pRakPeerInterface->GetMyGUID(), &mp);
 		else
-			m_gui.addMessage("You aren't hosting a multiplayer server!");
+			addMessage("You aren't hosting a multiplayer server!");
 	}
 }
 
@@ -644,12 +650,12 @@ void Minecraft::_reloadInput()
 
 	if (isTouchscreen())
 	{
-		m_pInputHolder = new TouchInputHolder(this, m_options);
+		m_pInputHolder = new TouchInputHolder(this, m_pOptions);
 	}
 	else
 	{
 		m_pInputHolder = new CustomInputHolder(
-			new KeyboardInput(m_options),
+			new KeyboardInput(m_pOptions),
 #ifdef ORIGINAL_CODE
 			new ControllerTurnInput,
 #else
@@ -666,13 +672,13 @@ void Minecraft::_reloadInput()
 		m_pLocalPlayer->m_pMoveInput = m_pInputHolder->getMoveInput();
 	}
 
-	m_options->field_19 = !isTouchscreen();
+	m_pOptions->field_19 = !isTouchscreen();
 }
 
 void Minecraft::_levelGenerated()
 {
 	if (m_pNetEventCallback)
-		m_pNetEventCallback->levelGenerated(m_pLevel);
+		m_pNetEventCallback->levelGenerated(m_pLevel, m_pLocalPlayer);
 }
 
 void Minecraft::tick()
@@ -796,7 +802,7 @@ void Minecraft::init()
 
 	m_pRakNetInstance = new RakNetInstance;
 
-	m_pTextures = new Textures(m_options, platform());
+	m_pTextures = new Textures(m_pOptions, platform());
 	m_pTextures->addDynamicTexture(new WaterTexture);
 	m_pTextures->addDynamicTexture(new WaterSideTexture);
 	m_pTextures->addDynamicTexture(new LavaTexture);
@@ -804,9 +810,9 @@ void Minecraft::init()
 	m_pTextures->addDynamicTexture(new FireTexture(0));
 
 	if (platform()->hasFileSystemAccess())
-		m_options = new Options(m_externalStorageDir);
+		m_pOptions = new Options(m_externalStorageDir);
 	else
-		m_options = new Options();
+		m_pOptions = new Options();
 
 	_reloadInput();
 
@@ -818,7 +824,7 @@ void Minecraft::init()
 	GetPatchManager()->PatchTiles();
 
 	m_pSoundEngine = new SoundEngine(platform()->getSoundSystem());
-	m_pSoundEngine->init(m_options);
+	m_pSoundEngine->init(m_pOptions);
 
 	m_pLevelRenderer = new LevelRenderer(this, m_pTextures);
 	m_pGameRenderer = new GameRenderer(this);
@@ -832,7 +838,7 @@ void Minecraft::init()
 #endif
 
 	// "Default.png" for the launch image overwrites "default.png" for the font during app packaging
-	m_pFont = new Font(m_options, "font/default8.png", m_pTextures);
+	m_pFont = new Font(m_pOptions, "font/default8.png", m_pTextures);
 
 	if (GrassColor::isAvailable())
 	{
@@ -846,14 +852,10 @@ void Minecraft::init()
 
 Minecraft::~Minecraft()
 {
-	SAFE_DELETE(m_options);
-	SAFE_DELETE(m_pNetEventCallback);
-	SAFE_DELETE(m_pRakNetInstance);
 	SAFE_DELETE(m_pLevelRenderer);
 	SAFE_DELETE(m_pGameRenderer);
 	SAFE_DELETE(m_pParticleEngine);
 	SAFE_DELETE(m_pSoundEngine);
-	SAFE_DELETE(m_pGameMode);
 	SAFE_DELETE(m_pFont);
 	SAFE_DELETE(m_pTextures);
 
@@ -867,7 +869,6 @@ Minecraft::~Minecraft()
 	}
 
 	SAFE_DELETE(m_pUser);
-	SAFE_DELETE(m_pLevelStorageSource);
 	SAFE_DELETE(m_pInputHolder);
 	SAFE_DELETE(m_Logger);
 

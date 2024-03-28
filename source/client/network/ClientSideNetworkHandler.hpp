@@ -29,7 +29,7 @@ class ClientSideNetworkHandler : public NetEventCallback
 public:
 	ClientSideNetworkHandler(Minecraft*, RakNetInstance*);
 
-	void levelGenerated(Level*) override;
+	void levelGenerated(Level*, LocalPlayer*) override;
 	void onConnect(const RakNet::RakNetGUID&) override;
 	void onDisconnect(const RakNet::RakNetGUID&) override;
 	void onUnableToConnect() override;

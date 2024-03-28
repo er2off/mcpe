@@ -13,7 +13,7 @@
 #include "SelectWorldScreen.hpp"
 #include "JoinGameScreen.hpp"
 
-#if defined(_WIN32) || (defined(TARGET_OS_MAC) && TARGET_OS_IPHONE == 0)
+#if defined(_WIN32) || defined(USE_SDL) && !MC_TARGET_OS_IOS && !defined(__ANDROID__)
 #define CAN_QUIT
 #endif
 

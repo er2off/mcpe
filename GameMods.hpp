@@ -9,10 +9,6 @@
 #define DEMO
 #else
 
-#if defined ANDROID || defined TARGET_OS_IPHONE
-#define MOBILE
-#endif
-
 // TODO: Since this is the modded version, we don't need these anymore. Remove them
 
 // Mods

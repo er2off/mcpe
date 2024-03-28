@@ -9,7 +9,8 @@
 #include "TouchscreenInput_TestFps.hpp"
 #include "Multitouch.hpp"
 #include "client/app/Minecraft.hpp"
-#include "client/options/Options.hpp"
+#include "client/gui/screens/ChatScreen.hpp"
+#include "server/Options.hpp"
 #include "world/entity/Player.hpp"
 
 TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Options* pOptions) :
@@ -22,7 +23,8 @@ TouchscreenInput_TestFps::TouchscreenInput_TestFps(Minecraft* pMinecraft, Option
 	m_pAreaRight(nullptr),
 	m_pAreaForward(nullptr),
 	m_pAreaBackward(nullptr),
-	m_pAreaJump(nullptr)
+	m_pAreaJump(nullptr),
+	m_pAreaChat(nullptr)
 {
 	for (int i = 0; i < 10; i++)
 		field_30[i] = 0;
@@ -38,7 +40,7 @@ void TouchscreenInput_TestFps::releaseAllKeys()
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 7; i++)
 		field_6C[i] = false;
 }
 
@@ -55,15 +57,6 @@ static void CopyCoordinateArray(int count, float* xs, float* ys, float* xd, floa
 	}
 }
 
-static void MultiplyCoordinateArray(int count, float* x, float* y, float xm, float ym)
-{
-	for (int i = 0; i < count; i++)
-	{
-		x[i] *= xm;
-		y[i] *= ym;
-	}
-}
-
 static void AddCoordinateArray(int count, float* x, float* y, float xd, float yd)
 {
 	for (int i = 0; i < count; i++)
@@ -73,10 +66,9 @@ static void AddCoordinateArray(int count, float* x, float* y, float xd, float yd
 	}
 }
 
-static void TransformArray(int count, float* x1, float* y1, float* x2, float* y2, float xd, float yd, float xm, float ym)
+static void TransformArray(int count, float* x1, float* y1, float* x2, float* y2, float xd, float yd)
 {
 	CopyCoordinateArray(count, x1, y1, x2, y2);
-	MultiplyCoordinateArray(count, x2, y2, xm, ym);
 	AddCoordinateArray(count, x2, y2, xd, yd);
 }
 
@@ -106,25 +98,33 @@ void TouchscreenInput_TestFps::setScreenSize(int width, int height)
 	float middleX = offX + widthM;
 	float middleY = ry1 + heightM;
 
-	TransformArray(4, x1, y1, x2, y2, middleX, middleY - heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX, middleY - heightM);
 	m_pAreaForward = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_FORWARD, m_pAreaForward);
 
-	TransformArray(4, x1, y1, x2, y2, middleX, middleY, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX, middleY);
 	m_pAreaJump = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_JUMP, m_pAreaJump);
 
-	TransformArray(4, x1, y1, x2, y2, middleX, middleY + heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX, middleY + heightM);
 	m_pAreaBackward = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_BACKWARD, m_pAreaBackward);
 
-	TransformArray(4, x1, y1, x2, y2, middleX - widthM, ry1 + heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX - widthM, ry1 + heightM);
 	m_pAreaLeft = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_LEFT, m_pAreaLeft);
 
-	TransformArray(4, x1, y1, x2, y2, middleX + widthM, ry1 + heightM, 1.0f, 1.0f);
+	TransformArray(4, x1, y1, x2, y2, middleX + widthM, ry1 + heightM);
 	m_pAreaRight = new PolygonArea(4, x2, y2);
 	m_touchAreaModel.addArea(100 + INPUT_RIGHT, m_pAreaRight);
+
+	float scale = Gui::InvGuiScale;
+
+	x1[1] = x1[2] = 16.0f / scale;
+	y1[2] = y1[3] = 16.0f / scale;
+	TransformArray(4, x1, y1, x2, y2, width - 17.0f / scale, 1.0f / scale);
+	m_pAreaChat = new PolygonArea(4, x2, y2);
+	m_touchAreaModel.addArea(100 + INPUT_CHAT, m_pAreaChat);
 
 	// NOTE: We are not leaking memory! Since by default IArea's constructor sets
 	// field_4 to true, TouchAreaModel owns the pointers, so when it's destroyed,
@@ -137,7 +137,7 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 	m_vertInput = 0.0f;
 	m_bJumpButton = false;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 7; i++)
 		field_6C[i] = false;
 	
 	const int* activePointers;
@@ -201,6 +201,11 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 			case 100 + INPUT_RIGHT:
 				m_horzInput -= 1.0f;
 				break;
+
+			case 100 + INPUT_CHAT:
+				if (!m_pMinecraft->m_pScreen && Multitouch::isPressed(finger))
+					m_pMinecraft->setScreen(new ChatScreen());
+				break;
 		}
 	}
 
@@ -221,16 +226,16 @@ void TouchscreenInput_TestFps::tick(Player* pPlayer)
 	}
 }
 
-static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int srcY)
+static void RenderTouchButton(Tesselator* t, PolygonArea* pArea, int srcX, int srcY, float srcW, float srcH)
 {
 	float tc[8];
 
 	tc[0] = float(srcX) / 256.0f;
 	tc[1] = float(srcY) / 256.0f;
-	tc[2] = tc[0] + 64.0f / 256.0f;
+	tc[2] = tc[0] + srcW / 256.0f;
 	tc[3] = tc[1];
 	tc[4] = tc[2];
-	tc[5] = tc[1] + 64.0f / 256.0f;
+	tc[5] = tc[1] + srcH / 256.0f;
 	tc[6] = tc[0];
 	tc[7] = tc[5];
 
@@ -258,19 +263,30 @@ void TouchscreenInput_TestFps::render(float f)
 	t.begin();
 
 	t.color(isButtonDown(100 + INPUT_LEFT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaLeft, 64, 112);
+	RenderTouchButton(&t, m_pAreaLeft, 64, 112, 64, 64);
 
 	t.color(isButtonDown(100 + INPUT_RIGHT) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaRight, 192, 112);
+	RenderTouchButton(&t, m_pAreaRight, 192, 112, 64, 64);
 
 	t.color(isButtonDown(100 + INPUT_FORWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaForward, 0, 112);
+	RenderTouchButton(&t, m_pAreaForward, 0, 112, 64, 64);
 
 	t.color(isButtonDown(100 + INPUT_BACKWARD) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaBackward, 128, 112);
+	RenderTouchButton(&t, m_pAreaBackward, 128, 112, 64, 64);
 
 	t.color(isButtonDown(100 + INPUT_JUMP) ? 0xC0C0C0 : 0xFFFFFF, 0x80);
-	RenderTouchButton(&t, m_pAreaJump, 0, 176);
+	RenderTouchButton(&t, m_pAreaJump, 0, 176, 64, 64);
+
+	t.draw();
+
+	t.begin();
+	t.color(0xFFFFFF, 0x80);
+	m_pMinecraft->m_pTextures->loadAndBindTexture("gui/gui_custom.png");
+
+	int srcX = 32;
+	if (isButtonDown(100 + INPUT_CHAT))
+		srcX += 18;
+	RenderTouchButton(&t, m_pAreaChat, srcX, 18, 18, 18);
 
 	t.draw();
 

@@ -12,6 +12,7 @@ PathfinderMob::PathfinderMob(Level* pLevel) : Mob(pLevel)
 {
 	field_BA0 = false;
 	field_BA4 = 0;
+	m_pAttackTarget = nullptr;
 }
 
 Entity* PathfinderMob::getAttackTarget()

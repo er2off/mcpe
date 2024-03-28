@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "RakNetTypes.h"
+#include "thirdparty/raknet/RakNetTypes.h"
 #include "Packet.hpp"
 class Packet;
 class LoginPacket;
@@ -25,6 +25,7 @@ class ChunkDataPacket;
 class PlayerEquipmentPacket;
 class LevelDataPacket;
 #include "world/level/Level.hpp"
+class LocalPlayer;
 class Level;
 class LevelChunk;
 
@@ -32,7 +33,7 @@ class NetEventCallback
 {
 public:
 	virtual ~NetEventCallback() {}
-	virtual void levelGenerated(Level*);
+	virtual void levelGenerated(Level*, LocalPlayer*);
 	virtual void onConnect(const RakNet::RakNetGUID&);
 	virtual void onUnableToConnect();
 	virtual void onNewClient(const RakNet::RakNetGUID&);

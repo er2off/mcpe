@@ -4,11 +4,13 @@
 
 #include "thirdparty/GL/GL.hpp"
 #include "client/app/App.hpp"
+#include "compat/KeyCodes.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include "emscripten/AppPlatform_sdl.hpp"
 #else
 #include "desktop/AppPlatform_sdl.hpp"
+#include <libgen.h>
 #endif
 typedef AppPlatform_sdl UsedAppPlatform;
 
@@ -33,12 +35,13 @@ static void teardown()
 	}
 }
 
-static int TranslateSDLKeyCodeToVirtual(int sdlCode)
+static int TranslateSDLKeyCodeToVirtual(SDL_Scancode sdlCode)
 {
 	switch (sdlCode) {
-		#define CODE(x) case SDLK_ ## x: return SDLVK_ ## x;
+		#define CODE(x) case SDL_SCANCODE_ ## x: return SDLVK_ ## x;
 		#include "compat/SDLKeyCodes.h"
 		#undef  CODE
+		case SDL_NUM_SCANCODES: break;
 	}
 	return SDLVK_UNKNOWN;
 }
@@ -145,7 +148,7 @@ static void handle_events()
 				}
 
 				// Normal Key Press
-				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.sym));
+				Keyboard::feed(AppPlatform_sdl_base::GetKeyState(event), TranslateSDLKeyCodeToVirtual(event.key.keysym.scancode));
 				if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT)
 				{
 					g_pAppPlatform->setShiftPressed(event.key.state == SDL_PRESSED, event.key.keysym.sym == SDLK_LSHIFT);
@@ -305,6 +308,11 @@ void CheckOptionalTextureAvailability()
 // Main
 int main(int argc, char *argv[])
 {
+#ifndef __EMSCRIPTEN__
+	// automatically change dir to avoid missing files and manual cd command
+	chdir(dirname(argv[0]));
+#endif
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG_E("Unable To Initialize SDL: %s", SDL_GetError());
@@ -330,6 +338,9 @@ int main(int argc, char *argv[])
 	Minecraft::height = std::stoi(argv[2]);
 #endif
 
+	// disable blocking compositing
+	SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0");
+
 	// Lock To Landscape
 	SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 
@@ -339,6 +350,7 @@ int main(int argc, char *argv[])
 	if (!window)
 	{
 		LOG_E("Unable to create SDL window");
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Error", "Unable to create SDL window", window);
 		exit(EXIT_FAILURE);
 	}
 
@@ -389,15 +401,14 @@ int main(int argc, char *argv[])
 	
 	if (!storagePath.empty())
 		createFolderIfNotExists(storagePath.c_str());
-	
+
 	// Start MCPE
 	g_pApp = new NinecraftApp;
 	g_pApp->m_externalStorageDir = storagePath;
 	g_pAppPlatform = new UsedAppPlatform(g_pApp->m_externalStorageDir, window);
 	g_pApp->m_pPlatform = g_pAppPlatform;
-	g_pApp->init();
-
 	CheckOptionalTextureAvailability();
+	g_pApp->init();
 	
 	// Set Size
 	resize();

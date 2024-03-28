@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include <common/Utils.hpp> // it includes GL/gl.h
-#include <compat/PlatformDefinitions.h>
+#include "common/Utils.hpp" // it includes GL/gl.h
+#include "compat/PlatformDefinitions.h"
 
 #ifdef USE_NATIVE_ANDROID
 	#define USE_GLES
@@ -39,14 +39,14 @@
 	#define USE_GL_ORTHO_F
 #else
 	#ifdef USE_SDL
-		#define USE_OPENGL_2_FEATURES
+		#ifndef _WIN32
+			#define USE_OPENGL_2_FEATURES
+		#endif
 
 		#define GL_GLEXT_PROTOTYPES
 		#include "thirdparty/SDL2/SDL_opengl.h"
 
-		#ifndef _WIN32
-			#include <SDL2/SDL_opengl_glext.h>
-		#endif
+		#include <SDL2/SDL_opengl_glext.h>
 	#else
 		#ifdef __APPLE__
 			#include <OpenGL/gl.h>

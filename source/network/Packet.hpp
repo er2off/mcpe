@@ -10,9 +10,9 @@
 
 #include <string>
 #include "common/LongHack.hpp"
-#include "RakNetTypes.h"
-#include "BitStream.h"
-#include "MessageIdentifiers.h"
+#include "thirdparty/raknet/RakNetTypes.h"
+#include "thirdparty/raknet/BitStream.h"
+#include "thirdparty/raknet/MessageIdentifiers.h"
 #include "NetEventCallback.hpp"
 
 class NetEventCallback;

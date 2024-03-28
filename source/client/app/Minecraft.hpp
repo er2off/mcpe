@@ -15,7 +15,7 @@
 #include "client/gui/Gui.hpp"
 #include "client/gui/Screen.hpp"
 #include "network/RakNetInstance.hpp"
-#include "network/NetEventCallback.hpp"
+#include "client/player/LocalPlayer.hpp"
 #include "client/player/input/IInputHolder.hpp"
 #include "client/player/input/MouseHandler.hpp"
 #include "client/player/input/BuildActionIntention.hpp"
@@ -23,14 +23,14 @@
 #include "client/renderer/LevelRenderer.hpp"
 #include "client/renderer/entity/EntityRenderDispatcher.hpp"
 #include "client/sound/SoundEngine.hpp"
+#include "server/Server.hpp"
 #include "world/level/Level.hpp"
-#include "world/entity/LocalPlayer.hpp"
 #include "world/gamemode/GameMode.hpp"
 #include "world/particle/ParticleEngine.hpp"
 
 class Screen; // in case we're included from Screen.hpp
 
-class Minecraft : public App
+class Minecraft : public App, public Server
 {
 public:
 	Minecraft();
@@ -57,6 +57,7 @@ public:
 	void locateMultiplayer();
 	void tickMouse();
 	void handleCharInput(char chr);
+	virtual void addMessage(const std::string& message) override;
 	void sendMessage(const std::string& message);
 	void resetPlayer(Player* player);
 	void respawnPlayer(Player* player);
@@ -80,10 +81,9 @@ public:
 	const char* getProgressMessage();
 	LevelStorageSource* getLevelSource();
 	ItemInstance* getSelectedItem();
-	Options* getOptions() const { return m_options; }
 
 	static void setGuiScaleMultiplier(float f);
-	
+
 private:
 	void _reloadInput();
 	void _levelGenerated();
@@ -91,14 +91,12 @@ private:
 public:
 	static float guiScaleMultiplier;
 	static int width, height;
-	static bool useAmbientOcclusion;
 	static const char* progressMessages[];
 	static const bool DEADMAU5_CAMERA_CHEATS;
 	static int customDebugId;
 
 private:
 	Logger *m_Logger;
-	Options *m_options;
 
 public:
 	bool field_18;
@@ -107,16 +105,12 @@ public:
 	GameRenderer* m_pGameRenderer;
 	ParticleEngine* m_pParticleEngine;
 	SoundEngine* m_pSoundEngine;
-	GameMode* m_pGameMode;
 	Textures* m_pTextures;
 	Font* m_pFont;
-	RakNetInstance* m_pRakNetInstance;
-	NetEventCallback* m_pNetEventCallback;
 	int field_2B0;
 	int field_2B4;
 	int field_2B8;
 	User* m_pUser;
-	Level* m_pLevel;
 	LocalPlayer* m_pLocalPlayer;
 	Mob* m_pMobPersp; // why is there a duplicate?
 	Gui m_gui;
@@ -131,9 +125,7 @@ public:
 	HitResult m_hitResult;
 	int m_progressPercent;
 	std::string m_externalStorageDir;
-	Timer m_timer;
 	bool m_bPreparingLevel;
-	LevelStorageSource* m_pLevelStorageSource; // TODO
 	int field_D9C;
 	int field_DA0;
 	int field_DA4;
