@@ -45,8 +45,9 @@ void SoundSystem::playAt(const SoundDesc& sound, float x, float y, float z, floa
 {
 }
 
-void SoundSystem::startEngine()
+bool SoundSystem::startEngine()
 {
+	return false;
 }
 
 void SoundSystem::stopEngine()

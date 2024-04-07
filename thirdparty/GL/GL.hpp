@@ -46,7 +46,11 @@
 		#define GL_GLEXT_PROTOTYPES
 		#include "thirdparty/SDL2/SDL_opengl.h"
 
-		#include <SDL2/SDL_opengl_glext.h>
+		#ifdef __linux__
+			#include <SDL2/SDL_opengl_glext.h>
+		#else
+			#include <SDL_opengl_glext.h>
+		#endif
 	#else
 		#ifdef __APPLE__
 			#include <OpenGL/gl.h>

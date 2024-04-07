@@ -10,7 +10,9 @@
 #include "emscripten/AppPlatform_sdl.hpp"
 #else
 #include "desktop/AppPlatform_sdl.hpp"
-#include <libgen.h>
+# ifndef _MSC_VER
+#  include <libgen.h>
+# endif
 #endif
 typedef AppPlatform_sdl UsedAppPlatform;
 
@@ -308,7 +310,7 @@ void CheckOptionalTextureAvailability()
 // Main
 int main(int argc, char *argv[])
 {
-#ifndef __EMSCRIPTEN__
+#if !defined(__EMSCRIPTEN__) && !defined(_MSC_VER)
 	// automatically change dir to avoid missing files and manual cd command
 	chdir(dirname(argv[0]));
 #endif

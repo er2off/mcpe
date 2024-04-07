@@ -3,12 +3,15 @@
 #ifdef USE_OPENAL
 
 #ifdef _WIN32
+#pragma comment( lib, "OpenAL32.lib" )
 #include <al.h>
 #include <alc.h>
-#pragma comment( lib, "OpenAl32.lib" )
 #elif defined(__APPLE__)
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
+#elif defined(__EMSCRIPTEN__)
+#include <AL/al.h>
+#include <AL/alc.h>
 #else
 #include <al.h>
 #include <alc.h>
@@ -36,7 +39,7 @@ public:
 	virtual void setListenerPos(float x, float y, float z);
 	virtual void setListenerAngle(float yaw, float pitch);
     
-    virtual void startEngine();
+    virtual bool startEngine();
     virtual void stopEngine();
     virtual void muteAudio();
     virtual void unMuteAudio();

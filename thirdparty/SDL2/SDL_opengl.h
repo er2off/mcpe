@@ -1,8 +1,7 @@
 #pragma once
 
-#ifdef _WIN32
-#pragma comment(lib, "SDL2.lib")
-#include <SDL_opengl.h>
-#else
+#ifdef __linux__
 #include <SDL2/SDL_opengl.h>
+#else
+#include <SDL_opengl.h>
 #endif

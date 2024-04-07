@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -26,17 +26,8 @@ cd ../
 rm -rf dist
 mkdir dist
 
-# Create Build Directory
-mkdir -p build
-cd build
-
 # Configure Build
-emcmake cmake -GNinja "$@" ../../platforms/sdl
+emcmake cmake -GNinja -S.. -Bbuild "$@"
 
 # Build
-cmake --build .
-
-# Bundle
-cp reminecraftpe.* ../dist
-cp ../../platforms/sdl/emscripten/wasm_shell.html ../dist/reminecraftpe.html
-cp ../../thirdparty/coi-serviceworker/coi-serviceworker.min.js ../dist
+cmake --build build

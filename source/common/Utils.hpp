@@ -11,6 +11,7 @@
 #include <time.h>
 #include <stdio.h> // have to include this to avoid it being included again later from being a problem
 #include <stdint.h>
+#include <string.h>
 #include <stdarg.h>
 #include <assert.h>
 #include <limits.h>

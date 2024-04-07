@@ -14,7 +14,11 @@ add_library(Common STATIC
     ../../GameMods.hpp
 )
 
-#target_link_libraries(Common PRIVATE Renderer)
+# Threads
+if (NOT WIN32 AND NOT EMSCRIPTEN)
+    find_package(Threads REQUIRED)
+    target_link_libraries(Common PRIVATE Threads::Threads)
+endif()
 
 # zlib
 if (WIN32)
@@ -25,7 +29,7 @@ elseif (EMSCRIPTEN)
     # Use Emscripten's ZLib
     set(ZLIB_FLAG -sUSE_ZLIB=1)
     target_compile_options(Common PUBLIC "${ZLIB_FLAG}")
-    target_link_options(Common PRIVATE "${ZLIB_FLAG}")
+    target_link_options(Common PUBLIC "${ZLIB_FLAG}")
 else()
     # Use System ZLib
     find_package(ZLIB REQUIRED)

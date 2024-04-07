@@ -8,13 +8,11 @@ SoundSystemAL::SoundSystemAL()
 	_initialized = false;
     _listenerVolume = 1.0;
     _audioMuted = false;
-    
-    startEngine();
 }
 
 SoundSystemAL::~SoundSystemAL()
 {
-    stopEngine();
+    SoundSystemAL::stopEngine();
 }
 
 // Error Checking
@@ -271,15 +269,15 @@ void SoundSystemAL::playAt(const SoundDesc& sound, float x, float y, float z, fl
 	_sources.push_back(al_source);
 }
 
-void SoundSystemAL::startEngine()
+bool SoundSystemAL::startEngine()
 {
-    if (_initialized) return;
+    if (_initialized) return true;
     
     _device = alcOpenDevice(NULL);
 	if (!_device)
 	{
 		LOG_E("Unable To Load Audio Engine");
-		return;
+		return false;
 	}
     
 	// Create Context
@@ -288,7 +286,7 @@ void SoundSystemAL::startEngine()
 	if (err != ALC_NO_ERROR)
 	{
 		LOG_E("Unable To Open Audio Context: %s", alcGetString(_device, err));
-		return;
+		return false;
 	}
     
 	// Select Context
@@ -297,7 +295,7 @@ void SoundSystemAL::startEngine()
 	if (err != ALC_NO_ERROR)
 	{
 		LOG_E("Unable To Select Audio Context: %s", alcGetString(_device, err));
-		return;
+		return false;
 	}
     
 	// Set Distance Model
@@ -305,6 +303,7 @@ void SoundSystemAL::startEngine()
     
 	// Mark As loaded
 	_initialized = true;
+	return true;
 }
 
 void SoundSystemAL::stopEngine()

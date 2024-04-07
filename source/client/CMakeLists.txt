@@ -104,7 +104,5 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../sound_data/sounds.h")
 	target_compile_definitions(Client PRIVATE MISSING_SOUND_DATA)
 endif()
 
-target_link_libraries(Client PUBLIC
-    Gui
-    Renderer
-)
+target_link_libraries(Client PUBLIC Renderer Gui)
+target_link_libraries(Client PRIVATE Server World)

@@ -26,7 +26,7 @@ public:
 	virtual void playAt(const SoundDesc& sound, float x, float y, float z, float a, float b);
     
     // Be prepared for these to be called regardless of engine state
-    virtual void startEngine();
+    virtual bool startEngine();
     virtual void stopEngine();
     
     virtual void muteAudio();

@@ -15,6 +15,12 @@ endif()
 #target_include_directories(Renderer PUBLIC .)
 target_include_directories(Renderer PRIVATE ../..)
 
+if (WIN32)
+    target_include_directories(Renderer PUBLIC ../../thirdparty)
+else()
+    target_include_directories(Renderer PRIVATE ../../thirdparty)
+endif()
+
 # Find OpenGL library
 if (USE_GLES1_COMPATIBILITY_LAYER)
     message(STATUS "GLESv1 compatibility layer")

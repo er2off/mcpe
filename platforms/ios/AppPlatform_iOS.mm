@@ -38,6 +38,11 @@ void AppPlatform_iOS::initSoundSystem()
 	{
 		LOG_E("Trying to initialize SoundSystem more than once!");
 	}
+	if (m_pSoundSystem && !m_pSoundSystem->startEngine())
+	{
+		LOG_E("Unable to load Audio Engine");
+		m_pSoundSystem = nullptr;
+	}
 }
 
 AppPlatform_iOS::~AppPlatform_iOS()

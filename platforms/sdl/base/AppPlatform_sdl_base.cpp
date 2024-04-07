@@ -64,6 +64,11 @@ void AppPlatform_sdl_base::initSoundSystem()
 	{
 		LOG_E("Trying to initialize SoundSystem more than once!");
 	}
+	if (m_pSoundSystem && !m_pSoundSystem->startEngine())
+	{
+		LOG_E("Unable to load Audio Engine");
+		m_pSoundSystem = nullptr;
+	}
 }
 
 std::string AppPlatform_sdl_base::getDateString(int time)
