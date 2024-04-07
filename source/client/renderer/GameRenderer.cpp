@@ -335,7 +335,7 @@ void GameRenderer::setupFog(int i)
 
 	if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::water))
 	{
-	#if defined(ORIGINAL_CODE) || defined(ANDROID)
+	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
 		glFogx(GL_FOG_MODE, GL_EXP);
 	#else
 		glFogi(GL_FOG_MODE, GL_EXP);
@@ -345,7 +345,7 @@ void GameRenderer::setupFog(int i)
 	}
 	else if (m_pMinecraft->m_pMobPersp->isUnderLiquid(Material::lava))
 	{
-	#if defined(ORIGINAL_CODE) || defined(ANDROID)
+	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
 		glFogx(GL_FOG_MODE, GL_EXP);
 	#else
 		glFogi(GL_FOG_MODE, GL_EXP);
@@ -355,7 +355,7 @@ void GameRenderer::setupFog(int i)
 	}
 	else
 	{
-	#if defined(ORIGINAL_CODE) || defined(ANDROID)
+	#if defined(ORIGINAL_CODE) || defined(__ANDROID__)
 		glFogx(GL_FOG_MODE, GL_LINEAR);
 	#else
 		glFogi(GL_FOG_MODE, GL_LINEAR);
@@ -703,6 +703,7 @@ void GameRenderer::render(float f)
 				if (tile > 0) {
 					pTile = Tile::tiles[tile];
 					debugTextRight << "\nTile: " << std::to_string(tile) <<" "<< pTile->m_descriptionID;
+					debugTextRight << "\nData: " << std::to_string(m_pMinecraft->m_pLevel->getData(hr.m_tileX, hr.m_tileY, hr.m_tileZ));
 				}
 			}
 		}

@@ -49,6 +49,9 @@
 #include "BookshelfTile.hpp"
 #include "WireTile.hpp"
 #include "RocketLauncherTile.hpp"
+#include "RedStoneTorchTile.hpp"
+#include "RedStoneRepeaterTile.hpp"
+#include "LeverTile.hpp"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "tile.";
 
@@ -704,6 +707,52 @@ void Tile::initTiles()
 		->setSoundType(Tile::SOUND_STONE)
 		->setDescriptionId("rocketLauncher");
 
+	Tile::wire = (new WireTile(TILE_WIRE))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("wire");
+
+	Tile::notGate_off = (new RedStoneTorchTile(TILE_REDSTONE_TORCH_OFF, TEXTURE_TORCH_RED_STONE_OFF, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("notGate");
+
+	Tile::notGate = (new RedStoneTorchTile(TILE_REDSTONE_TORCH_ON, TEXTURE_TORCH_RED_STONE, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("notGateLit");
+
+	Tile::repeater_off = (new RedStoneRepeaterTile(TILE_REPEATER_OFF, TEXTURE_REPEATER_OFF, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("repeater");
+
+	Tile::repeater_on = (new RedStoneRepeaterTile(TILE_REPEATER_ON, TEXTURE_REPEATER_ON, Material::decoration))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_WOOD)
+		->setDescriptionId("repeaterLit");
+
+	Tile::lever = (new LeverTile(TILE_LEVER, TEXTURE_LEVER, Material::stone))
+		->init()
+		->setDestroyTime(0.0f)
+		->setSoundType(Tile::SOUND_STONE)
+		->setDescriptionId("lever");
+
+	//Tile::button = (new ButtonTile(TILE_BUTTON, TEXTURE_BUTTON, Material::stone))
+	//	->init()
+	//	->setDestroyTime(0.0f)
+	//	->setSoundType(Tile::SOUND_STONE)
+	//	->setDescriptionId("button");
+
+	//addCreativeItem(Tile::button->m_ID);
+	//addCreativeItem(Tile::plate_stone->m_ID);
+	//addCreativeItem(Tile::plate_wood->m_ID);
+
 	for (int i = 0; i < C_MAX_TILES; i++)
 	{
 		if (Tile::tiles[i])
@@ -941,17 +990,17 @@ HitResult Tile::clip(Level* level, int x, int y, int z, Vec3 vec1, Vec3 vec2)
 	return HitResult(x, y, z, collType, *pVec + Vec3(float(x), float(y), float(z)));
 }
 
-int Tile::getSignal(LevelSource* pLevel, int x, int y, int z)
+/*int Tile::getSignal(LevelSource* pLevel, int x, int y, int z)
 {
 	return 0;
-}
+}*/
 
 int Tile::getSignal(LevelSource* pLevel, int x, int y, int z, int dir)
 {
 	return 0;
 }
 
-int Tile::getDirectSignal(Level* pLevel, int x, int y, int z, int dir)
+int Tile::getDirectSignal(LevelSource* pLevel, int x, int y, int z, int dir)
 {
 	return 0;
 }
@@ -1152,4 +1201,13 @@ Tile
 	*Tile::bookshelf,
 	*Tile::mossStone,
 	*Tile::cryingObsidian,
-	*Tile::rocketLauncher;
+	*Tile::rocketLauncher,
+	*Tile::wire,
+	*Tile::notGate_off,
+	*Tile::notGate,
+	*Tile::lever,
+	*Tile::button,
+	*Tile::plate_stone,
+	*Tile::plate_wood,
+	*Tile::repeater_off,
+	*Tile::repeater_on;

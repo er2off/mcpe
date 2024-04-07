@@ -13,8 +13,9 @@ StoneSlabTile::StoneSlabTile(int id, bool full) : Tile(id, TEXTURE_STONE_SLAB_TO
 {
 	m_bFull = full;
 
+	// TODO(Er2): Re-add bottom slab later
 	if (!full)
-		setShape(0, 0, 0, 1, 0.5f, 1);
+		setShape(0, 0.5f, 0, 1, 1, 1);
 
 	setLightBlock(255);
 }

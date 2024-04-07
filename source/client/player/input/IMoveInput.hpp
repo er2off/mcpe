@@ -21,6 +21,8 @@ enum
 	INPUT_JUMP,
 	INPUT_SNEAK,
 	INPUT_CHAT,
+	INPUT_FLY_UP,
+	INPUT_FLY_DOWN,
 };
 
 class IMoveInput
@@ -38,6 +40,7 @@ public:
 public:
 	float m_horzInput;
 	float m_vertInput;
+	float m_flyInput;
 	bool field_C;
 	bool m_bJumpButton;
 	bool m_bSneakButton;

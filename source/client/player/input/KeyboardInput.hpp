@@ -26,5 +26,7 @@ public:
 public:
 	bool m_keys[10];
 	Options* m_pOptions;
+	bool m_bJumped;
+	int m_jumpTick;
 };
 

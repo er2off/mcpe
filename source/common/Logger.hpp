@@ -2,7 +2,7 @@
 
 #include <string>
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 #include <android/log.h>
 
 enum eLogLevel
@@ -39,7 +39,7 @@ public:
 
 #ifndef NDEBUG
 
-#ifdef ANDROID
+#ifdef __ANDROID__
 // TODO: Add a LoggerAndroid
 #define LOG(level, ...) __android_log_print(level, "ReMinecraftPE", __VA_ARGS__)
 #else

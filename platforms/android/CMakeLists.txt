@@ -1,9 +1,5 @@
 SET(MC_ROOT ../..)
 
-# Native Android Build
-add_compile_definitions(USE_NATIVE_ANDROID)
-set(USE_NATIVE_ANDROID TRUE)
-
 add_library(reminecraftpe SHARED
     AppPlatform_android.cpp
     SoundSystemSL.cpp

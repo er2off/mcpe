@@ -14,7 +14,7 @@ class TilePlanterItem : public Item
 public:
 	TilePlanterItem(int id, int place);
 
-	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int);
+	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int) override;
 
 public:
 	int m_tile;

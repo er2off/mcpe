@@ -270,6 +270,8 @@ enum eTileID
 
 	TILE_OBSIDIAN_CRYING = 200, // custom stuff - ID of 200
 	TILE_ROCKET_LAUNCHER,
+	TILE_REDSTONE_TORCH_OFF,
+	TILE_REDSTONE_TORCH_ON,
 
 	ITEM_SHOVEL_IRON = 256,
 	ITEM_PICKAXE_IRON,
@@ -512,7 +514,9 @@ enum // Textures
 	TEXTURE_NONE126,
 	TEXTURE_NONE127,
 
+	TEXTURE_REPEATER_OFF = 131,
 	TEXTURE_LAPIS = 144,
+	TEXTURE_REPEATER_ON = 147,
 	TEXTURE_ORE_LAPIS = 160,
 
 	TEXTURE_SANDSTONE_TOP = 176,
@@ -536,12 +540,17 @@ enum eRenderShape
 	SHAPE_TORCH,
 	SHAPE_FIRE,
 	SHAPE_WATER,
-	SHAPE_UNK5,
-	SHAPE_UNK6,
+	SHAPE_WIRE,
+	SHAPE_CROPS,
 	SHAPE_DOOR,
 	SHAPE_LADDER,
-	SHAPE_UNK9,
+	SHAPE_RAIL,
 	SHAPE_STAIRS,
+	SHAPE_FENCE,
+	SHAPE_LEVER,
+	SHAPE_CACTUS,
+	SHAPE_BED,
+	SHAPE_REPEATER,
 };
 
 enum eRenderLayer
@@ -604,6 +613,20 @@ struct TilePos : Pos
 			return y < b.y;
 
 		return z < b.z;
+	}
+
+	bool operator==(const TilePos& b) const
+	{
+		return x == b.x && y == b.y && z == b.z;
+	}
+};
+
+template<>
+struct std::hash<TilePos>
+{
+	std::size_t operator()(const TilePos& t) const noexcept
+	{
+		return t.x * 0x88f9fa + t.y * 0xef88b + t.z;
 	}
 };
 

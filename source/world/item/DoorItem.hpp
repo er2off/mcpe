@@ -14,7 +14,7 @@ class DoorItem : public Item
 public:
 	DoorItem(int id, Material* pMtl);
 
-	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int);
+	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int) override;
 
 public:
 	Material* m_pMaterial;

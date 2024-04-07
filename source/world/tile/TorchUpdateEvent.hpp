@@ -7,17 +7,25 @@
  ********************************************************************/
 #pragma once
 
-#include "Item.hpp"
+#include <list>
 
-class TileItem : public Item
+struct TorchUpdateEvent
 {
-public:
-	TileItem(int id);
+	int x, y, z;
+	int time;
 
-	virtual std::string getDescriptionId() override;
-	virtual std::string getDescriptionId(ItemInstance*) override;
-	virtual bool useOn(ItemInstance*, Player*, Level*, int, int, int, int) override;
+	TorchUpdateEvent()
+	{
+		x = y = z = time = 0;
+	}
 
-public:
-	int m_tile;
+	TorchUpdateEvent(int _x, int _y, int _z, int _time)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+		time = _time;
+	}
 };
+
+typedef std::list<TorchUpdateEvent> TorchUpdateEvents;

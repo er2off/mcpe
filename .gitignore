@@ -123,7 +123,7 @@ xcuserdata/
 /sound_data
 
 # Ignore linux build artifacts.
-/build
+/build*
 
 # Ignore wasm build artifacts.
 /wasm
@@ -161,6 +161,7 @@ xcuserdata/
 /game/assets/misc/foliagecolor.png
 /game/assets/misc/grasscolor.png
 /game/assets/mob/char.png
+/game/assets/mob/*.png
 /game/assets/particles.png
 /game/assets/terrain.png
 /game/assets/gui/buynow.png

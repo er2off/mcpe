@@ -41,7 +41,7 @@ public:
 	void renderFaceDown(Tile*, float x, float y, float z, int texture);
 	void renderFaceUp(Tile*, float x, float y, float z, int texture);
 	void tesselateCrossTexture(Tile* tile, int data, float x, float y, float z);
-	void tesselateTorch(Tile*, float x, float y, float z, float a, float b);
+	void tesselateTorch(Tile*, float x, float y, float z, float a, float b, float height = 1.0f);
 	
 	bool tesselateBlockInWorldWithAmbienceOcclusion(Tile*, int x, int y, int z, float r, float g, float b);
 	bool tesselateBlockInWorld(Tile*, int x, int y, int z, float r, float g, float b);
@@ -52,9 +52,11 @@ public:
 	bool tesselateLadderInWorld(Tile*, int x, int y, int z);
 	bool tesselateTorchInWorld(Tile*, int x, int y, int z);
 	bool tesselateDoorInWorld(Tile*, int x, int y, int z);
-#ifndef ORIGINAL_CODE
 	bool tesselateFireInWorld(Tile*, int x, int y, int z);
-#endif
+	bool tesselateWireInWorld(Tile*, int x, int y, int z);
+	bool tesselateLeverInWorld(Tile*, int x, int y, int z);
+	bool tesselateRepeaterInWorld(Tile*, int x, int y, int z);
+
 #ifdef ENH_USE_OWN_AO
 	bool tesselateBlockInWorldWithAmbienceOcclusionV2(Tile*, int x, int y, int z, float r, float g, float b);
 #endif

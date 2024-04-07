@@ -509,6 +509,11 @@ void Minecraft::tickInput()
 				m_pLevelRenderer->allChanged();
 			}
 #endif
+			else if (getOptions()->isKey(KM_FOG, keyCode))
+			{
+				// actually pause the game
+				field_288 = !field_288;
+			}
 		}
 
 		if (getOptions()->field_19)

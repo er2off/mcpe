@@ -132,6 +132,8 @@ void TextInputBox::keyPressed(Minecraft* minecraft, int key)
 #define AKEYCODE_ARROW_LEFT  VK_LEFT
 #define AKEYCODE_ARROW_RIGHT VK_RIGHT
 #define AKEYCODE_DEL         VK_BACK
+#elif defined(__ANDROID__)
+// everything is ok
 #else
 #error
 #endif

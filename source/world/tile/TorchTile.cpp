@@ -106,6 +106,7 @@ HitResult TorchTile::clip(Level* level, int x, int y, int z, Vec3 a, Vec3 b)
 
 bool TorchTile::mayPlace(Level* level, int x, int y, int z)
 {
+	if (level->getTile(x, y - 1, z) == Tile::stoneSlabHalf->m_ID) return true;
 	if (level->isSolidTile(x, y - 1, z)) return true;
 	if (level->isSolidTile(x - 1, y, z)) return true;
 	if (level->isSolidTile(x + 1, y, z)) return true;

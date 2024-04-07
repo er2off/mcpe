@@ -314,7 +314,7 @@ static void initWindow(struct engine* engine, struct android_app* app)
 
     ANativeWindow_setBuffersGeometry(app->window, 0, 0, format);
 
-    engine->surface = eglCreateWindowSurface(engine->display, config, app->window, NULL);
+    engine->surface = eglCreateWindowSurface(engine->display, config, (EGLNativeWindowType)app->window, NULL);
     engine->context = eglCreateContext(engine->display, config, NULL, NULL);
 
     if (!engine->context)

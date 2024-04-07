@@ -84,6 +84,7 @@ add_library(World STATIC
     tile/InvisibleTile.cpp tile/InvisibleTile.hpp
     tile/LadderTile.cpp tile/LadderTile.hpp
     tile/LeafTile.cpp tile/LeafTile.hpp
+    tile/LeverTile.cpp tile/LeverTile.hpp
     tile/LiquidTile.cpp tile/LiquidTile.hpp
     tile/LiquidTileDynamic.cpp tile/LiquidTileDynamic.hpp
     tile/LiquidTileStatic.cpp tile/LiquidTileStatic.hpp
@@ -91,6 +92,8 @@ add_library(World STATIC
     tile/ObsidianTile.cpp tile/ObsidianTile.hpp
     tile/OreTile.cpp tile/OreTile.hpp
     tile/RedStoneOreTile.cpp tile/RedStoneOreTile.hpp
+    tile/RedStoneRepeaterTile.cpp tile/RedStoneRepeaterTile.hpp
+    tile/RedStoneTorchTile.cpp tile/RedStoneTorchTile.hpp
     tile/ReedTile.cpp tile/ReedTile.hpp
     tile/RocketLauncherTile.cpp tile/RocketLauncherTile.hpp
     tile/SandStoneTile.cpp tile/SandStoneTile.hpp
@@ -104,8 +107,10 @@ add_library(World STATIC
     tile/TntTile.cpp tile/TntTile.hpp
     tile/TopSnowTile.cpp tile/TopSnowTile.hpp
     tile/TorchTile.cpp tile/TorchTile.hpp
+    tile/TorchUpdateEvent.hpp
     tile/TransparentTile.cpp tile/TransparentTile.hpp
     tile/TreeTile.cpp tile/TreeTile.hpp
+    tile/WireTile.cpp tile/WireTile.hpp
 )
 if (NOT BUILD_SERVER)
     target_sources(World PRIVATE

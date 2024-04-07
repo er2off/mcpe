@@ -11,8 +11,6 @@
 #include <cstring>
 #include "Mth.hpp"
 
-typedef unsigned int GLenum;
-
 class Matrix
 {
 public:

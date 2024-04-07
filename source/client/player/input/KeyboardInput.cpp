@@ -7,6 +7,7 @@
  ********************************************************************/
 
 #include "KeyboardInput.hpp"
+#include "common/Utils.hpp"
 
 KeyboardInput::KeyboardInput(Options* pOpts)
 {
@@ -15,6 +16,8 @@ KeyboardInput::KeyboardInput(Options* pOpts)
 	field_C = false;
 	m_bJumpButton = false;
 	m_bSneakButton = false;
+	m_jumpTick = 0;
+	m_bJumped = false;
 
 	for (int i = 0; i < 10; i++)
 		m_keys[i] = false;
@@ -38,6 +41,8 @@ void KeyboardInput::setKey(int keyCode, bool b)
 	if (m_pOptions->getKey(KM_RIGHT)    == keyCode) index = INPUT_RIGHT;
 	if (m_pOptions->getKey(KM_JUMP)     == keyCode) index = INPUT_JUMP;
 	if (m_pOptions->getKey(KM_SNEAK)    == keyCode) index = INPUT_SNEAK;
+	if (m_pOptions->getKey(KM_FLY_UP)   == keyCode) index = INPUT_FLY_UP;
+	if (m_pOptions->getKey(KM_FLY_DOWN) == keyCode) index = INPUT_FLY_DOWN;
 
 	if (index == -1)
 		return;
@@ -49,16 +54,39 @@ void KeyboardInput::tick(Player* pPlayer)
 {
 	m_horzInput = 0.0f;
 	m_vertInput = 0.0f;
+	m_flyInput  = 0.0f;
 
 	if (m_keys[INPUT_FORWARD])  m_vertInput += 1.0f;
 	if (m_keys[INPUT_BACKWARD]) m_vertInput -= 1.0f;
 	if (m_keys[INPUT_LEFT])     m_horzInput += 1.0f;
 	if (m_keys[INPUT_RIGHT])    m_horzInput -= 1.0f;
+	if (m_keys[INPUT_FLY_UP])   m_flyInput  += 1.0f;
+	if (m_keys[INPUT_FLY_DOWN]) m_flyInput  -= 1.0f;
 
-	m_bJumpButton  = m_keys[INPUT_JUMP];
+	m_bJumped = m_bJumpButton;
+	m_bJumpButton = m_keys[INPUT_JUMP];
+	if (m_bJumpButton && !m_bJumped)
+	{
+		int tick = getTimeMs();
+		if (tick - m_jumpTick < 300)
+		{
+			m_pOptions->m_bFlyCheat = !m_pOptions->m_bFlyCheat;
+			m_jumpTick = 0;
+			m_bJumpButton = false;
+		}
+		else
+			m_jumpTick = tick;
+	}
 	m_bSneakButton = m_keys[INPUT_SNEAK];
-
-	if (m_keys[INPUT_SNEAK])
+	
+	if (m_pOptions->m_bFlyCheat)
+	{
+		if (m_bJumpButton)
+			m_flyInput += 1.0f;
+		if (m_bSneakButton)
+			m_flyInput -= 1.0f;
+	}
+	else if (m_keys[INPUT_SNEAK])
 	{
 		m_horzInput = m_horzInput * 0.3f;
 		m_vertInput = m_vertInput * 0.3f;

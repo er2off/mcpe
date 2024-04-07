@@ -21,7 +21,7 @@
 #endif
 
 #include <SLES/OpenSLES.h>
-#ifdef ANDROID
+#ifdef __ANDROID__
 #include <SLES/OpenSLES_Android.h>
 #endif
 

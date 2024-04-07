@@ -189,6 +189,11 @@ public:
 			(m_pos.z - z) * (m_pos.z - z);
 	}
 
+	int getDirection()
+	{
+		return Mth::floor((((m_yaw + 180.0f) * 4.0f) / 360.0f) - 0.5f) & 3;
+	}
+
 public:
 	static int entityCounter;
 	static Random sharedRandom;
